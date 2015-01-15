@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20150115184548) do
   create_table "matches", force: true do |t|
     t.integer  "team_1_id"
     t.integer  "team_2_id"
-    t.datetime "date",      default: '2015-01-15 20:17:50', null: false
+    t.datetime "date",      default: '2015-01-15 22:38:41', null: false
   end
 
   create_table "matches_teams", id: false, force: true do |t|
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150115184548) do
 
   create_table "player_ratings", force: true do |t|
     t.integer  "player_id",                   null: false
+    t.integer  "game_id",   default: 0,       null: false
     t.float    "mean",      default: 25.0,    null: false
     t.float    "deviation", default: 2.0,     null: false
     t.float    "activity",  default: 1.0,     null: false

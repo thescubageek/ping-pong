@@ -16,4 +16,8 @@ class PlayerRating < ActiveRecord::Base
   def self.by_player(player)
     self.where("player_id = ?", player.id)
   end
+
+  def self.by_game_and_player(game, player)
+    self.where("player_id = ? AND game_id = ?", player.id, game.id)
+  end
 end

@@ -23,14 +23,30 @@
   }
 }
 
-h1 {
+header {
   margin: 1em 0;
   padding: .5em 1em;
   background-color: $g5-blue-dark;
   box-model: border-box;
   color: $base-background;
+  @include clearfix;
+  h1 {
+    float: left;
+    margin: 0;
+    padding: 0;
+  }
+  div.links {
+    float: right;
+    a {
+      margin: 0 1em;
+      line-height: 40px;
+    }
+  }
   a {
     color: $base-background;
+    &:hover {
+      color: $base-background;
+    }
   }
 }
 
