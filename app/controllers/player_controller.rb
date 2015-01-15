@@ -18,6 +18,7 @@ class PlayerController < ApplicationController
   def create
     @player = Player.new(player_params)
     @player.save
+    new_rating
     redirect_to action: 'index', controller: 'welcome'
   end
 
@@ -34,6 +35,13 @@ class PlayerController < ApplicationController
   end
 
   private
+
+  def new_rating
+    if @player
+      @rating = PlayerRating.new({player_id: @player.id})
+      @rating.save
+    end
+  end
 
   def player_params
     params.require(:player).permit(:first_name, :last_name, :email)

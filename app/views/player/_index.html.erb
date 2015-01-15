@@ -13,11 +13,11 @@
   <tbody>
     <% @players.each_with_index do |player, idx| %>
       <tr>
-        <td>#<%= link_to(player.ranking, player) %></td>
+        <td class='ranking'>#<%= link_to(player.ranking, player) %></td>
         <td><%= link_to(player.name, player) %></td>
         <td><%= link_to("#{player.wins} - #{player.losses}", player) %></td>
         <td><%= link_to("#{player.game_wins} - #{player.game_losses}", player) %></td>
-        <td><%= link_to(player.trueskill, player) %></td>
+        <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
       </tr>
     <% end %>
   </tbody>

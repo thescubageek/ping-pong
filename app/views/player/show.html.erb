@@ -1,6 +1,7 @@
 <%= get_header(@player.name) %>
 <%= edit_button('player', @player) %>
 <h2>#<%= @player.ranking %>. <%= @player.name %> (<%= @player.wins %> - <%= @player.losses %>, <%= @player.game_wins %> - <%= @player.game_losses %>)</h2>
+<h3>TrueSkill: <%= number_with_precision(@player.trueskill) %></h3>
 <table>
   <thead>
     <tr>

@@ -73,12 +73,12 @@ class MatchController < ApplicationController
     @game_1.update_attributes(match_id: @match.id)
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
+    update_player_rankings
   end
 
   def update_teams
       unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
-      @team_1 = @match.team_1.update_attributes(player_1_id: match_params[:team_1_player_1], player_2_id: match_params[:team_1_player_2])
-      @team_2 = @match.team_2.update_attributes(player_1_id: match_params[:team_2_player_1], player_2_id: match_params[:team_2_player_2])
+      
       find_team_players
       @team_1.players = @team_1_player_2 ? [@team_1_player_1, @team_1_player_2] : [@team_1_player_1]
       @team_2.players = @team_2_player_2 ? [@team_2_player_1, @team_2_player_2] : [@team_2_player_1]
@@ -112,6 +112,7 @@ class MatchController < ApplicationController
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.reload
+    update_player_rankings
   end
 
   def find_team_players
@@ -119,6 +120,32 @@ class MatchController < ApplicationController
     @team_1_player_2 = Player.find_by_id(match_params[:team_1_player_2])
     @team_2_player_1 = Player.find_by_id(match_params[:team_2_player_1])
     @team_2_player_2 = Player.find_by_id(match_params[:team_2_player_2])
+  end
+
+  def update_player_rankings
+    @p1 = @match.team_1_player_2 ? [@match.team_1_player_1.player_rating_value, @match.team_1_player_2.player_rating_value] : [@match.team_1_player_1.player_rating_value]
+    @p2 = @match.team_2_player_2 ? [@match.team_2_player_1.player_rating_value, @match.team_2_player_2.player_rating_value] : [@match.team_2_player_1.player_rating_value]
+
+    update_player_game_rankings(@game_1) if @game_1
+    update_player_game_rankings(@game_2) if @game_2
+    update_player_game_rankings(@game_3) if @game_3
+  end
+
+  def update_player_game_rankings(game)
+    game_net = ScoreBasedBayesianRating.new(@p1 => game.score_1, @p2 => game.score_2)
+    game_net.update_skills
+
+    rating = game_net.teams.first.first
+    @match.team_1_player_1.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.first.second
+    @match.team_1_player_2.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.second.first
+    @match.team_2_player_1.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.second.second
+    @match.team_2_player_2.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
   end
 
   def match_params

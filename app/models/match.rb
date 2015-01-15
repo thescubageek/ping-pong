@@ -1,3 +1,5 @@
+include Saulabs::TrueSkill
+
 class Match < ActiveRecord::Base
   has_and_belongs_to_many :games, dependent: :destroy
   has_and_belongs_to_many :teams, dependent: :destroy

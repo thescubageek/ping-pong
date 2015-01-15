@@ -1,16 +1,15 @@
-include Saulabs::TrueSkill
-
 class Player < ActiveRecord::Base
   has_and_belongs_to_many :teams
+  has_many :player_ratings
   validates :first_name, presence: true
   validates :last_name, presence: true
 
   def self.by_trueskill
-    self.all.sort { |a, b| a.trueskill <=> b.trueskill }
+    self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def trueskill
-    5 ## TODO update this
+    player_rating_value.mean
   end
 
   def name
@@ -55,5 +54,22 @@ class Player < ActiveRecord::Base
 
   def ranking
     Player.by_trueskill.index(self) + 1
+  end
+
+  def player_ratings
+    PlayerRating.by_player(self)
+  end
+
+  def player_rating
+    player_ratings.first
+  end
+
+  def player_rating_value
+    player_rating.value
+  end
+
+  def update_player_rating(mean, deviation, activity)
+    pr = PlayerRating.new({player_id: self.id, mean: mean, deviation: deviation, activity: activity})
+    pr.save
   end
 end

@@ -12,6 +12,26 @@
     border-bottom: none;
     margin-bottom: 0;
   }
+  @include clearfix;
+  .col-md-6 {
+    float: left;
+    width: 50%;
+  }
+  .col-md-4 {
+    float: left;
+    width: 33%;
+  }
+}
+
+h1 {
+  margin: 1em 0;
+  padding: .5em 1em;
+  background-color: $g5-blue-dark;
+  box-model: border-box;
+  color: $base-background;
+  a {
+    color: $base-background;
+  }
 }
 
 table {
@@ -68,6 +88,15 @@ table {
         &:last-child {
           margin-right: 0;
         }
+      }
+    }
+    td.ranking {
+      background-color: $g5-blue-dark;
+      color: $base-background;
+      font-weight: bold;
+      width: 28px;
+      a {
+        color: $base-background;
       }
     }
   }
@@ -174,17 +203,6 @@ input[type='number'] {
   width: 100px;
 }
 
-.row {
-  @include clearfix;
-  .col-md-6 {
-    float: left;
-    width: 50%;
-  }
-  .col-md-4 {
-    float: left;
-    width: 33%;
-  }
-}
 
 .winner {
   font-weight: bold;
