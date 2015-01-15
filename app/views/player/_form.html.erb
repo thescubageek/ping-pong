@@ -3,5 +3,5 @@
   <%= f.label :last_name %> <%= f.text_field :last_name %>
   <%= f.label :email %> <%= f.text_field :email %>
   <%= f.submit 'Submit', class: 'button btn-edit' %>
-  <%= f.button 'Cancel', class: 'button btn-go-back', action: "index", controller: "welcome" %>
+  <%= cancel_button %>
 <% end %>

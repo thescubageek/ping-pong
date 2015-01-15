@@ -24,6 +24,10 @@ module ApplicationHelper
     link_to("Edit", "#{item.id}/edit", {class: 'button btn-edit fi-pencil', data: {id: item.id, type: type.underscore, action: 'edit'}})
   end
 
+  def cancel_button
+    link_to('Cancel', action: 'index', controller: 'welcome')
+  end
+
   def player_trend_icon(player)
     rating_trend = player ? player.player_rating_trend : 0
     str = rating_trend > 0 ? "<span class='btn-arrow-up-green'></span>" : (rating_trend < 0 ? "<span class='btn-arrow-down-red'></span>" : "")
