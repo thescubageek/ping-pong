@@ -68,8 +68,19 @@ class Player < ActiveRecord::Base
     player_rating.value
   end
 
-  def update_player_rating(mean, deviation, activity)
-    pr = PlayerRating.new({player_id: self.id, mean: mean, deviation: deviation, activity: activity})
+  def player_rating_trend
+    return player_rating_trend_diff > 0 ? 1 : (player_rating_trend_diff < 0 ? -1 : 0)
+  end
+
+  def player_rating_trend_diff
+    pr = player_ratings
+    pr1 = pr.first
+    pr2 = pr.second
+    return pr2 ? pr2.mean - pr1.mean : 0
+  end
+
+  def update_player_rating(game, mean, deviation, activity)
+    pr = PlayerRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity})
     pr.save
   end
 end

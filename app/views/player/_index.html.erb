@@ -8,6 +8,7 @@
       <th>Matches</th>
       <th>Games</th>
       <th>Skill Points</th>
+      <th>Skill Trend</th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +19,7 @@
         <td><%= link_to("#{player.wins} - #{player.losses}", player) %></td>
         <td><%= link_to("#{player.game_wins} - #{player.game_losses}", player) %></td>
         <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
+        <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
       </tr>
     <% end %>
   </tbody>

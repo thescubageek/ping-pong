@@ -2,6 +2,7 @@ include Saulabs::TrueSkill
 
 class PlayerRating < ActiveRecord::Base
   belongs_to :player
+  belongs_to :game
   validates :mean, presence: true
   validates :deviation, presence: true
   validates :activity, presence: true

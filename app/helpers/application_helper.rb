@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def home_link
-    link_to('Ping Pong TrueSkill Rankings', '/')
+    link_to('Ping Pong Skill Rankings', '/')
   end
 
   ##
@@ -20,5 +20,11 @@ module ApplicationHelper
 
   def edit_button(type, item)
     link_to("Edit", "#{item.id}/edit", {class: 'button btn-edit fi-pencil', data: {id: item.id, type: type.underscore, action: 'edit'}})
+  end
+
+  def player_trend_icon(player)
+    rating_trend = player ? player.player_rating_trend : 0
+    str = rating_trend > 0 ? "<span class='btn-arrow-up-green'></span>" : (rating_trend < 0 ? "<span class='btn-arrow-down-red'></span>" : "")
+    str.html_safe
   end
 end

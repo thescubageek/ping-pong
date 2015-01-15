@@ -136,16 +136,16 @@ class MatchController < ApplicationController
     game_net.update_skills
 
     rating = game_net.teams.first.first
-    @match.team_1_player_1.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+    @match.team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.first.second
-    @match.team_1_player_2.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+    @match.team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.first
-    @match.team_2_player_1.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+    @match.team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.second
-    @match.team_2_player_2.update_player_rating(rating.mean, rating.deviation, rating.activity) if rating
+    @match.team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
   end
 
   def match_params

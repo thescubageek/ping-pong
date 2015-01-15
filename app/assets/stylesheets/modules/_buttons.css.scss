@@ -41,10 +41,22 @@
   margin: 0 .5em .2em;
 }
 
+.btn-arrow-up-green {
+  @include triangle(10px, $c-green, up);
+  display: inline-block;
+  margin: 0 .5em .2em;
+}
+
 .btn-arrow-down {
   @include triangle(10px, $base-color, down);
   display: inline-block;
   margin: 0 .5em -.2em;
+}
+
+.btn-arrow-down-red {
+  @include triangle(10px, $c-red, down);
+  display: inline-block;
+  margin: 0 .5em .2em;
 }
 
 

@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
   belongs_to :match
   has_many :teams, through: :match
   has_many :players, through: :team
+  has_many :player_ratings
   validates :score_1, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
   validates :score_2, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
 
