@@ -1,0 +1,71 @@
+// *************************************
+//
+//   Content
+//   -> Typography
+//
+// *************************************
+
+// -------------------------------------
+//   Headings
+// -------------------------------------
+
+h1, h2, h3, h4, h5, h6 {
+  @extend %c-shout;
+  margin-top: 0;
+}
+
+.c-h1, %c-h1 {
+  @include font-size(32px);
+}
+
+.c-h2, %c-h2 {
+  @include font-size(24px);
+}
+
+.c-h3, %c-h3 {
+  @include font-size(20px);
+}
+
+.c-h4, %c-h4 {
+  @include font-size(18px);
+}
+
+.c-h5, %c-h5 {
+  @include font-size(16px);
+}
+
+.c-h6, %c-h6 {
+  @include font-size(15px);
+}
+
+h1 {
+  @extend %c-h3;
+}
+
+
+// -------------------------------------
+//   Utilities
+// -------------------------------------
+
+%c-center, .c-center {
+  text-align: center;
+}
+
+%c-condense, .c-condense {
+  font-size: 85%;
+}
+
+%c-lead, .c-lead {
+  font-size: 125%;
+}
+
+%c-shout, .c-shout {
+  text-transform: uppercase;
+}
+
+%c-important, .c-important {
+  background: $base-color;
+  color: $c-color-b;
+  padding: .5em;
+}
+

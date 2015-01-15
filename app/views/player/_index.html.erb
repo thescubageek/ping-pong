@@ -1,0 +1,24 @@
+<%= add_new_button('player') %>
+<h2>Players</h2>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Player</th>
+      <th>Matches</th>
+      <th>Games</th>
+      <th>TrueSkill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @players.each_with_index do |player, idx| %>
+      <tr>
+        <td>#<%= link_to(player.ranking, player) %></td>
+        <td><%= link_to(player.name, player) %></td>
+        <td><%= link_to("#{player.wins} - #{player.losses}", player) %></td>
+        <td><%= link_to("#{player.game_wins} - #{player.game_losses}", player) %></td>
+        <td><%= link_to(player.trueskill, player) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

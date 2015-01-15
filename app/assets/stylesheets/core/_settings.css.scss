@@ -1,0 +1,71 @@
+// *************************************
+//
+//   Settings
+//   -> Fonts, Variables
+//
+// *************************************
+
+// -------------------------------------
+//   @font-face
+// -------------------------------------
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Open+Sans+Condensed:300);
+
+
+// -------------------------------------
+//   Variables
+// -------------------------------------
+
+// ----- Colors ----- //
+$base-background: #fff;
+$base-color: #222;
+$base-link-color: $base-color;
+$c-background-a: #cacaca;
+$c-background-b: #414142;
+$c-background-c: #e0e0e0;
+
+$c-color-a: #6dbde2;
+$c-color-b: #fff;
+$c-color-c: #b7b7b7;
+
+$c-red: #ff6666;
+$c-green: #339933;
+
+$c-alert-info: #d4efcc;
+
+$g5-blue-light: #6dbde2;
+$g5-blue-dark: #2c7598;
+$g5-grey: #918F8F;
+
+// ----- Borders ----- //
+$base-border: 1px solid $g5-grey;
+$c-border-a: 1px solid $c-background-b;
+$c-border-b: 1px solid #ccc;
+
+// ----- Typography ----- //
+$base-fontFamily: 'Open Sans', sans-serif;
+$base-fontWeight: 400;
+$base-fontSize: 16px;
+$base-lineHeight: 1.5;
+$c-header-fontFamily: $base-fontFamily;
+$c-light: 300;
+$c-semiBold: 600;
+$c-bold: 700;
+$c-condensed-fontFamily: 'Open Sans Condensed', sans-serif;
+
+
+// ----- Layout ----- //
+$base-whitespace: 25px;
+$l-maxWidth: 1230px;
+$l-min-small: 480px;
+$l-min-medium: 768px;
+$l-min-large: 980px;
+$l-min-xlarge: 1200px;
+$l-max-small: 479px;
+$l-max-medium: 767px;
+$l-max-large: 979px;
+$l-max-xlarge: 1199px;
+
+
+// ----- Image URIs ----- //
+$linen: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAYAAADtt+XCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEnUlEQVR42u3aoQ1EMQwFsOy/bEBU0OpL72YIOWTkJVxJ8t4LSZIba2byfV9IktxYM5PuDkmSGytJ7r0hSXJjdXeShCTJjXXOSXeHJMmNZROQJC0skqSFRZK0sEiSFhZJkhYWSdLCIklaWCRJC4skaWGRJGlhkSQtLJKkhUWStLBIkhYWSZIWFknSwiJJWlgkSQuLJGlhkSRpYZEkLSySpIVFkrSwSJIWFkmSFhZJ0sIiSVpYJEkLiyRpYZEkaWGRJC0skqSFRZK0sEiSFpZNQJK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFRZKkhUWStLBIkhYWSdLCIklaWCRJWlgkSQuLJGlhkSQtLJKkhUWSpIVFkrSwSJIWFknSwiJJWlgkSVpYJEkLiyRpYZEkLSySpIVFkqSFRZK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFZROQJC0skqSFRZK0sEiSFhZJkhYWSdLCIklaWCRJC4skaWGRJGlhkSQtLJKkhUWStLBIkhYWSZIWFknSwiJJWlgkSQuLJGlhkSRpYZEkLSySpIVFkrSwSJIWFkmSFhZJ0sIiSVpYJEkLiyRpYZEkaWGRJC0skqSFRZK0sEiSFpZNQJK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFRZKkhUWStLBIkhYWSdLCIklaWCRJWlgkSQuLJGlhkSQtLJKkhUWSpIVFkrSwSJIWFknSwiJJWlgkSVpYJEkLiyRpYZEkLSySpIVFkqSFRZK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFZROQJC0skqSFRZK0sEiSFhZJkhYWSdLCIklaWCRJC4skaWGRJGlhkSQtLJKkhUWStLBIkhYWSZIWFknSwiJJWlgkSQuLJGlhkSRpYZEkLSySpIVFkrSwSJIWFkmSFhZJ0sIiSVpYJEkLiyRpYZEkaWGRJC0skqSFRZK0sEiSFpZNQJK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFRZKkhUWStLBIkhYWSdLCIklaWCRJWlgkSQuLJGlhkSQtLJKkhUWSpIVFkrSwSJIWFknSwiJJWlgkSVpYJEkLiyRpYZEkLSySpIVFkqSFRZK0sEiSFhZJ0sIiSVpYJElaWCRJC4skaWGRJC0skqSFZROQJC0skqSFRZK0sEiSFhZJkhYWSdLCIklaWCRJC4skaWGRJGlhkSQtLJKkhUWStLBIkhYWSZIWFknSwiJJWlgkSQuLJGlhkSRpYZEkLSySpIVFkrSwSJIWFkmSFhZJ0sIiSVpYJEkLiyRpYZEkaWGRJC0skqSFRZK0sEiSFpZVQJK0sEiSFhZJ0sIiSVpYJEkLyyYgSVpYJEkLiyRpYZEkLSySJC0skqSFRZK0sEiSFhZJ0sIiSdLCIklaWCRJC4skaWGRJC0skiQtLJKkhUWStLBIkhYWSdLCIknSwiJJWlgkSQuLJGlhkSQtLJIkLSySpIVFkrSwSJIWFknSwiJJ0sIiSVpYJEkLiyRpYZEkLSybgCRpYZEk/+IP3hwl4eGy3RgAAAAASUVORK5CYII=";

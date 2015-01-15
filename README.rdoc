@@ -1,0 +1,4 @@
+== README
+ping-pong
+
+WIP Rails App for G5 Ping Pong Rankings using TrueSkill algorithm

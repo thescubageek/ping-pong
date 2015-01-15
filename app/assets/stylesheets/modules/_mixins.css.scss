@@ -1,0 +1,82 @@
+@-webkit-keyframes greenPulse {
+  from { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  50% { background-color: $c-green; -webkit-box-shadow: 0 0 18px $c-green; }
+  to { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+}
+
+@-webkit-keyframes redPulse {
+  from { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  50% { background-color: $c-red; -webkit-box-shadow: 0 0 18px $c-red; }
+  to { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+}
+
+%flash-green {
+  @include animation-name(greenPulse);
+  @include animation-duration(1.2s);
+  @include animation-iteration-count(3);
+}
+
+%flash-red {
+  @include animation-name(redPulse);
+  @include animation-duration(1.2s);
+  @include animation-iteration-count(3);
+}
+
+.fi-green {
+  color: $c-green;
+}
+
+.fi-red {
+  color: $c-red;
+}
+
+.fi-blue {
+  color: $g5-blue-dark;
+  &:hover{
+    color: $g5-blue-light;
+  }
+}
+
+%fi-bubble, .fi-bubble {
+  background-color: darken($base-background, 10%);
+  display: block;
+  width: 24px;
+  height: 24px;
+  @include border-radius(12px);
+  text-align: center;
+  &.fi-green {
+    border: 1px solid $c-green;
+  }
+  &.fi-red {
+    border: 1px solid $c-red;
+  }
+  &.fi-blue {
+    border: 1px solid $g5-blue-dark;
+    &:hover{
+      border-color: $g5-blue-light;
+    }
+  }
+  &:before {
+    margin: -2px 0 0 0 !important;
+  }
+}
+
+%default {
+  @include box-shadow(none);
+}
+
+%hover {
+  @include box-shadow(0 0 1px rgba(0,0,0,0.2), 0 1px 1px rgba(0,0,0,0.2));
+}
+
+%focus {
+  @include box-shadow(0 0 2px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.4));
+}
+
+%no-transition {
+  @include transition(none);
+}
+
+%transition-100 {
+  @include transition(0.1s all ease-in-out);
+}

@@ -1,0 +1,103 @@
+// *************************************
+//
+//   Base
+//   -> Base-level tags (body, p, etc.)
+//
+// *************************************
+
+html {
+  font-size: $base-fontSize;
+}
+
+body {
+  background: $base-background;
+  color: $base-color;
+  font-family: $base-fontFamily;
+  font-size: 100%;
+  line-height: $base-lineHeight;
+  padding-bottom: 1em;
+}
+
+
+// -------------------------------------
+//   Block Content
+// -------------------------------------
+
+p {
+  @include font-size($base-fontSize);
+}
+
+ul, ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend,
+label {
+  @include font-size(12px);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+label {
+  cursor: pointer;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  label {
+    font-weight: normal;
+    margin-right: 2em;
+  }
+  [type=radio],
+  [type=checkbox] {
+    margin-right: .25em;
+  }
+}
+
+#{$all-text-inputs},
+textarea {
+  @include box-sizing(border-box);
+  @include font-size(14px);
+  display: block;
+  font-family: $base-fontFamily;
+  padding: 3px 5px;
+  @include placeholder {
+    @include font-size(12px);
+  }
+}
+
+textarea {
+  width: 100%;
+}
+
+select {
+  display: block;
+}
+
+
+// -------------------------------------
+//   Inline Content
+// -------------------------------------
+
+a {
+  color: $base-link-color;
+  &:hover,
+  &:focus {
+    color: $c-color-a;
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  @extend %c-shout;
+}

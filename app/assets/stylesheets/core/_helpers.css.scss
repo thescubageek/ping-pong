@@ -1,0 +1,130 @@
+// *************************************
+//
+//   Helpers
+//   -> Extends, Functions, Mixins, Animations
+//
+// *************************************
+
+// -------------------------------------
+//   Extends
+// -------------------------------------
+
+%debug {
+  background-color: pink !important;
+}
+
+%ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ----- Clearfix ----- //
+%group:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+// ----- Image Replacement ----- //
+%ir {
+  background-color: transparent;
+  border: 0;
+  display: inline-block;
+  overflow: hidden;
+  &:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 150%;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px; width: 1px;
+  margin: -1px; padding: 0; border: 0;
+}
+
+
+// -------------------------------------
+//   Functions
+// -------------------------------------
+
+// ----- em ----- //
+@function em($target, $context: $base-fontSize) {
+  @if ($target == 0) {
+    @return 0;
+  }
+  @else {
+    @return #{$target / $context}em;
+  }
+}
+
+// ----- rem ----- //
+@function rem($size) {
+  @return #{$size / $base-fontSize}rem;
+}
+
+// ---- px to percent ----- //
+@function percent($target, $context: $l-maxWidth) {
+  @return #{$target / $context * 100}#{"%"};
+}
+
+
+// -------------------------------------
+//   Mixins
+// -------------------------------------
+
+// ----- Clearfix ----- //
+@mixin group {
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+// ----- Font-size ----- //
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: #{$size / $base-fontSize}rem;
+}
+
+@mixin standard-shadow {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
+}
+
+// ----- Cell ----- //
+@mixin cell($width, $margin) {
+  @include box-sizing(border-box);
+  margin-right: $margin;
+  width: $width;
+}
+
+// ----- Respond-to ----- //
+@mixin respond-to($val, $query: min-width, $media: screen) {
+  @media #{$media} and ($query: $val) {
+    @content;
+  }
+}
+
+
+// -------------------------------------
+//   Animations
+// -------------------------------------
+
+@include keyframes(spin) {
+  from {
+    @include transform(rotate(0deg) scale(1.25));
+  }
+  to {
+    @include transform(rotate(360deg) scale(1.25));
+  }
+}

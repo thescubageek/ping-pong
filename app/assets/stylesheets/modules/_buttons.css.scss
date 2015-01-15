@@ -1,0 +1,129 @@
+// *************************************
+//
+//   Buttons
+//   ->
+//
+// *************************************
+
+%btn, .button {
+  @extend %c-shout;
+  @extend %c-h6;
+  @extend %transition-100;
+  @include box-sizing(border-box);
+  background-color: $c-color-a;
+  border: none;
+  color: $c-color-b;
+  display: inline-block;
+  outline: none;
+  padding: .5em 1em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 2px;
+  background-position: 0 0;
+  background-repeat: none;
+  white-space: nowrap;
+  &:hover {
+    background-color: darken($c-color-a, 10%);
+    color: $c-color-b;
+    text-decoration: none;
+    cursor: pointer;
+    @extend %hover;
+  }
+  &:focus {
+    background-color: lighten($c-color-a, 5%);
+    @extend %focus;
+  }
+}
+
+.btn-arrow-up {
+  @include triangle(10px, $base-color, up);
+  display: inline-block;
+  margin: 0 .5em .2em;
+}
+
+.btn-arrow-down {
+  @include triangle(10px, $base-color, down);
+  display: inline-block;
+  margin: 0 .5em -.2em;
+}
+
+
+// ----- Modifiers ----- //
+
+.btn--small {
+  @include font-size(12px);
+  font-weight: $c-semiBold;
+}
+
+.btn--text {
+  margin-top: .5em;
+}
+
+.btn--a {
+  background-color: $c-background-b;
+  &:hover {
+    cursor: pointer;
+    background-color: darken($c-background-b, 10%);
+  }
+  &:focus {
+    background: lighten($c-background-b, 5%);
+    cursor: pointer;
+  }
+}
+
+%btn-red, .btn--red {
+  background: $c-red;
+  &:hover {
+    background: darken($c-red, 10%);
+    cursor: pointer;
+  }
+  &:focus {
+    background: lighten($c-red, 5%);
+    cursor: pointer;
+  }
+}
+
+%btn-green, .btn--green {
+  background: $c-green;
+  cursor: pointer;
+  &:hover {
+    background: darken($c-green, 10%);
+    cursor: pointer;
+  }
+  &:focus {
+    background: lighten($c-green, 5%);
+    cursor: pointer;
+  }
+}
+
+.button.btn-delete, .button.btn-deploy {
+  @extend %btn-red;
+}
+
+
+.button.btn-save, .button.btn-edit, .button.btn-view {
+  @extend %btn-green;
+}
+
+.button.disabled {
+  background: $g5-grey !important;
+  cursor: default !important;
+  &:hover, &:focus {
+    cursor: default !important;
+    @extend %default;
+  }
+}
+
+.button.btn-import {
+  margin-right: .5em;
+}
+
+.top-link {
+  position: absolute;
+  top: 0;
+  right: 1.5em;
+  .button {
+    margin-top: 0;
+    @include border-radius(0 0 2px 2px);
+  }
+}
