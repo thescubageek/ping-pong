@@ -1,7 +1,9 @@
-PATH
-  remote: /Users/stevecraig/g5gems/trueskill
+GIT
+  remote: git://github.com/thescubageek/trueskill
+  revision: 2010c4b2a6f5382d87050ad78ebfc8a83fe5c355
+  branch: fix-bayesian
   specs:
-    trueskill (1.0.0)
+    trueskill (1.0.1)
 
 GEM
   remote: https://rubygems.org/

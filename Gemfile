@@ -37,8 +37,8 @@ gem "quiet_assets"
 
 gem "heroku_resque_autoscaler"
 
-#gem 'trueskill', :git => 'git://github.com/thescubageek/trueskill'
-gem 'trueskill', :path => '/Users/stevecraig/g5gems/trueskill'
+gem 'trueskill', :git => 'git://github.com/thescubageek/trueskill', branch: 'fix-bayesian'
+#gem 'trueskill', :path => '/Users/stevecraig/g5gems/trueskill'
 
 group :development do
   #gem "better_errors"
