@@ -1,4 +1,24 @@
 == README
-ping-pong
+Rails App for ranking Ping Pong matches between players using TrueSkill algorithm
 
-WIP Rails App for G5 Ping Pong Rankings using TrueSkill algorithm
+This is _very_ much a work in progress and needs some severe refactoring,
+enhancements, and other TLC. It was concocted in a bipolar manic fury over
+a few too many rums in a 24-hour coding frenzy. All apologies...
+
+Thank you to any and all contributors!
+
+=== About TrueSkill
+
+This app's ranking system uses an modified implementation of the TrueSkill algorithm,
+the algorithm developed by Microsoft for ranking multiplayer, multilevel matches
+between players on the XBox Live network:
+  http://research.microsoft.com/en-us/projects/trueskill/
+
+This app uses a fork of the trueskill gem developed by Lars Kuhnt:
+  https://github.com/saulabs/trueskill
+
+=== Install
+* bundle install
+* cp config/database.yml.example config/database.yml
+* bundle exec rake db:create db:migrate db:seed
+
