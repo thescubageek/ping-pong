@@ -88,11 +88,11 @@ class Match < ActiveRecord::Base
   end
 
   def is_winner?(team)
-    team.id == winner.id
+    winner ? team.id == winner.id : false
   end
 
   def is_loser?(team)
-    team.id == loser.id
+    loser ? team.id == loser.id : false
   end
 
   def is_winning_player?(player)
