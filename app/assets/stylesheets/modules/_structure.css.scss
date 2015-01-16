@@ -33,7 +33,11 @@ header {
   h1 {
     float: left;
     margin: 0;
-    padding: 0;
+    padding: 0 0 0 40px;
+    background-image: asset-url('ping-pong-icon.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
   }
   div.links {
     float: right;
@@ -47,6 +51,17 @@ header {
     &:hover {
       color: $base-background;
     }
+  }
+}
+
+h2.new-match {
+  text-align: center;
+  a.button {
+    float: none;
+    margin: 10px auto;
+    font-size: 48px;
+    line-height: 48px;
+    @include border-radius(12px);
   }
 }
 

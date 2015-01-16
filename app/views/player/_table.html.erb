@@ -1,5 +1,5 @@
 <% no_zeros = false unless local_assigns[:no_zeros] %>
-<h2>Players</h2>
+<%= content_tag(:h2, 'Players') unless local_assigns[:no_title] %>
 <table>
   <thead>
     <tr>

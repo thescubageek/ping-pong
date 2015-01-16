@@ -1,3 +1,8 @@
 <%= get_header %>
-<%= render partial: 'player/table', locals: {no_zeros: true} %>
-<%= render partial: 'match/table', :locals => {limit: 10} %>
+<div class="col-md-12">
+  <h2 class="new-match"><%= link_to('Start New Match', {action: 'new', controller: 'match'}, {class: 'button btn-edit fi-star'}) %></h2>
+</div>
+<h3>Rankings</h3>
+<%= render partial: 'player/table', locals: {no_zeros: true, no_title: true} %>
+<!--<h3>Recent</h3>-->
+<%#= render partial: 'match/table', :locals => {limit: 10, no_title: true} %>

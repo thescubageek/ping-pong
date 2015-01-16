@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20150115184548) do
   create_table "matches", force: true do |t|
     t.integer  "team_1_id"
     t.integer  "team_2_id"
-    t.datetime "date",      default: '2015-01-15 22:38:41', null: false
+    t.datetime "date",      default: '2015-01-16 03:40:31', null: false
   end
 
   create_table "matches_teams", id: false, force: true do |t|
