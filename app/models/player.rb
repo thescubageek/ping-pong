@@ -74,14 +74,57 @@ class Player < ActiveRecord::Base
     Game.by_losing_player(self).size
   end
 
-  def games_won_against(player)
+  def games_won_against(opponent)
+    games_played_against(opponent).select { |g| g.is_winning_player?(self) }
   end
 
-  def games_won_against(player)
+  def games_lost_against(opponent)
+    games_played_against(opponent).select { |g| g.is_losing_player?(self) }
   end
 
-  def ranking
-    prs = Player.ranking_groups
+  def games_played_against(opponent)
+    Game.by_player_opponent(self, opponent)
+  end
+
+  def games_won_with(teammate)
+    games_played_with(opponent).select { |g| g.is_winning_player?(self) }
+  end
+
+  def games_lost_with(teammate)
+    games_played_with(opponent).select { |g| g.is_losing_player?(self) }
+  end
+
+  def games_played_with(teammate)
+    Game.by_player_teammate(self, teammate)
+  end
+
+  def best_buddy
+    players = Player.by_no_zeros
+      .map {|p| {player: p, games: games_played_with(p).size} }
+      .sort {|a,b| b[:games] <=> a[:games] }
+    players.first
+  end
+
+  def nemesis
+    players = Player.by_no_zeros
+      .map {|p| {player: p, games: games_lost_against(p).size} }
+      .sort {|a,b| b[:games] <=> a[:games] }
+    players.first
+  end
+
+  def rival
+    ## closest trueskill and most games
+  end
+
+  def punching_bag
+    players = Player.by_no_zeros
+      .map {|p| {player: p, games: games_won_against(p).size} }
+      .sort {|a,b| b[:games] <=> a[:games] }
+    players.first
+  end
+
+  def ranking(no_zeros=false)
+    prs = Player.ranking_groups(no_zeros)
     pos = 1
     prs.each_with_index do |(k, v), i|
       if trueskill == k
@@ -97,8 +140,9 @@ class Player < ActiveRecord::Base
     games_played == 0 && matches_played == 0
   end
 
-  def self.ranking_groups
-    prs = Player.includes(:player_ratings).all.map { |p| p.trueskill }.sort.reverse
+  def self.ranking_groups(no_zeros=false)
+    players = no_zeros ? Player.by_no_zeros : Player.includes(:player_ratings).all
+    prs = players.map { |p| p.trueskill }.sort.reverse
     prs.inject(Hash.new(0)) { |total, e| total[e] += 1 ; total}
   end
 

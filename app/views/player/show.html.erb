@@ -3,6 +3,22 @@
 <h2>#<%= @player.ranking %>. <%= @player.name %> (<%= @player.wins %> - <%= @player.losses %>, <%= @player.game_wins %> - <%= @player.game_losses %>)</h2>
 <div class="row">
   <h3>Skill Points: <%= number_with_precision(@player.trueskill) %></h3>
+  <div class="col-md-3">
+    <h4>Best Buddy</h4>
+    <p><%= @player.best_buddy.try(:name) || "You have no buddies" %></p>
+  </div>
+  <div class="col-md-3">
+    <h4>Nemesis</h4>
+    <p><%= @player.nemesis.try(:name) || "Nobody is whooping your ass" %></p>
+  </div>
+  <div class="col-md-3">
+    <h4>Rival</h4>
+    <p><%= @player.rival.try(:name) || "You have no equal" %></p>
+  </div>
+  <div class="col-md-3">
+    <h4>Punching Bag</h4>
+    <p><%= @player.punching_bag.try(:name) || "You ARE the weakest link" %></p>
+  </div>
 </div>
 <h3>Match History</h3>
 <table>
