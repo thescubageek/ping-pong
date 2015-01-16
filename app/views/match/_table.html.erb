@@ -2,7 +2,6 @@
 <table>
   <thead>
     <tr>
-      <th></th>
       <th>Date</th>
       <th>Team 1</th>
       <th>Team 2</th>
@@ -14,7 +13,6 @@
   <tbody>
     <% @matches.each do |match| %>
       <tr>
-        <td class="ranking">#<%= match.id %></td> 
         <td><%= link_to(match.datestr, match) %></td>
         <td>
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_1) %>>
