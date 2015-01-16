@@ -54,6 +54,18 @@ class Player < ActiveRecord::Base
     matches.size
   end
 
+  def matches_won_with(teammate)
+    matches_played_with(teammate).select { |g| g.is_winning_player?(self) }
+  end
+
+  def matches_lost_with(teammate)
+    matches_played_with(teammate).select { |g| g.is_losing_player?(self) }
+  end
+
+  def matches_played_with(teammate)
+    Match.by_player_teammate(self, teammate)
+  end
+
   def games
     Game.includes(:match).by_player(self)
   end
@@ -78,31 +90,66 @@ class Player < ActiveRecord::Base
     games_played_against(opponent).select { |g| g.is_winning_player?(self) }
   end
 
+  def self.by_games_won_against
+    Player.by_no_zeros.map {|p| {player: p, games: games_won_against(p).size} }
+  end
+
   def games_lost_against(opponent)
     games_played_against(opponent).select { |g| g.is_losing_player?(self) }
+  end
+
+  def self.by_games_played_against
+    Player.by_no_zeros.map {|p| {player: p, games: games_lost_against(p).size} }
   end
 
   def games_played_against(opponent)
     Game.by_player_opponent(self, opponent)
   end
 
+  def self.by_games_played_against
+    Player.by_no_zeros.map {|p| {player: p, games: games_played_against(p).size} }
+  end
+
   def games_won_with(teammate)
-    games_played_with(opponent).select { |g| g.is_winning_player?(self) }
+    games_played_with(teammate).select { |g| g.is_winning_player?(self) }
+  end
+
+  def self.by_games_won_with
+    Player.by_no_zeros.map {|p| {player: p, games: games_won_with(p).size} }
   end
 
   def games_lost_with(teammate)
-    games_played_with(opponent).select { |g| g.is_losing_player?(self) }
+    games_played_with(teammate).select { |g| g.is_losing_player?(self) }
+  end
+
+  def self.by_games_lost_with
+    Player.by_no_zeros.map {|p| {player: p, games: games_lost_with(p).size} }
   end
 
   def games_played_with(teammate)
     Game.by_player_teammate(self, teammate)
   end
 
+  def self.by_games_played_with
+    Player.by_no_zeros.map {|p| {player: p, games: games_played_with(p).size} }
+  end
+
+  def select_top_players_by_games(players, game_count)
+    players.sort {|a,b| b[:games] <=> a[:games] }.select { |p| }
+  end
+
   def best_buddy
-    players = Player.by_no_zeros
-      .map {|p| {player: p, games: games_played_with(p).size} }
-      .sort {|a,b| b[:games] <=> a[:games] }
-    players.first
+    players = Player.by_games_played_with
+    max_games = players.first[:games] unless players.empty?
+    if max_games && max_games > 0
+
+    end
+  end
+
+  def dynamic_duo
+  end
+
+  def ball_and_chain
   end
 
   def nemesis
