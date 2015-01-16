@@ -7,7 +7,7 @@ class Player < ActiveRecord::Base
   default_scope { order('first_name DESC, last_name DESC') }
 
   def self.by_trueskill
-    self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.includes(:player_ratings).all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def self.by_no_zeros
@@ -88,16 +88,12 @@ class Player < ActiveRecord::Base
   end
 
   def is_zero?
-    games.size == 0
+    games_played == 0 && matches_played == 0
   end
 
   def self.ranking_groups
-    prs = Player.all.map { |p| p.trueskill }.sort.reverse
+    prs = Player.includes(:player_ratings).all.map { |p| p.trueskill }.sort.reverse
     prs.inject(Hash.new(0)) { |total, e| total[e] += 1 ; total}
-  end
-
-  def player_ratings
-    PlayerRating.by_player(self)
   end
 
   def player_rating
