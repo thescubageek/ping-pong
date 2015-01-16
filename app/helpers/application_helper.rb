@@ -10,12 +10,6 @@ module ApplicationHelper
     link_to('Ping Pong Skill Rankings', '/')
   end
 
-  ##
-  # Returns add new action button
-  #
-  # @param   type    {string}     item type to create
-  # @return          {string}     Add New button HTML
-  ##
   def add_new_button(type)
     link_to("Add New #{type}", "/#{type.underscore}/new", {class: 'button btn-new fi-plus', data: {id: 0, type: type.underscore, action: 'new'}})
   end

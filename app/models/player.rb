@@ -10,6 +10,10 @@ class Player < ActiveRecord::Base
     self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
+  def self.by_no_zeros
+    self.all.select { |p| !p.is_zero? }.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+  end
+
   def trueskill
     player_rating.mean
   end
@@ -65,6 +69,10 @@ class Player < ActiveRecord::Base
       end
     end
     pos
+  end
+
+  def is_zero?
+    games.size == 0
   end
 
   def self.ranking_groups

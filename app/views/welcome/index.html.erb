@@ -1,3 +1,3 @@
 <%= get_header %>
-<%= render partial: 'player/index' %>
-<%= render partial: 'match/index' %>
+<%= render partial: 'player/table', locals: {no_zeros: true} %>
+<%= render partial: 'match/table', :locals => {limit: 10} %>
