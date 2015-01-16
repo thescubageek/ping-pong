@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def home_link
-    link_to('Ping Pong Skill Rankings', '/')
+    link_to('G5 Ping Pong Rankings', '/')
   end
 
   def add_new_button(type)
