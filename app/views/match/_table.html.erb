@@ -1,7 +1,9 @@
+<% limit = nil if local_assigns[:limit].nil? %>
 <%= content_tag(:h2, 'Matches') unless local_assigns[:no_title] %>
 <table>
   <thead>
     <tr>
+      <th></th>
       <th>Date</th>
       <th>Team 1</th>
       <th>Team 2</th>
@@ -11,8 +13,10 @@
     </tr>
   </thead>
   <tbody>
-    <% @matches.each do |match| %>
+    <% m = limit ? @matches.take(limit) : @matches %>
+    <% m.each do |match| %>
       <tr>
+        <td class="ranking">#<%= match.id %></td> 
         <td><%= link_to(match.datestr, match) %></td>
         <td>
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_1) %>>
