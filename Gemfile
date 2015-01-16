@@ -48,7 +48,7 @@ group :development, :test do
   # secrets
   gem "dotenv-rails", "~> 0.11.1"
   # debugging
-  #gem "pry"
+  gem "pry"
   # database
   gem "sqlite3"
   # server processes runner

@@ -12,11 +12,7 @@ module Trueskill
 
     config.time_zone = 'Pacific Time (US & Canada)'
     config.autoload_paths += %W(#{config.root}/lib)
-    console do
-      require 'pry'
-      config.console = Pry
-    end
-
+    
     config.after_initialize do
       #Rails.application.routes.default_url_options[:host] = ENV['HOST']
     end
