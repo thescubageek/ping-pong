@@ -23,10 +23,18 @@ class Player < ActiveRecord::Base
   end
 
   def wins
+    match_wins
+  end
+
+  def calculate_match_wins
     Match.by_winning_player(self).size
   end
 
   def losses
+    match_losses
+  end
+
+  def calculate_match_losses
     Match.by_losing_player(self).size
   end
 
@@ -39,6 +47,10 @@ class Player < ActiveRecord::Base
   end
 
   def matches_played
+    match_wins + match_losses
+  end
+
+  def calculate_matches_played
     matches.size
   end
 
@@ -47,14 +59,18 @@ class Player < ActiveRecord::Base
   end
 
   def games_played
+    game_wins + game_losses
+  end
+
+  def calculate_games_played
     games.size
   end
 
-  def game_wins
+  def calculate_game_wins
     Game.by_winning_player(self).size
   end
 
-  def game_losses
+  def calculate_game_losses
     Game.by_losing_player(self).size
   end
 
@@ -117,7 +133,20 @@ class Player < ActiveRecord::Base
   end
 
   def update_player_rating(game, mean, deviation, activity)
+    if game.is_winning_player?(self)
+      self.update_attributes({game_wins: game_wins+1})
+    else
+      self.update_attributes({game_losses: game_losses+1})
+    end
     pr = PlayerRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity})
     pr.save
+  end
+
+  def update_player_match_rating(match)
+    if match.is_winning_player?(self)
+      self.update_attributes({match_wins: match_wins+1})
+    else
+      self.update_attributes({match_losses: match_losses+1})
+    end
   end
 end

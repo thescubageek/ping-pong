@@ -129,6 +129,11 @@ class MatchController < ApplicationController
     update_player_game_rankings(@game_1) if @game_1
     update_player_game_rankings(@game_2) if @game_2
     update_player_game_rankings(@game_3) if @game_3
+
+    @match.team_1_player_1.update_player_match_rating(@match)
+    @match.team_1_player_2.update_player_match_rating(@match) if @match.team_1_player_2
+    @match.team_2_player_1.update_player_match_rating(@match)
+    @match.team_2_player_2.update_player_match_rating(@match) if @match.team_1_player_2
   end
 
   def update_player_game_rankings(game)

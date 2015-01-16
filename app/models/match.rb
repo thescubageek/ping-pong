@@ -142,26 +142,26 @@ class Match < ActiveRecord::Base
   end
 
   def self.by_team(team)
-    self.all.select { |m| m.has_team?(team) } if team
+    self.includes(:teams).all.select { |m| m.has_team?(team) } if team
   end
 
   def self.by_player(player)
-    self.all.select { |m| m.has_player?(player) } if player
+    self.includes(teams: [:players]).all.select { |m| m.has_player?(player) } if player
   end
 
   def self.by_winning_team(team)
-    self.all.select { |m| m.is_winner?(team) } if team
+    self.includes(:teams).all.select { |m| m.is_winner?(team) } if team
   end
 
   def self.by_losing_team(team)
-    self.all.select { |m| m.is_loser?(team) } if team
+    self.includes(:teams).all.select { |m| m.is_loser?(team) } if team
   end
 
   def self.by_winning_player(player)
-    self.all.select { |m| m.is_winning_player?(player) } if player
+    self.includes(teams: [:players]).all.select { |m| m.is_winning_player?(player) } if player
   end
 
   def self.by_losing_player(player)
-    self.all.select { |m| m.is_losing_player?(player) } if player
+    self.includes(teams: [:players]).all.select { |m| m.is_losing_player?(player) } if player
   end
 end
