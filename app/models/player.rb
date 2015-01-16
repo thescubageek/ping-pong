@@ -74,6 +74,12 @@ class Player < ActiveRecord::Base
     Game.by_losing_player(self).size
   end
 
+  def games_won_against(player)
+  end
+
+  def games_won_against(player)
+  end
+
   def ranking
     prs = Player.ranking_groups
     pos = 1

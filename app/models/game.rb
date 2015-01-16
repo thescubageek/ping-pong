@@ -55,6 +55,35 @@ class Game < ActiveRecord::Base
     loser.has_player?(player) if player
   end
 
+  def are_opponents?(player1, player2)
+    (has_player?(player1) && has_player?(player2) && !team_1.has_teammates(player1, player2) && !team_2.has_teammates(player1, player2))
+  end
+
+  def are_teammates?(player1, player2)
+    (has_player?(player1) && has_player?(player2) && (team_1.has_teammates(player1, player2) || team_2.has_teammates(player1, player2)))
+  end
+
+  def opponent_team(player)
+    if team_1.has_player?(player)
+      return team_2
+    elsif team_2.has_player?(player)
+      return team_1
+    end
+  end
+
+  def opponent_players(player)
+    team = opponent_team(player)
+    team.players if team
+  end
+
+  def teammate(player)
+    if team_1.has_player?(player)
+      return team_1.players.reject { |p| p.id == player.id }.first
+    elsif team_2.has_player?(player)
+      return team_2.players.reject { |p| p.id == player.id }.first
+    end
+  end
+
   def self.by_team(team)
     self.all.select { |g| g.has_team?(team) } if team
   end
@@ -77,5 +106,13 @@ class Game < ActiveRecord::Base
 
   def self.by_losing_player(player)
     self.all.select { |g| g.is_losing_player?(player) } if player
+  end
+
+  def self.by_player_teammate(player, teammate)
+    self.by_player(player).select { |g| g.teammate(player).try(:id) == teammate.id }
+  end
+
+  def self.by_player_opponent(player, opponent)
+    self.by_player(player).select { |g| g.opponent_players(player).map(&:id).include?(opponent.id) }
   end
 end

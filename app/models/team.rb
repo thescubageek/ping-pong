@@ -15,6 +15,10 @@ class Team < ActiveRecord::Base
     !!(players.find_by_id(player.id) if player)
   end
 
+  def has_teammates?(p1, p2)
+    player_2 ? (p1.id == player_1.id && p2.id == player_2.id) : false
+  end
+
   def self.find_by_player(player)
     self.all.select { |t| t.has_player?(player) } if player
   end
