@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    @players = Player.includes(:teams).by_trueskill
-    @matches = Match.includes(:games, :teams).all
+    @players = Player.by_trueskill
+    @matches = Match.all.limit(10)
   end
 end

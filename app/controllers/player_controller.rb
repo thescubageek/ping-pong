@@ -1,10 +1,10 @@
 class PlayerController < ApplicationController
   def index
-    @players = Player.includes(:teams).all.by_trueskill
+    @players = Player.all.by_trueskill
   end
 
   def show
-    @player = Player.includes(:teams).find(params[:id])
+    @player = Player.find(params[:id])
   end
 
   def new

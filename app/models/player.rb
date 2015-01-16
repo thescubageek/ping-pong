@@ -55,7 +55,7 @@ class Player < ActiveRecord::Base
   end
 
   def games
-    Game.by_player(self)
+    Game.includes(:match).by_player(self)
   end
 
   def games_played

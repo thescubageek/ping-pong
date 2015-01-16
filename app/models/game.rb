@@ -56,26 +56,26 @@ class Game < ActiveRecord::Base
   end
 
   def self.by_team(team)
-    self.includes(:teams).all.select { |g| g.has_team?(team) } if team
+    self.all.select { |g| g.has_team?(team) } if team
   end
 
   def self.by_player(player)
-    self.includes(teams: [:players]).all.select { |g| g.has_player?(player) } if player
+    self.all.select { |g| g.has_player?(player) } if player
   end
 
   def self.by_winning_team(team)
-    self.includes(:teams).all.select { |g| g.is_winner?(team) } if team
+    self.all.select { |g| g.is_winner?(team) } if team
   end
 
   def self.by_losing_team(team)
-    self.includes(:teams).all.select { |m| g.is_loser?(team) } if team
+    self.all.select { |m| g.is_loser?(team) } if team
   end
 
   def self.by_winning_player(player)
-    self.includes(teams: [:players]).all.select { |g| g.is_winning_player?(player) } if player
+    self.all.select { |g| g.is_winning_player?(player) } if player
   end
 
   def self.by_losing_player(player)
-    self.includes(teams: [:players]).all.select { |g| g.is_losing_player?(player) } if player
+    self.all.select { |g| g.is_losing_player?(player) } if player
   end
 end
