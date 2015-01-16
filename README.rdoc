@@ -12,10 +12,10 @@ Thank you to any and all contributors!
 This app's ranking system uses an modified implementation of the TrueSkill algorithm,
 the algorithm developed by Microsoft for ranking multiplayer, multilevel matches
 between players on the XBox Live network:
-  http://research.microsoft.com/en-us/projects/trueskill/
+http://research.microsoft.com/en-us/projects/trueskill/
 
 This app uses a fork of the trueskill gem developed by Lars Kuhnt:
-  https://github.com/saulabs/trueskill
+https://github.com/saulabs/trueskill
 
 === Install
 * bundle install
