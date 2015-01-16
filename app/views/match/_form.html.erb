@@ -31,5 +31,5 @@
   </div>
 
   <%= f.submit 'Submit', class: 'button btn-edit fi-check' %>
-  <%= cancel_button %>
+  <%= f.button 'Cancel', class: 'button btn-go-back', action: "index", controller: "welcome" %>
 <% end %>

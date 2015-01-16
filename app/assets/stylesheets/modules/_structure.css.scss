@@ -26,7 +26,7 @@
 header {
   margin: 1em 0;
   padding: .5em 1em;
-  background-color: $g5-blue-dark;
+  background-color: $c-blue-dark;
   box-model: border-box;
   color: $base-background;
   @include clearfix;
@@ -64,10 +64,10 @@ table {
       border-bottom: $base-border;
     }
     &:hover {
-      background-color: mix($base-background, $g5-blue-light, 50%);
+      background-color: mix($base-background, $c-blue-light, 50%);
     }
     &.selected {
-      background-color: mix($base-background, $g5-blue-dark, 30%) !important;
+      background-color: mix($base-background, $c-blue-dark, 30%) !important;
     }
     &.action-create, &.action-update, &.action-success {
       @extend %flash-green;
@@ -76,9 +76,9 @@ table {
       @extend %flash-red;
     }
     &:nth-child(2n) {
-      background-color: lighten($g5-grey, 15%);
+      background-color: lighten($c-grey, 15%);
       &:hover {
-        background-color: mix(lighten($g5-grey, 15%), $g5-blue-light, 70%);
+        background-color: mix(lighten($c-grey, 15%), $c-blue-light, 70%);
       }
     }
     th, td {
@@ -107,7 +107,7 @@ table {
       }
     }
     td.ranking {
-      background-color: $g5-blue-dark;
+      background-color: $c-blue-dark;
       color: $base-background;
       font-weight: bold;
       width: 28px;
@@ -125,11 +125,11 @@ table.sort-headers {
       @extend %transition-100;
       &:hover {
         cursor: pointer;
-        background-color: mix($base-color, $g5-blue-dark, 50%);
+        background-color: mix($base-color, $c-blue-dark, 50%);
       }
     }
     th.selected {
-      background-color: $g5-blue-dark;
+      background-color: $c-blue-dark;
       &:after {
         font-family: "foundation-icons";
         font-style: normal;
@@ -176,16 +176,16 @@ a.btn-new, a.btn-edit {
 }
 
 .nav-tabs {
-  border-bottom: 1px solid $g5-grey;
+  border-bottom: 1px solid $c-grey;
   & > li > a {
     @extend %transition-100;
     &:hover {
-      background-color: lighten($g5-grey, 40%);
-      border-color: lighten($g5-grey, 15%) lighten($g5-grey, 15%) $g5-grey;
+      background-color: lighten($c-grey, 40%);
+      border-color: lighten($c-grey, 15%) lighten($c-grey, 15%) $c-grey;
     }
   }
   & > .active > a, & > .active > a:hover {
-    border: 1px solid $g5-grey;
+    border: 1px solid $c-grey;
     border-bottom-color: transparent;
   }
 }
@@ -209,11 +209,11 @@ input[type='number'] {
   height: auto;
   width: 300px;
   &:focus {
-    @include box-shadow(0 0 6px $g5-blue-light, 0 2px 2px $g5-blue-light !important);
+    @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
   }
 }
 select:focus {
-  @include box-shadow(0 0 6px $g5-blue-light, 0 2px 2px $g5-blue-light !important);
+  @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
 }
 input[type='number'] {
   width: 100px;

@@ -1,13 +1,13 @@
 @-webkit-keyframes greenPulse {
-  from { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  from { background-color: mix($base-background, $c-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
   50% { background-color: $c-green; -webkit-box-shadow: 0 0 18px $c-green; }
-  to { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  to { background-color: mix($base-background, $c-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
 }
 
 @-webkit-keyframes redPulse {
-  from { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  from { background-color: mix($base-background, $c-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
   50% { background-color: $c-red; -webkit-box-shadow: 0 0 18px $c-red; }
-  to { background-color: mix($base-background, $g5-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
+  to { background-color: mix($base-background, $c-blue-dark, 30%); -webkit-box-shadow: 0 0 9px #333; }
 }
 
 %flash-green {
@@ -31,9 +31,9 @@
 }
 
 .fi-blue {
-  color: $g5-blue-dark;
+  color: $c-blue-dark;
   &:hover{
-    color: $g5-blue-light;
+    color: $c-blue-light;
   }
 }
 
@@ -51,9 +51,9 @@
     border: 1px solid $c-red;
   }
   &.fi-blue {
-    border: 1px solid $g5-blue-dark;
+    border: 1px solid $c-blue-dark;
     &:hover{
-      border-color: $g5-blue-light;
+      border-color: $c-blue-light;
     }
   }
   &:before {

@@ -170,11 +170,11 @@
     height: auto;
     width: 300px;
     &:focus {
-      @include box-shadow(0 0 6px $g5-blue-light, 0 2px 2px $g5-blue-light !important);
+      @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
     }
   }
   select:focus {
-    @include box-shadow(0 0 6px $g5-blue-light, 0 2px 2px $g5-blue-light !important);
+    @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
   }
   input[type='number'] {
     width: 100px;
@@ -201,7 +201,7 @@
       }
       &:hover {
         input {
-           @include box-shadow(0 0 6px $g5-blue-light, 0 2px 2px $g5-blue-light !important);
+           @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
         }
       }
     }
