@@ -35,9 +35,6 @@ gem 'spring',        group: :development
 
 gem 'active_model_serializers'
 
-# Use unicorn as the app server
-gem 'unicorn'
-
 gem "quiet_assets"
 
 gem "heroku_resque_autoscaler"
