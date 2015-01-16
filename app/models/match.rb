@@ -2,8 +2,7 @@ include Saulabs::TrueSkill
 
 class Match < ActiveRecord::Base
   has_many :games, dependent: :destroy
-  has_and_belongs_to_many :teams, dependent: :destroy
-  has_and_belongs_to_many :players, through: :teams
+  has_and_belongs_to_many :teams
   validates_associated :games
   validates_associated :teams
 
