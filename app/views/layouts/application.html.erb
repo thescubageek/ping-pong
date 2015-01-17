@@ -53,50 +53,40 @@
 
 	<header id="header">
 		<hgroup>
-			<h1 class="site_title"><a href="index.html">&nbsp; G5 Ping Pong Rankings</a></h1>
-			<h2 class="section_title">Dashboard</h2><div class="btn_view_site">
+			<h1 class="site_title"><a href="index.html"></a></h1>
+			<h2 class="section_title">G5 Ping Pong Rankings</h2><div class="btn_view_site">
     </hgroup>
 	</header> <!-- end of header bar -->
 	
-	<section id="secondary_bar">
-		<div class="user">
-			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
-		</div>
-		<div class="breadcrumbs_container">
-			<article class="breadcrumbs"><a href="index.html">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
-		</div>
-	</section><!-- end of secondary bar -->
-	
 	<aside id="sidebar" class="column">
-  <p>
-    <%= link_to new_match_path, {class: "btn btn-default btn-g"} do %>
-      <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Start New Match
-    <% end %>
+    <p>
+      <div class="btn-group btn-group-justified" role="group">
+        <%= link_to new_match_path, {class: "btn btn-default center"} do %>
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Start New Match
+        <% end %>
+      </div>
     </p>
-		<h3>Matches</h3>
-		<ul class="toggle">
-			<li class="icn_new_article"><a href="#">New Article</a></li>
-			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-			<li class="icn_categories"><a href="#">Categories</a></li>
-			<li class="icn_tags"><a href="#">Tags</a></li>
-		</ul>
-		<h3>Players</h3>
-		<ul class="toggle">
-			<li class="icn_add_user"><%= link_to "Add New Player", new_player_path %></li>
-			<li class="icn_view_users"><%= link_to "View Players", players_path %></li>
-		</ul>
-		
-		<footer>
-			<hr />
-			<p><strong>Copyright &copy; 2011 Website Admin</strong></p>
-		</footer>
+    <h3>Matches</h3>
+    <ul class="toggle">
+      <li class="icn_new_article"><a href="#">New Article</a></li>
+      <li class="icn_edit_article"><a href="#">Edit Articles</a></li>
+      <li class="icn_categories"><a href="#">Categories</a></li>
+      <li class="icn_tags"><a href="#">Tags</a></li>
+    </ul>
+    <h3>Players</h3>
+    <ul class="toggle">
+      <li class="icn_add_user"><%= link_to "Add New Player", new_player_path %></li>
+      <li class="icn_view_users"><%= link_to "View Players", players_path %></li>
+    </ul>
+    
+    <footer>
+      <hr />
+      <p><strong>Copyright &copy; 2011 Website Admin</strong></p>
+    </footer>
 	</aside><!-- end of sidebar -->
 	
 	<section id="main" class="column">
     <%= yield %>
-		
-		<h4 class="alert_info">Welcome to the free MediaLoot admin panel template, this could be an informative message.</h4>
-		
 		<article class="module width_full">
 			<header><h3>Stats</h3></header>
 			<div class="module_content">
@@ -259,47 +249,6 @@
 		
 		<div class="clear"></div>
 		
-		<article class="module width_full">
-			<header><h3>Post New Article</h3></header>
-				<div class="module_content">
-						<fieldset>
-							<label>Post Title</label>
-							<input type="text">
-						</fieldset>
-						<fieldset>
-							<label>Content</label>
-							<textarea rows="12"></textarea>
-						</fieldset>
-						<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
-							<label>Category</label>
-							<select style="width:92%;">
-								<option>Articles</option>
-								<option>Tutorials</option>
-								<option>Freebies</option>
-							</select>
-						</fieldset>
-						<fieldset style="width:48%; float:left;"> <!-- to make two field float next to one another, adjust values accordingly -->
-							<label>Tags</label>
-							<input type="text" style="width:92%;">
-						</fieldset><div class="clear"></div>
-				</div>
-			<footer>
-				<div class="submit_link">
-					<select>
-						<option>Draft</option>
-						<option>Published</option>
-					</select>
-					<input type="submit" value="Publish" class="alt_btn">
-					<input type="submit" value="Reset">
-				</div>
-			</footer>
-		</article><!-- end of post new article -->
-		
-		<h4 class="alert_warning">A Warning Alert</h4>
-		
-		<h4 class="alert_error">An Error Message</h4>
-		
-		<h4 class="alert_success">A Success Message</h4>
 		
 		<article class="module width_full">
 			<header><h3>Basic Styles</h3></header>

@@ -1,2 +1,6 @@
-<%= add_new_button('player') %>
-<%= render partial: 'table', locals: {no_zeros: false} %>
+<article class="module width_full">
+  <header>
+    <%= content_tag(:h3, 'Players', class: "tabs_involved") %>
+  </header>
+  <%= render partial: 'table', locals: {no_zeros: false} %>
+</article>
