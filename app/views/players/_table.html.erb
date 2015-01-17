@@ -14,7 +14,7 @@
     <% pl = !no_zeros ? @players : Player.by_no_zeros %>
     <% pl.each_with_index do |player, idx| %>
       <tr>
-        <td class='ranking'>#<%= link_to(player.ranking, player) %></td>
+        <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
         <td><%= link_to(player.name, player) %></td>
         <td><%= link_to("#{player.wins} - #{player.losses}", player) %></td>
         <td><%= link_to("#{player.game_wins} - #{player.game_losses}", player) %></td>

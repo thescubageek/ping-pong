@@ -3,6 +3,36 @@
 <h2>#<%= @player.ranking %>. <%= @player.name %> (<%= @player.wins %> - <%= @player.losses %>, <%= @player.game_wins %> - <%= @player.game_losses %>)</h2>
 <div class="row">
   <h3>Skill Points: <%= number_with_precision(@player.trueskill) %></h3>
+  <div class="col-md-4">
+    <h4>Best Buddy</h4>
+    <% other = @player.best_buddy %>
+    <p><%= other ? link_to(other.name, other) : "Nobody likes you" %></p>
+  </div>
+  <div class="col-md-4">
+    <h4>Dynamic Duo</h4>
+    <% other = @player.dynamic_duo %>
+    <p><%= other ? link_to(other.name, other) : "You ain't Batman" %></p>
+  </div>
+  <div class="col-md-4">
+    <h4>Ball and Chain</h4>
+    <% other = @player.ball_and_chain %>
+    <p><%= other ? link_to(other.name, other) : "Still a free man" %></p>
+  </div>
+  <div class="col-md-4">
+    <h4>Rival</h4>
+    <% other = @player.rival %>
+    <p><%= other ? link_to(other.name, other) : "You have no equal" %></p>
+  </div>
+  <div class="col-md-4">
+    <h4>Punching Bag</h4>
+    <% other = @player.punching_bag %>
+    <p><%= other ? link_to(other.name, other) : "You ARE the weakest link" %></p>
+  </div>
+  <div class="col-md-4">
+    <h4>Nemesis</h4>
+    <% other = @player.nemesis %>
+    <p><%= other ? link_to(other.name, other) : "No haters" %></p>
+  </div>
 </div>
 <h3>Match History</h3>
 <table>

@@ -5,6 +5,7 @@ class Match < ActiveRecord::Base
   has_and_belongs_to_many :teams
   validates_associated :games
   validates_associated :teams
+  validates_uniqueness_of :date
 
   default_scope { order('date DESC') }
 
@@ -65,7 +66,7 @@ class Match < ActiveRecord::Base
   end
 
   def game_3_score_1
-    game_1.score_1 if game_3
+    game_3.score_1 if game_3
   end
 
   def game_3_score_2

@@ -115,6 +115,19 @@
 
 .button.btn-save, .button.btn-edit, .button.btn-view {
   @extend %btn-green;
+  font-size: 28px;
+  line-height: 28px;
+}
+
+.button.btn-new {
+  font-size: 28px;
+  line-height: 28px;
+  margin-bottom: 1em;
+}
+
+.btn-cancel {
+  padding: 14px 28px;
+  font-size: 20px;
 }
 
 .button.disabled {
