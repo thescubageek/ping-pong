@@ -66,7 +66,7 @@ class Match < ActiveRecord::Base
   end
 
   def game_3_score_1
-    game_1.score_1 if game_3
+    game_3.score_1 if game_3
   end
 
   def game_3_score_2
