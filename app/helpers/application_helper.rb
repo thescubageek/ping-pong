@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def get_header(str="")
-    links = "<div class='links'>#{players_link}#{matches_link}</div>"
+    links = "<div class='links'>#{players_path}#{matches_link}</div>"
     h1 = "<h1>#{home_link}#{"&nbsp;-&nbsp;#{str}" unless str.blank?}</h1>"
     "<header>#{h1}#{links}</header>".html_safe
   end
@@ -33,10 +33,6 @@ module ApplicationHelper
 
   def home_link(options={})
     link_to('G5 Ping Pong Rankings', '/', options)
-  end
-
-  def players_link(options={})
-    link_to('Players', {action: 'index', controller: 'player'}, options)
   end
 
   def matches_link(options={})
