@@ -227,6 +227,7 @@ input[type='number'] {
   padding: .2em;
   height: auto;
   width: 300px;
+  font-size: 20px;
   &:focus {
     @include box-shadow(0 0 6px $c-blue-light, 0 2px 2px $c-blue-light !important);
   }

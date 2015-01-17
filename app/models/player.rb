@@ -3,6 +3,7 @@ class Player < ActiveRecord::Base
   has_many :player_ratings
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates_uniqueness_of :first_name, :scope => :last_name, :case_sensitive => false
 
   default_scope { order('first_name DESC, last_name DESC') }
 
