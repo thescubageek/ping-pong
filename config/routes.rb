@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :welcome, only: [:index]
 
   resources :players
-  resources :match
+  resources :matches
   resources :game
 
   root 'welcome#index'
