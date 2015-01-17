@@ -1,0 +1,35 @@
+<% prompt = "[SELECT A PLAYER]" %>
+<%= form_for @match, :url => {:controller => :match} do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Team 1</h3>
+      <%= f.label :team_1_player_1 %> <%= f.collection_select(:team_1_player_1, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+      <%= f.label :team_1_player_2 %> <%= f.collection_select(:team_1_player_2, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+    </div>
+    <div class="col-md-6">
+      <h3>Team 2</h3>
+      <%= f.label :team_2_player_1 %> <%= f.collection_select(:team_2_player_1, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+      <%= f.label :team_2_player_2 %> <%= f.collection_select(:team_2_player_2, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h3>Game 1</h3>
+      <%= f.label :game_1_score_1, 'Team 1 Score' %> <%= f.text_field(:game_1_score_1, type: 'number', min: 0, max: 22) %>
+      <%= f.label :game_1_score_2, 'Team 2 Score' %> <%= f.text_field(:game_1_score_2, type: 'number', min: 0, max: 22) %>
+    </div>
+    <div class="col-md-4">
+      <h3>Game 2</h3>
+      <%= f.label :game_2_score_1, 'Team 1 Score' %> <%= f.text_field(:game_2_score_1, type: 'number', min: 0, max: 22) %>
+      <%= f.label :game_2_score_2, 'Team 2 Score' %> <%= f.text_field(:game_2_score_2, type: 'number', min: 0, max: 22) %>
+    </div>
+    <div class="col-md-4">
+      <h3>Game 3</h3>
+      <%= f.label :game_3_score_1, 'Team 1 Score' %> <%= f.text_field(:game_3_score_1, type: 'number', min: 0, max: 22) %>
+      <%= f.label :game_3_score_2, 'Team 2 Score' %> <%= f.text_field(:game_3_score_2, type: 'number', min: 0, max: 22) %>
+    </div>
+  </div>
+
+  <%= f.submit 'Submit', class: 'button btn-edit fi-check' %>
+  <%= cancel_button('match') %>
+<% end %>
