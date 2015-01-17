@@ -86,88 +86,142 @@ class Player < ActiveRecord::Base
     Game.by_losing_player(self).size
   end
 
+  def self.by_games_won_against(player)
+    self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_won_against(p).size} unless p.id == player.id
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
+  end
+
   def games_won_against(opponent)
     games_played_against(opponent).select { |g| g.is_winning_player?(self) }
   end
 
-  def self.by_games_won_against
-    Player.by_no_zeros.map {|p| {player: p, games: games_won_against(p).size} }
+  def self.by_games_lost_against(player)
+    self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_lost_against(p).size} unless p.id == player.id
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def games_lost_against(opponent)
     games_played_against(opponent).select { |g| g.is_losing_player?(self) }
   end
 
-  def self.by_games_played_against
-    Player.by_no_zeros.map {|p| {player: p, games: games_lost_against(p).size} }
+  def self.by_games_played_against(player)
+    self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_played_against(p).size} unless p.id == player.id
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def games_played_against(opponent)
     Game.by_player_opponent(self, opponent)
   end
 
-  def self.by_games_played_against
-    Player.by_no_zeros.map {|p| {player: p, games: games_played_against(p).size} }
+  def self.by_games_played_against(player)
+    self.by_no_zeros.inject([]) { |arr,p|
+      arr << {player: p, games: player.games_played_against(p).size} unless p.id == player.id
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def games_won_with(teammate)
     games_played_with(teammate).select { |g| g.is_winning_player?(self) }
   end
 
-  def self.by_games_won_with
-    Player.by_no_zeros.map {|p| {player: p, games: games_won_with(p).size} }
+  def self.by_games_won_with(player)
+    self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_won_with(p).size} unless p.id == player.id
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def games_lost_with(teammate)
     games_played_with(teammate).select { |g| g.is_losing_player?(self) }
   end
 
-  def self.by_games_lost_with
-    Player.by_no_zeros.map {|p| {player: p, games: games_lost_with(p).size} }
+  def self.by_games_lost_with(player)
+    buffer = self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_lost_with(p).size} 
+      arr
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def games_played_with(teammate)
     Game.by_player_teammate(self, teammate)
   end
 
-  def self.by_games_played_with
-    Player.by_no_zeros.map {|p| {player: p, games: games_played_with(p).size} }
+  def self.by_games_played_with(player)
+    self.by_no_zeros.inject([]) { |arr,p| 
+      arr << {player: p, games: player.games_played_with(p).size} unless p.id == player.id
+      arr 
+    }.sort {|a,b| b[:games] <=> a[:games] }
   end
 
   def select_top_players_by_games(players, game_count)
-    players.sort {|a,b| b[:games] <=> a[:games] }.select { |p| }
+    players.inject([]) do |arr, p| 
+      arr << p[:player] if p[:games] == game_count
+      arr
+    end
   end
 
   def best_buddy
-    players = Player.by_games_played_with
-    max_games = players.first[:games] unless players.empty?
+    pl = Player.by_games_played_with(self)
+    max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
-
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| a.games_won_with(self).size <=> b.games_won_with(self).size }.first
     end
   end
 
   def dynamic_duo
+    pl = Player.by_games_won_with(self)
+    max_games = pl.first[:games] unless pl.empty?
+    if max_games && max_games > 0
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| a.games_played_with(self).size <=> b.games_played_with(self).size }.first
+    end
   end
 
   def ball_and_chain
+    pl = Player.by_games_lost_with(self)
+    max_games = pl.first[:games] unless pl.empty?
+    if max_games && max_games > 0
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| a.games_played_with(self).size <=> b.games_played_with(self).size }.first
+      players.first
+    end
   end
 
   def nemesis
-    players = Player.by_no_zeros
-      .map {|p| {player: p, games: games_lost_against(p).size} }
-      .sort {|a,b| b[:games] <=> a[:games] }
-    players.first
+    pl = Player.by_games_lost_against(self)
+    max_games = pl.first[:games] unless pl.empty?
+    if max_games && max_games > 0
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| a.games_played_against(self).size <=> b.games_played_against(self).size }.first
+      players.first
+    end
   end
 
   def rival
-    ## closest trueskill and most games
+    pl = Player.by_games_played_against(self)
+    max_games = pl.first[:games] unless pl.empty?
+    if max_games && max_games > 0
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| (self.trueskill - a.trueskill).abs <=> (self.trueskill - b.trueskill).abs }.first
+      players.first
+    end
   end
 
   def punching_bag
-    players = Player.by_no_zeros
-      .map {|p| {player: p, games: games_won_against(p).size} }
-      .sort {|a,b| b[:games] <=> a[:games] }
-    players.first
+    pl = Player.by_games_won_against(self)
+    max_games = pl.first[:games] unless pl.empty?
+    if max_games && max_games > 0
+      players = select_top_players_by_games(pl, max_games)
+      players.sort { |a, b| a.games_played_against(self).size <=> b.games_played_against(self).size }.first
+      players.first
+    end
   end
 
   def ranking(no_zeros=false)
