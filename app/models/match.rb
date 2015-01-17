@@ -2,8 +2,7 @@ include Saulabs::TrueSkill
 
 class Match < ActiveRecord::Base
   has_many :games, dependent: :destroy
-  has_and_belongs_to_many :teams, dependent: :destroy
-  has_and_belongs_to_many :players, through: :teams
+  has_and_belongs_to_many :teams
   validates_associated :games
   validates_associated :teams
 
@@ -88,11 +87,11 @@ class Match < ActiveRecord::Base
   end
 
   def is_winner?(team)
-    team.id == winner.id
+    winner ? team.id == winner.id : false
   end
 
   def is_loser?(team)
-    team.id == loser.id
+    loser ? team.id == loser.id : false
   end
 
   def is_winning_player?(player)
