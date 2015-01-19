@@ -18,16 +18,16 @@
       <tr>
         <td class="ranking">#<%= match.id %></td> 
         <td><%= link_to(match.datestr, match) %></td>
-        <td>
+        <td class="teams">
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_1) %>>
-            <%= content_tag(:li, match.team_1_player_1.name) if match.team_1_player_1 %>
-            <%= content_tag(:li, match.team_1_player_2.name) if match.team_1_player_2 %>
+            <%= content_tag(:li) { player_link(match.team_1_player_1) } if match.team_1_player_1 %>
+            <%= content_tag(:li) { player_link(match.team_1_player_2) } if match.team_1_player_2 %>
           </ul>
         </td>
-        <td>
+        <td class="teams">
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_2) %>>
-            <%= content_tag(:li, match.team_2_player_1.name) if match.team_2_player_1 %>
-            <%= content_tag(:li, match.team_2_player_2.name) if match.team_2_player_2 %>
+            <%= content_tag(:li) { player_link(match.team_2_player_1) } if match.team_2_player_1 %>
+            <%= content_tag(:li) { player_link(match.team_2_player_2) } if match.team_2_player_2 %>
           </ul>
         </td>
         <td><%= match.game_1_score_1 %> - <%= match.game_1_score_2 %></td>

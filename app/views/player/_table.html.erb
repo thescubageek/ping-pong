@@ -16,9 +16,9 @@
     <% pl.each_with_index do |player, idx| %>
       <tr>
         <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
-        <td><%= image_tag(avatar_url(player), class: "img_preview") %><%= link_to(player.name, player) %></td>
-        <td><%= link_to("#{player.wins} - #{player.losses}", player) %></td>
-        <td><%= link_to("#{player.game_wins} - #{player.game_losses}", player) %></td>
+        <td><%= player_link(player) %></td>
+        <td><%= link_to(match_record(player), player) %></td>
+        <td><%= link_to(game_record, player) %></td>
         <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
         <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
       </tr>

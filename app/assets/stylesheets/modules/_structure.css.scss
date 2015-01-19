@@ -134,6 +134,12 @@ table {
         color: $base-background;
       }
     }
+    td.teams {
+      li {
+        margin: 0.2em 0;
+        line-height: 30px;
+      }
+    }
   }
 }
 
