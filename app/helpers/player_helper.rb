@@ -7,6 +7,10 @@ module PlayerHelper
     link_to(player, {class: 'player-link'}) { "#{avatar_thumbnail(player)}#{player.name}".html_safe } if player
   end
 
+  def avatar_big(player)
+    image_tag(avatar_url(player), class: "img_big")
+  end
+
   def avatar_thumbnail(player)
     image_tag(avatar_url(player), class: "img_preview")
   end

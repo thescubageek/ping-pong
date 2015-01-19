@@ -16,11 +16,11 @@
       <tr>
         <td class='ranking'>#<%= link_to(match.id, match) %></td>
         <td><%= link_to(match.datestr, match) %></td>
-        <td class="players">
+        <td class="teams">
           <% teammate = match.teammate(@player) %>
           <%= player_link(teammate) if teammate %>
         </td>
-        <td class="players">
+        <td class="teams">
           <ul>
           <% match.opponents(@player).each do |opp| %>
             <%= content_tag(:li) { player_link(opp) } %>
