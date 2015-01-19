@@ -6,13 +6,14 @@ class Player < ActiveRecord::Base
   validates_uniqueness_of :first_name, :scope => :last_name, :case_sensitive => false
 
   default_scope { order('first_name DESC, last_name DESC') }
+  scope :no_zeros, -> { where('match_wins != 0 OR match_losses != 0') }
 
   def self.by_trueskill
     self.includes(:player_ratings).all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def self.by_no_zeros
-    self.all.select { |p| !p.is_zero? }.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.no_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def trueskill

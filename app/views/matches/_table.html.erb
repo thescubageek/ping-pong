@@ -1,4 +1,5 @@
-<% limit = nil if local_assigns[:limit].nil? %>
+<% limit = local_assigns[:limit] %>
+<% matches = local_assigns[:matches] || @matches %>
 <%= content_tag(:h2, 'Matches') unless local_assigns[:no_title] %>
 <table>
   <thead>
@@ -13,30 +14,26 @@
     </tr>
   </thead>
   <tbody>
-    <% m = limit ? @matches.take(limit) : @matches %>
+    <% m = limit ? matches.take(limit) : matches %>
     <% m.each do |match| %>
       <tr>
         <td class="ranking">#<%= match.id %></td> 
         <td><%= link_to(match.datestr, match) %></td>
-        <td>
+        <td class="teams">
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_1) %>>
-            <%= content_tag(:li, match.team_1_player_1.name) if match.team_1_player_1 %>
-            <%= content_tag(:li, match.team_1_player_2.name) if match.team_1_player_2 %>
+            <%= content_tag(:li) { player_link(match.team_1_player_1) } if match.team_1_player_1 %>
+            <%= content_tag(:li) { player_link(match.team_1_player_2) } if match.team_1_player_2 %>
           </ul>
         </td>
-        <td>
+        <td class="teams">
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_2) %>>
-            <%= content_tag(:li, match.team_2_player_1.name) if match.team_2_player_1 %>
-            <%= content_tag(:li, match.team_2_player_2.name) if match.team_2_player_2 %>
+            <%= content_tag(:li) { player_link(match.team_2_player_1) } if match.team_2_player_1 %>
+            <%= content_tag(:li) { player_link(match.team_2_player_2) } if match.team_2_player_2 %>
           </ul>
         </td>
-        <td><%= match.game_1_score_1 %> - <%= match.game_1_score_2 %></td>
-        <td><%= match.game_2_score_1 %> - <%= match.game_2_score_2 %></td>
-        <% if match.game_3 %>
-          <td><%= match.game_3_score_1 %> - <%= match.game_3_score_2 %></td>
-        <% else %>
-          <td></td>
-        <% end %>
+        <td><%= game_score(match.game_1) if match.game_1 %></td>
+        <td><%= game_score(match.game_2) if match.game_2 %></td>
+        <td><%= game_score(match.game_3) if match.game_3 %></td>
       </tr>
     <% end %>
   </tbody>

@@ -17,25 +17,4 @@ module ApplicationHelper
   def cancel_button(type)
     link_to('Cancel', {action: 'index', controller: type}, {class: 'btn-cancel'})
   end
-
-  def player_trend_icon(player)
-    rating_trend = player ? player.player_rating_trend : 0
-    (rating_trend > 0 ? up_trend_arrow : (rating_trend < 0 ? down_trend_arrow : "")).html_safe
-  end
-
-  def up_trend_arrow
-    "<span class='btn-arrow-up-green'></span>"
-  end
-
-  def down_trend_arrow
-    "<span class='btn-arrow-down-red'></span>"
-  end
-
-  def home_link(options={})
-    link_to('G5 Ping Pong Rankings', '/', options)
-  end
-
-  def matches_link(options={})
-    link_to('Matches', {action: 'index', controller: 'match'}, options)
-  end
 end
