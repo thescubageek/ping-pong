@@ -1,4 +1,5 @@
-<% limit = nil if local_assigns[:limit].nil? %>
+<% limit = local_assigns[:limit] %>
+<% matches = local_assigns[:matches] || @matches %>
 <%= content_tag(:h2, 'Matches') unless local_assigns[:no_title] %>
 <table>
   <thead>
@@ -13,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <% m = limit ? @matches.take(limit) : @matches %>
+    <% m = limit ? matches.take(limit) : matches %>
     <% m.each do |match| %>
       <tr>
         <td class="ranking">#<%= match.id %></td> 
@@ -30,13 +31,9 @@
             <%= content_tag(:li) { player_link(match.team_2_player_2) } if match.team_2_player_2 %>
           </ul>
         </td>
-        <td><%= match.game_1_score_1 %> - <%= match.game_1_score_2 %></td>
-        <td><%= match.game_2_score_1 %> - <%= match.game_2_score_2 %></td>
-        <% if match.game_3 %>
-          <td><%= match.game_3_score_1 %> - <%= match.game_3_score_2 %></td>
-        <% else %>
-          <td></td>
-        <% end %>
+        <td><%= game_score(match.game_1) if game_1 %></td>
+        <td><%= game_score(match.game_2) if game_2 %></td>
+        <td><%= game_score(match.game_3) if game_3 %></td>
       </tr>
     <% end %>
   </tbody>

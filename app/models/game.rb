@@ -77,11 +77,7 @@ class Game < ActiveRecord::Base
   end
 
   def teammate(player)
-    if team_1.has_player?(player)
-      return team_1.players.reject { |p| p.id == player.id }.first
-    elsif team_2.has_player?(player)
-      return team_2.players.reject { |p| p.id == player.id }.first
-    end
+    match.teammate(player)
   end
 
   def self.by_team(team)

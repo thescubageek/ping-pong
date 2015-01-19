@@ -127,6 +127,14 @@ class Match < ActiveRecord::Base
     team_1.has_player?(player) || team_2.has_player?(player)
   end
 
+  def teammate(player)
+    if team_1.has_player?(player)
+      return team_1.players.reject { |p| p.id == player.id }.first
+    elsif team_2.has_player?(player)
+      return team_2.players.reject { |p| p.id == player.id }.first
+    end
+  end
+
   def opposing_team(player)
     if team_1.has_player?(player)
       return team_2
