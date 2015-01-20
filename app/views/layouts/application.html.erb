@@ -6,6 +6,7 @@
   <title>G5 Ping Pong Rankings - Kill It!</title>
   <link rel="shortcut icon" type="image/x-icon" href="http://www.getg5.com/favicon.ico">
   <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= stylesheet_link_tag params[:controller] %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 	
@@ -53,7 +54,9 @@
 
 	<header id="header">
 		<hgroup>
-			<h1 class="site_title"><a href="index.html"></a></h1>
+      <div id="logo">
+        <%= link_to image_tag('ping-pong-icon.png', {width: "32px", height: "32px"}), root_path %>
+      </div>
 			<h2 class="section_title">G5 Ping Pong Rankings</h2><div class="btn_view_site">
     </hgroup>
 	</header> <!-- end of header bar -->

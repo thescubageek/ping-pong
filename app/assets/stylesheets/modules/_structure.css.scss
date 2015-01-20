@@ -32,13 +32,12 @@ header {
   box-model: border-box;
   color: $base-background;
   @include clearfix;
-  h1 {
+  #logo {
     float: left;
-    margin: 0;
-    background-image: asset-url('ping-pong-icon.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 32px 32px;
+    margin: 10px 0 0;
+    width: 13%;
+    min-width:130px;
+    text-align:center;
   }
   div.links {
     float: right;

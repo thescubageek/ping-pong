@@ -8,6 +8,7 @@ class MatchesController < ApplicationController
   end
 
   def new
+    @page_title = "New Match"
     @match = Match.new
   end
 

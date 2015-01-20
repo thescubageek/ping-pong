@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( glyphicons-halflings.png )
 Rails.application.config.assets.precompile += %w( glyphicons-halflings-white.png )
-Rails.application.config.assets.precompile += %w( ie.css )
+Rails.application.config.assets.precompile += %w( ie.css matches.css welcome.css )
