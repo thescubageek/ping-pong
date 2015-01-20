@@ -44,4 +44,15 @@ module PlayerHelper
   def game_record(player)
     "#{player.game_wins} - #{player.game_losses}".html_safe
   end
+
+  def player_select(player_pos)
+    opts = Player.all.reverse.inject("") do |buffer, p|
+      ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
+      selected = (@match.send(player_pos).try(:id) == p.id) ? "selected='selected'" : ""
+      buffer << "<option value='#{p.id}'#{selected}>#{ranking} #{p.name}</option>"
+      buffer
+    end
+    opts.prepend("<option value=''>[SELECT A PLAYER]</option>")
+    %Q(<select id="#{player_pos}" name="match[#{player_pos}]">#{opts}</select>).html_safe
+  end
 end

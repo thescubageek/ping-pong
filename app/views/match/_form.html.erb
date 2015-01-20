@@ -1,15 +1,15 @@
 <% prompt = "[SELECT A PLAYER]" %>
-<%= form_for @match, :url => {:controller => :match} do |f| %>
+<%= form_for @match do |f| %>
   <div class="row">
     <div class="col-md-6">
       <h3>Team 1</h3>
-      <%= f.label :team_1_player_1 %> <%= f.collection_select(:team_1_player_1, Player.all.reverse, :id, :name, {prompt: prompt}) %>
-      <%= f.label :team_1_player_2 %> <%= f.collection_select(:team_1_player_2, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+      <%= f.label :team_1_player_1 %> <%= player_select(:team_1_player_1) %>
+      <%= f.label :team_1_player_2 %> <%= player_select(:team_1_player_2) %>
     </div>
     <div class="col-md-6">
       <h3>Team 2</h3>
-      <%= f.label :team_2_player_1 %> <%= f.collection_select(:team_2_player_1, Player.all.reverse, :id, :name, {prompt: prompt}) %>
-      <%= f.label :team_2_player_2 %> <%= f.collection_select(:team_2_player_2, Player.all.reverse, :id, :name, {prompt: prompt}) %>
+      <%= f.label :team_2_player_1 %> <%= player_select(:team_2_player_1) %>
+      <%= f.label :team_2_player_2 %> <%= player_select(:team_2_player_2) %>
     </div>
   </div>
   <div class="row">

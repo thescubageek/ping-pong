@@ -71,31 +71,33 @@ class MatchController < ApplicationController
     @game_1.update_attributes(match_id: @match.id)
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
-    @match.update_player_ratings
+    @match.update_player_rankings
   end
 
   def update_teams
-      unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
-      
+    unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
       find_team_players
-      @team_1.players = @team_1_player_2 ? [@team_1_player_1, @team_1_player_2] : [@team_1_player_1]
-      @team_2.players = @team_2_player_2 ? [@team_2_player_1, @team_2_player_2] : [@team_2_player_1]
-      @team_1.reload
-      @team_2.reload
+      @match.team_1.players = (@team_1_player_2 ? [@team_1_player_1, @team_1_player_2] : [@team_1_player_1])
+      @match.team_2.players = (@team_2_player_2 ? [@team_2_player_1, @team_2_player_2] : [@team_2_player_1])
+      @team_1 = @match.team_1.reload
+      @team_2 = @match.team_2.reload
       return true
     end
     false
   end
 
   def update_games
-    @game_1 = @match.game_1.update_attributes(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
-    @game_2 = @match.game_2.update_attributes(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
+    @match.game_1.update_attributes(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
+    @match.game_2.update_attributes(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
+    @game_1 = @match.game_1
+    @game_2 = @match.game_2
     if !match_params[:game_3_score_1].blank? && !match_params[:game_3_score_2].blank?
       if @match.game_3
-        @game_3 = @match.game_3.update_attributes(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
+        @match.game_3.update_attributes(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
+        @game_3 = @match.game_3
       else
-        @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
-        @match.game_3 = @game_3
+        @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2], match_id: @match.id, date: @match.date)
+        @game_3.save
       end
     elsif @match.game_3
       @match.game_3.destroy
@@ -110,7 +112,7 @@ class MatchController < ApplicationController
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.reload
-    @match.update_player_ratings
+    RankingUpdater.update
   end
 
   def find_team_players
