@@ -8,8 +8,7 @@ class Match < ActiveRecord::Base
   validates_uniqueness_of :date
 
   default_scope { order('date DESC') }
-  scope :by_date_asc, -> { order('date ASC') }
-
+  
   def datestr
     date.strftime("%h %d %Y %H:%M")
   end
@@ -150,6 +149,10 @@ class Match < ActiveRecord::Base
     [opp.player_1, opp.player_2] if opp
   end
 
+  def self.by_date_asc
+    self.all.sort_by(&:date)
+  end
+
   def self.by_team(team)
     self.all.select { |m| m.has_team?(team) } if team
   end
@@ -175,17 +178,17 @@ class Match < ActiveRecord::Base
   end
 
   def update_player_rankings
-    @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
-    @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
+    @p1 = team_1.player_2 ? [team_1.player_1.player_rating_value, team_1.player_2.player_rating_value] : [team_1.player_1.player_rating_value]
+    @p2 = team_2.player_2 ? [team_2.player_1.player_rating_value, team_2.player_2.player_rating_value] : [team_2.player_1.player_rating_value]
 
     update_player_game_rankings(game_1) if game_1
     update_player_game_rankings(game_2) if game_2
     update_player_game_rankings(game_3) if game_3
 
-    team_1_player_1.update_player_match_rating(self)
-    team_1_player_2.update_player_match_rating(self) if team_1_player_2
-    team_2_player_1.update_player_match_rating(self)
-    team_2_player_2.update_player_match_rating(self) if team_2_player_2
+    team_1.player_1.update_player_match_rating(self)
+    team_1.player_2.update_player_match_rating(self) if team_1.player_2
+    team_2.player_1.update_player_match_rating(self)
+    team_2.player_2.update_player_match_rating(self) if team_2.player_2
   end
 
   def update_player_game_rankings(game)
@@ -193,15 +196,15 @@ class Match < ActiveRecord::Base
     game_net.update_skills
 
     rating = game_net.teams.first.first
-    team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1.player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.first.second
-    team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1.player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.first
-    team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2.player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.second
-    team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2.player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
   end
 end

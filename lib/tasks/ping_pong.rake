@@ -1,12 +1,19 @@
 namespace :ping_pong do
-  desc 'update wins/losses of players with actual game stats'
+  desc 'update wins/losses of players with current game stats'
   task update_records: :environment do
-    RecordUpdater.update
-    puts 'Success!!'
+    if RecordUpdater.update
+      puts "Success!"
+    else
+      puts "Fail!"
+    end
   end
 
+  desc 'update rankings and trueskill of players with current game stats'
   task update_rankings: :environment do
-    RankingUpdater.update
-    puts 'Success!!'
+    if RankingUpdater.update
+      puts "Success!"
+    else
+      puts "Fail!"
+    end
   end
 end

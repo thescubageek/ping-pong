@@ -7,7 +7,7 @@ class PlayerRating < ActiveRecord::Base
   validates :deviation, presence: true
   validates :activity, presence: true
 
-  default_scope { order('date DESC') }
+  default_scope { order('date DESC, game_id DESC') }
 
   def value
     Rating.new(mean, deviation, activity)

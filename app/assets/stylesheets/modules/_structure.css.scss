@@ -84,6 +84,7 @@ table {
     }
     &:hover {
       background-color: mix($base-background, $c-blue-light, 50%);
+      cursor: pointer;
     }
     &.selected {
       background-color: mix($base-background, $c-blue-dark, 30%) !important;
@@ -132,6 +133,9 @@ table {
       width: 28px;
       a {
         color: $base-background;
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
     td.teams {

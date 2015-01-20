@@ -71,7 +71,7 @@ class MatchController < ApplicationController
     @game_1.update_attributes(match_id: @match.id)
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
-    update_player_rankings
+    @match.update_player_ratings
   end
 
   def update_teams
@@ -110,7 +110,7 @@ class MatchController < ApplicationController
     @game_2.update_attributes(match_id: @match.id)
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.reload
-    update_player_rankings
+    @match.update_player_ratings
   end
 
   def find_team_players

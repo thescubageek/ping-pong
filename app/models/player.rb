@@ -1,6 +1,6 @@
 class Player < ActiveRecord::Base
   has_and_belongs_to_many :teams
-  has_many :player_ratings
+  has_many :player_ratings, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates_uniqueness_of :first_name, :scope => :last_name, :case_sensitive => false
@@ -268,12 +268,12 @@ class Player < ActiveRecord::Base
     recent = matches.first
     previous = matches.second
     if recent && previous
-      recent_game = recent.games.last
-      prev_game = previous.games.last
+      recent_game = recent.games.third ? recent.games.third : recent.games.second
+      prev_game = previous.games.third ? previous.games.third : previous.games.second
       pr1 = PlayerRating.by_game_and_player(recent_game, self).first
       pr2 = PlayerRating.by_game_and_player(prev_game, self).first
     elsif recent && !previous
-      recent_game = recent.games.last
+      recent_game = recent.games.third ? recent.games.third : recent.games.second
       pr1 = PlayerRating.by_game_and_player(recent_game, self).first
       pr2 = player_ratings.last
     end
@@ -287,7 +287,7 @@ class Player < ActiveRecord::Base
     else
       self.update_attributes({game_losses: game_losses+1})
     end
-    pr = PlayerRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity})
+    pr = PlayerRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity, date: game.date})
     pr.save
   end
 

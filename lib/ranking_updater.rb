@@ -7,10 +7,7 @@ class RankingUpdater
         rating.save
         p.update_attributes({match_wins: 0, match_losses: 0, game_wins: 0, game_losses: 0})
       end
-      mc = MatchController.new
-      Match.by_date_asc.each do |m|
-        m.update_player_rankings
-      end
+      Match.by_date_asc.each { |m| m.update_player_rankings }
       RecordUpdater.update
       return true
     rescue Exception => e

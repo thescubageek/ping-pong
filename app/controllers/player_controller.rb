@@ -37,7 +37,7 @@ class PlayerController < ApplicationController
 
   def new_rating
     if @player
-      @rating = PlayerRating.new({player_id: @player.id})
+      @rating = PlayerRating.new({player_id: @player.id, date: DateTime.new(2015,1,14)})
       @rating.save
     end
   end
