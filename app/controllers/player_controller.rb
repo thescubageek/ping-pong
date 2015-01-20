@@ -4,7 +4,7 @@ class PlayerController < ApplicationController
   end
 
   def show
-    @player = Player.includes(:player_ratings).find(params[:id])
+    @player = Player.find(params[:id])
   end
 
   def new

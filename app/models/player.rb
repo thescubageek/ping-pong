@@ -9,14 +9,14 @@ class Player < ActiveRecord::Base
   scope :no_zeros, -> { where('match_wins != 0 OR match_losses != 0') }
 
   def self.by_trueskill
-    self.includes(:player_ratings).all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def self.by_no_zeros
     self.no_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
-  def trueskill
+  def calculate_trueskill
     player_rating.mean
   end
 
@@ -169,6 +169,10 @@ class Player < ActiveRecord::Base
   end
 
   def best_buddy
+    Player.find_by_id(best_buddy_id)
+  end
+
+  def calculate_best_buddy
     pl = Player.by_games_played_with(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -178,6 +182,10 @@ class Player < ActiveRecord::Base
   end
 
   def dynamic_duo
+    Player.find_by_id(dynamic_duo_id)
+  end
+
+  def calculate_dynamic_duo
     pl = Player.by_games_won_with(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -187,6 +195,10 @@ class Player < ActiveRecord::Base
   end
 
   def ball_and_chain
+    Player.find_by_id(ball_and_chain_id)
+  end
+
+  def calculate_ball_and_chain
     pl = Player.by_games_lost_with(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -197,6 +209,10 @@ class Player < ActiveRecord::Base
   end
 
   def nemesis
+    Player.find_by_id(nemesis_id)
+  end
+
+  def calculate_nemesis
     pl = Player.by_games_lost_against(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -207,6 +223,10 @@ class Player < ActiveRecord::Base
   end
 
   def rival
+    Player.find_by_id(rival_id)
+  end
+
+  def calculate_rival
     pl = Player.by_games_played_against(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -217,6 +237,10 @@ class Player < ActiveRecord::Base
   end
 
   def punching_bag
+    Player.find_by_id(punching_bag_id)
+  end
+
+  def calculate_punching_bag
     pl = Player.by_games_won_against(self)
     max_games = pl.first[:games] unless pl.empty?
     if max_games && max_games > 0
@@ -293,9 +317,21 @@ class Player < ActiveRecord::Base
 
   def update_player_match_rating(match)
     if match.is_winning_player?(self)
-      self.update_attributes({match_wins: match_wins+1})
+      self.update_attributes({match_wins: match_wins+1, trueskill: calculate_trueskill})
     else
-      self.update_attributes({match_losses: match_losses+1})
+      self.update_attributes({match_losses: match_losses+1, trueskill: calculate_trueskill})
     end
+    update_player_rivalries
+  end
+
+  def update_player_rivalries
+    self.update_attributes({
+      best_buddy_id: calculate_best_buddy.try(:id) || 0,
+      dynamic_duo_id: calculate_dynamic_duo.try(:id) || 0,
+      ball_and_chain_id: calculate_ball_and_chain.try(:id) || 0,
+      rival_id: calculate_rival.try(:id) || 0,
+      punching_bag_id: calculate_punching_bag.try(:id) || 0,
+      nemesis_id: calculate_nemesis.try(:id) || 0
+    })
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150116161357) do
+ActiveRecord::Schema.define(version: 20150120205042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20150116161357) do
   create_table "matches", force: true do |t|
     t.integer  "team_1_id"
     t.integer  "team_2_id"
-    t.datetime "date",      default: '2015-01-19 01:45:01', null: false
+    t.datetime "date",      default: '2015-01-15 23:26:50', null: false
   end
 
   create_table "matches_teams", id: false, force: true do |t|
@@ -49,13 +49,20 @@ ActiveRecord::Schema.define(version: 20150116161357) do
   end
 
   create_table "players", force: true do |t|
-    t.string  "first_name",                null: false
-    t.string  "last_name",                 null: false
-    t.string  "email",        default: "", null: false
-    t.integer "match_wins",   default: 0
-    t.integer "match_losses", default: 0
-    t.integer "game_wins",    default: 0
-    t.integer "game_losses",  default: 0
+    t.string  "first_name",                       null: false
+    t.string  "last_name",                        null: false
+    t.string  "email",             default: "",   null: false
+    t.integer "match_wins",        default: 0
+    t.integer "match_losses",      default: 0
+    t.integer "game_wins",         default: 0
+    t.integer "game_losses",       default: 0
+    t.float   "trueskill",         default: 25.0
+    t.integer "best_buddy_id",     default: 0
+    t.integer "dynamic_duo_id",    default: 0
+    t.integer "ball_and_chain_id", default: 0
+    t.integer "rival_id",          default: 0
+    t.integer "punching_bag_id",   default: 0
+    t.integer "nemesis_id",        default: 0
   end
 
   create_table "players_teams", id: false, force: true do |t|
