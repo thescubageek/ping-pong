@@ -38,8 +38,6 @@ class MatchController < ApplicationController
     redirect_to action: 'index', controller: 'welcome'
   end
 
-  private
-
   def create_new_teams
     unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
       @team_1 = Team.new(player_1_id: match_params[:team_1_player_1], player_2_id: match_params[:team_1_player_2])
@@ -120,37 +118,6 @@ class MatchController < ApplicationController
     @team_1_player_2 = Player.find_by_id(match_params[:team_1_player_2])
     @team_2_player_1 = Player.find_by_id(match_params[:team_2_player_1])
     @team_2_player_2 = Player.find_by_id(match_params[:team_2_player_2])
-  end
-
-  def update_player_rankings
-    @p1 = @match.team_1_player_2 ? [@match.team_1_player_1.player_rating_value, @match.team_1_player_2.player_rating_value] : [@match.team_1_player_1.player_rating_value]
-    @p2 = @match.team_2_player_2 ? [@match.team_2_player_1.player_rating_value, @match.team_2_player_2.player_rating_value] : [@match.team_2_player_1.player_rating_value]
-
-    update_player_game_rankings(@game_1) if @game_1
-    update_player_game_rankings(@game_2) if @game_2
-    update_player_game_rankings(@game_3) if @game_3
-
-    @match.team_1_player_1.update_player_match_rating(@match)
-    @match.team_1_player_2.update_player_match_rating(@match) if @match.team_1_player_2
-    @match.team_2_player_1.update_player_match_rating(@match)
-    @match.team_2_player_2.update_player_match_rating(@match) if @match.team_1_player_2
-  end
-
-  def update_player_game_rankings(game)
-    game_net = ScoreBasedBayesianRating.new(@p1 => game.score_1, @p2 => game.score_2)
-    game_net.update_skills
-
-    rating = game_net.teams.first.first
-    @match.team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
-
-    rating = game_net.teams.first.second
-    @match.team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
-
-    rating = game_net.teams.second.first
-    @match.team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
-
-    rating = game_net.teams.second.second
-    @match.team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
   end
 
   def match_params

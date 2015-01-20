@@ -6,6 +6,7 @@ class Game < ActiveRecord::Base
   validates :score_1, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
   validates :score_2, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
 
+  scope :by_date_asc, -> { order('date ASC') }
 
   def draw
     score_1.to_i == score_2.to_i

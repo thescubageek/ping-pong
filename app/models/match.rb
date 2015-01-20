@@ -8,6 +8,7 @@ class Match < ActiveRecord::Base
   validates_uniqueness_of :date
 
   default_scope { order('date DESC') }
+  scope :by_date_asc, -> { order('date ASC') }
 
   def datestr
     date.strftime("%h %d %Y %H:%M")
@@ -171,5 +172,36 @@ class Match < ActiveRecord::Base
 
   def self.by_losing_player(player)
     self.all.select { |m| m.is_losing_player?(player) } if player
+  end
+
+  def update_player_rankings
+    @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
+    @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
+
+    update_player_game_rankings(game_1) if game_1
+    update_player_game_rankings(game_2) if game_2
+    update_player_game_rankings(game_3) if game_3
+
+    team_1_player_1.update_player_match_rating(self)
+    team_1_player_2.update_player_match_rating(self) if team_1_player_2
+    team_2_player_1.update_player_match_rating(self)
+    team_2_player_2.update_player_match_rating(self) if team_2_player_2
+  end
+
+  def update_player_game_rankings(game)
+    game_net = ScoreBasedBayesianRating.new(@p1 => game.score_1, @p2 => game.score_2)
+    game_net.update_skills
+
+    rating = game_net.teams.first.first
+    team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.first.second
+    team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.second.first
+    team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+
+    rating = game_net.teams.second.second
+    team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
   end
 end
