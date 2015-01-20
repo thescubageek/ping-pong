@@ -1,2 +1,4 @@
 <%= get_header('Edit Match') %>
-<%= render 'form' %>
+<%= form_for @match do |f| %>
+  <%= render partial: 'form', locals: {f: f} %>
+<% end %>
