@@ -73,6 +73,15 @@
   @include box-shadow(0 0 2px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.4));
 }
 
+%disabled {
+  background: $c-grey !important;
+  cursor: default !important;
+  &:hover, &:focus {
+    cursor: default !important;
+    @extend %default;
+  }
+}
+
 %no-transition {
   @include transition(none);
 }
