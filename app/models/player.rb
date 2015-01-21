@@ -322,7 +322,7 @@ class Player < ActiveRecord::Base
     else
       self.update_attributes({match_losses: match_losses+1, trueskill: calculate_trueskill})
     end
-    update_player_rivalries
+    #update_player_rivalries
   end
 
   def update_player_rivalries
