@@ -2,39 +2,48 @@ include Saulabs::TrueSkill
 
 class Match < ActiveRecord::Base
   has_many :games, dependent: :destroy
-  has_and_belongs_to_many :teams
+  has_and_belongs_to_many :players
   validates_associated :games
-  validates_associated :teams
+  validates_associated :players
   validates_uniqueness_of :date
+  validate :validate_date_after_start_date
+  validates :team_1_player_1, presence: true
+  validates :team_2_player_1, presence: true
 
   default_scope { order('date DESC') }
+
+  def validate_date_after_start_date
+    if date
+      errors.add(:date, "Put error text here") if date < DateTime.new(2015,1,14)
+    end
+  end
   
   def datestr
     date.strftime("%h %d %Y %H:%M")
   end
 
   def team_1
-    teams.first
+    team_1_player_2 ? [team_1_player_1, team_1_player_2] : [team_1_player_1]
   end
 
   def team_2
-    teams.second
+    team_2_player_2 ? [team_2_player_1, team_2_player_2] : [team_2_player_1]
   end
 
   def team_1_player_1
-    team_1.player_1 if team_1
+    Player.find_by_id(team_1_player_1_id)
   end
 
   def team_1_player_2
-    team_1.player_2 if team_1
+    Player.find_by_id(team_1_player_2_id) if team_1_player_2_id
   end
 
   def team_2_player_1
-    team_2.player_1 if team_2
+    Player.find_by_id(team_2_player_1_id)
   end
 
   def team_2_player_2
-    team_2.player_2 if team_2
+    Player.find_by_id(team_2_player_2_id) if team_2_player_2_id
   end
 
   def game_1
@@ -88,11 +97,11 @@ class Match < ActiveRecord::Base
   end
 
   def is_winner?(team)
-    winner ? team.id == winner.id : false
+    winner ? team == winner : false
   end
 
   def is_loser?(team)
-    loser ? team.id == loser.id : false
+    loser ? team == loser : false
   end
 
   def is_winning_player?(player)
@@ -119,34 +128,25 @@ class Match < ActiveRecord::Base
     loser.player_2
   end
 
-  def has_team?(team)
-    team_1_id == team.id || team_2_id == team.id
-  end
-
   def has_player?(player)
-    team_1.has_player?(player) || team_2.has_player?(player)
+    team_1.include?(player) || team_2.include?(player)
   end
 
   def teammate(player)
-    if team_1.has_player?(player)
-      return team_1.players.reject { |p| p.id == player.id }.first
-    elsif team_2.has_player?(player)
-      return team_2.players.reject { |p| p.id == player.id }.first
+    if team_1.include?(player)
+      return team_1.reject { |p| p.id == player.id }.first
+    elsif team_2.include?(player)
+      return team_2.reject { |p| p.id == player.id }.first
     end
-  end
-
-  def opposing_team(player)
-    if team_1.has_player?(player)
-      return team_2
-    elsif team_2.has_player?(player)
-      return team_1
-    end
-    nil
   end
 
   def opponents(player)
-    opp = opposing_team(player)
-    [opp.player_1, opp.player_2] if opp
+    if team_1.include?(player)
+      return team_2
+    elsif team_2.include?(player)
+      return team_1
+    end
+    nil
   end
 
   def self.by_date_asc
@@ -161,14 +161,6 @@ class Match < ActiveRecord::Base
     self.all.select { |m| m.has_player?(player) } if player
   end
 
-  def self.by_winning_team(team)
-    self.all.select { |m| m.is_winner?(team) } if team
-  end
-
-  def self.by_losing_team(team)
-    self.all.select { |m| m.is_loser?(team) } if team
-  end
-
   def self.by_winning_player(player)
     self.all.select { |m| m.is_winning_player?(player) } if player
   end
@@ -177,18 +169,23 @@ class Match < ActiveRecord::Base
     self.all.select { |m| m.is_losing_player?(player) } if player
   end
 
+  def update_teams
+    
+  end
+
   def update_player_rankings
-    @p1 = team_1.player_2 ? [team_1.player_1.player_rating_value, team_1.player_2.player_rating_value] : [team_1.player_1.player_rating_value]
-    @p2 = team_2.player_2 ? [team_2.player_1.player_rating_value, team_2.player_2.player_rating_value] : [team_2.player_1.player_rating_value]
+    binding.pry
+    @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
+    @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
 
     update_player_game_rankings(game_1) if game_1
     update_player_game_rankings(game_2) if game_2
     update_player_game_rankings(game_3) if game_3
 
-    team_1.player_1.update_player_match_rating(self)
-    team_1.player_2.update_player_match_rating(self) if team_1.player_2
-    team_2.player_1.update_player_match_rating(self)
-    team_2.player_2.update_player_match_rating(self) if team_2.player_2
+    team_1_player_1.update_player_match_rating(self)
+    team_1_player_2.update_player_match_rating(self) if team_1_player_2
+    team_2_player_1.update_player_match_rating(self)
+    team_2_player_2.update_player_match_rating(self) if team_2_player_2
   end
 
   def update_player_game_rankings(game)
@@ -196,15 +193,15 @@ class Match < ActiveRecord::Base
     game_net.update_skills
 
     rating = game_net.teams.first.first
-    team_1.player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.first.second
-    team_1.player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.first
-    team_2.player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.second
-    team_2.player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
   end
 end

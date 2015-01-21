@@ -1,9 +1,10 @@
 class Player < ActiveRecord::Base
-  has_and_belongs_to_many :teams
+  has_and_belongs_to_many :matches
   has_many :player_ratings, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates_uniqueness_of :first_name, :scope => :last_name, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
 
   default_scope { order('first_name DESC, last_name DESC') }
   scope :no_zeros, -> { where('match_wins != 0 OR match_losses != 0') }

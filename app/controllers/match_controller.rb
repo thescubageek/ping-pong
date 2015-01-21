@@ -16,7 +16,8 @@ class MatchController < ApplicationController
   end
 
   def create
-    if create_new_teams
+    unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
+      find_team_players
       create_new_games
       create_new_match
     end
@@ -25,7 +26,8 @@ class MatchController < ApplicationController
 
   def update
     @match = Match.find(params[:id])
-    if update_teams
+    unless @match.blank? || match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
+      find_team_players
       update_games
       update_match
     end
@@ -38,23 +40,13 @@ class MatchController < ApplicationController
     redirect_to action: 'index', controller: 'welcome'
   end
 
-  def create_new_teams
-    unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
-      @team_1 = Team.new(player_1_id: match_params[:team_1_player_1], player_2_id: match_params[:team_1_player_2])
-      @team_2 = Team.new(player_1_id: match_params[:team_2_player_1], player_2_id: match_params[:team_2_player_2])
-      find_team_players
-      @team_1.players = @team_1_player_2 ? [@team_1_player_1, @team_1_player_2] : [@team_1_player_1]
-      @team_2.players = @team_2_player_2 ? [@team_2_player_1, @team_2_player_2] : [@team_2_player_1]
-      @team_1.save
-      @team_2.save
-      return true
-    end
-    false
-  end
-
   def create_new_games
-    @game_1 = Game.new(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
-    @game_2 = Game.new(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
+    if !match_params[:game_1_score_1].blank? && !match_params[:game_1_score_2].blank?
+      @game_1 = Game.new(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
+    end
+    if !match_params[:game_2_score_1].blank? && !match_params[:game_2_score_2].blank?
+      @game_2 = Game.new(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
+    end
     if !match_params[:game_3_score_1].blank? && !match_params[:game_3_score_2].blank?
       @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
     end
@@ -63,27 +55,12 @@ class MatchController < ApplicationController
   def create_new_match
     @match = Match.new
     @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
-    @match.teams = [@team_1, @team_2]
-    @match.team_1_id = @team_1.id
-    @match.team_2_id = @team_2.id
     @match.date = Time.now()
     @match.save
-    @game_1.update_attributes(match_id: @match.id)
-    @game_2.update_attributes(match_id: @match.id)
+    @game_1.update_attributes(match_id: @match.id) if @game_1
+    @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.update_player_rankings
-  end
-
-  def update_teams
-    unless match_params[:team_1_player_1].blank? || match_params[:team_2_player_1].blank?
-      find_team_players
-      @match.team_1.players = (@team_1_player_2 ? [@team_1_player_1, @team_1_player_2] : [@team_1_player_1])
-      @match.team_2.players = (@team_2_player_2 ? [@team_2_player_1, @team_2_player_2] : [@team_2_player_1])
-      @team_1 = @match.team_1.reload
-      @team_2 = @match.team_2.reload
-      return true
-    end
-    false
   end
 
   def update_games
@@ -106,10 +83,8 @@ class MatchController < ApplicationController
 
   def update_match
     @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
-    @match.teams = [@team_1, @team_2]
-    @match.update_attributes(team_1_id: @team_1.id, team_2_id: @team_2.id)
-    @game_1.update_attributes(match_id: @match.id)
-    @game_2.update_attributes(match_id: @match.id)
+    @game_1.update_attributes(match_id: @match.id) if @game_1
+    @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.reload
     RankingUpdater.update
@@ -123,8 +98,8 @@ class MatchController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:team_1_player_1, 
-                                  :team_1_player_2, 
+    params.require(:match).permit(:team_1_player_1,
+                                  :team_1_player_2,
                                   :team_2_player_1,
                                   :team_2_player_2,
                                   :game_1_score_1,

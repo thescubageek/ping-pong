@@ -1,7 +1,6 @@
 class Game < ActiveRecord::Base
   belongs_to :match
-  has_many :teams, through: :match
-  has_many :players, through: :team
+  has_many :players, through: :match
   has_many :player_ratings, dependent: :destroy
   validates :score_1, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
   validates :score_2, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 22 }
@@ -33,28 +32,16 @@ class Game < ActiveRecord::Base
     match.team_2
   end
 
-  def has_team?(team)
-    match.has_team?(team)
-  end
-
   def has_player?(player)
     match.has_player?(player)
   end
 
-  def is_winner?(team)
-    winner.id == team.id if team
-  end
-
-  def is_loser?(team)
-    loser.id == team.id if team
-  end
-
   def is_winning_player?(player)
-    winner.has_player?(player) if player
+    winner.include?(player) if player
   end
 
   def is_losing_player?(player)
-    loser.has_player?(player) if player
+    loser.include?(player) if player
   end
 
   def are_opponents?(player1, player2)
@@ -65,37 +52,16 @@ class Game < ActiveRecord::Base
     (has_player?(player1) && has_player?(player2) && (team_1.has_teammates(player1, player2) || team_2.has_teammates(player1, player2)))
   end
 
-  def opponent_team(player)
-    if team_1.has_player?(player)
-      return team_2
-    elsif team_2.has_player?(player)
-      return team_1
-    end
-  end
-
-  def opponent_players(player)
-    team = opponent_team(player)
-    team.players if team
+  def opponents(player)
+    match.opponents(player)
   end
 
   def teammate(player)
     match.teammate(player)
   end
 
-  def self.by_team(team)
-    self.all.select { |g| g.has_team?(team) } if team
-  end
-
   def self.by_player(player)
     self.all.select { |g| g.has_player?(player) } if player
-  end
-
-  def self.by_winning_team(team)
-    self.all.select { |g| g.is_winner?(team) } if team
-  end
-
-  def self.by_losing_team(team)
-    self.all.select { |m| g.is_loser?(team) } if team
   end
 
   def self.by_winning_player(player)
@@ -111,6 +77,6 @@ class Game < ActiveRecord::Base
   end
 
   def self.by_player_opponent(player, opponent)
-    self.by_player(player).select { |g| g.opponent_players(player).map(&:id).include?(opponent.id) }
+    self.by_player(player).select { |g| g.opponents(player).map(&:id).include?(opponent.id) }
   end
 end
