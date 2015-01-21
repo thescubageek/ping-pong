@@ -27,6 +27,10 @@
   }
 }
 
+aside
+  header{
+    color:inherit;
+  }
 header {
   background-color: $c-blue-dark;
   box-model: border-box;

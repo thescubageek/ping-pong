@@ -1,9 +1,14 @@
-<%= get_header(@player.name) %>
+<%= avatar_big(@player)%>
+    <h2> #<%= @player.ranking(true) %>. <%= @player.name %> (<%= match_record(@player) %>, <%= game_record(@player) %>)</h2>
+<aside class="module full-width">
+  <header>
+
+  </header>
 <%= edit_button('player', @player) %>
-<h2><%= avatar_big(@player)%> #<%= @player.ranking(true) %>. <%= @player.name %> (<%= match_record(@player) %>, <%= game_record(@player) %>)</h2>
 <div class="row">
   <h3>Skill Points: <%= number_with_precision(@player.trueskill) %></h3>
   <%= render partial: 'rivalries' %>
 </div>
 <h3>Match History</h3>
 <%= render partial: 'matches' %>
+</aside>
