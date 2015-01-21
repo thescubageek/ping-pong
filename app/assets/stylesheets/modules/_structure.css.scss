@@ -27,21 +27,21 @@
   }
 }
 
+aside
+  header{
+    color:inherit;
+  }
 header {
-  margin: 1em 0;
-  padding: .5em 1em;
   background-color: $c-blue-dark;
   box-model: border-box;
   color: $base-background;
   @include clearfix;
-  h1 {
+  #logo {
     float: left;
-    margin: 0;
-    padding: 0 0 0 40px;
-    background-image: asset-url('ping-pong-icon.png');
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: 32px 32px;
+    margin: 10px 0 0;
+    width: 13%;
+    min-width:130px;
+    text-align:center;
   }
   div.links {
     float: right;
@@ -63,8 +63,7 @@ h2.new-match {
   a.button {
     float: none;
     margin: 10px auto;
-    font-size: 48px;
-    line-height: 48px;
+    font-size: 20px;
     @include border-radius(12px);
   }
 }
@@ -72,7 +71,6 @@ h2.new-match {
 table {
   display: table;
   width: 100%;
-  margin-bottom: 50px;
   @include clearfix;
   tr {
     border-right: $base-border;

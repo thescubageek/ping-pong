@@ -1,8 +1,14 @@
-<%= get_header %>
 <div class="col-md-12">
-  <h2 class="new-match"><%= link_to('Start New Match', {action: 'new', controller: 'match'}, {class: 'button btn-edit fi-star'}) %></h2>
 </div>
-<h3>Rankings</h3>
-<%= render partial: 'player/table', locals: {no_zeros: true, no_title: true} %>
-<h3>Recent Matches</h3>
-<%= render partial: 'match/table', :locals => {limit: 10, no_title: true} %>
+<article class="module full-width">
+  <header>
+    <h3>Rankings</h3>
+  </header>
+  <%= render partial: 'players/table', locals: {no_zeros: true, no_title: true} %>
+</article>
+<article class="module full-width">
+  <header>
+    <h3>Recent Matches</h3>
+  </header>
+  <%= render partial: 'matches/table', :locals => {limit: 10, no_title: true} %>
+</article>

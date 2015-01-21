@@ -10,7 +10,6 @@
   @extend %c-h6;
   @extend %transition-100;
   @include box-sizing(border-box);
-  background-color: $c-color-a;
   border: none;
   color: $c-color-b;
   display: inline-block;

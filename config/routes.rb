@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   resources :welcome, only: [:index]
 
-  resources :player
-  resources :match
+  resources :players
+  resources :matches
   resources :game
 
   root 'welcome#index'
