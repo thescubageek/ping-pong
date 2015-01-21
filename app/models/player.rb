@@ -282,7 +282,7 @@ class Player < ActiveRecord::Base
   end
 
   def player_rating_value
-    player_rating.value
+    PlayerRating.find_by_player_id(self.id).value
   end
 
   def player_rating_trend
