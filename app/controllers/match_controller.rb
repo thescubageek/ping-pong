@@ -62,12 +62,11 @@ class MatchController < ApplicationController
     })
     @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
     @match.date = Time.now()
-        binding.pry
     @match.save
     @game_1.update_attributes(match_id: @match.id) if @game_1
     @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
-    @match.reload.update_player_rankings
+    @match.update_player_rankings
   end
 
   def update_games
@@ -100,7 +99,6 @@ class MatchController < ApplicationController
       team_2_player_1_id: @team_2_player_1.try(:id),
       team_2_player_2_id: @team_2_player_2.try(:id)
     })
-    @match.reload
     RankingUpdater.update
   end
 
