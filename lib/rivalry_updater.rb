@@ -2,7 +2,7 @@ class RivalryUpdater
   def self.update
     begin
       Player.all.each do |p|
-        p.update_rivalries
+        p.update_player_rivalries
       end
       return true
     rescue Exception => e

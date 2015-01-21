@@ -22,6 +22,10 @@ class Match < ActiveRecord::Base
     date.strftime("%h %d %Y %H:%M")
   end
 
+  def max_score
+    22 ## hardcoded for now - TODO: make dynamic later
+  end
+
   def team_1
     team_1_player_2 ? [team_1_player_1, team_1_player_2] : [team_1_player_1]
   end
@@ -105,11 +109,11 @@ class Match < ActiveRecord::Base
   end
 
   def is_winning_player?(player)
-    winner.has_player?(player)
+    winner.include?(player)
   end
 
   def is_losing_player?(player)
-    loser.has_player?(player)
+    loser.include?(player)
   end
 
   def winner_player_1
@@ -174,7 +178,6 @@ class Match < ActiveRecord::Base
   end
 
   def update_player_rankings
-    binding.pry
     @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
     @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
 

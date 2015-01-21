@@ -18,19 +18,19 @@ class PlayerController < ApplicationController
   def create
     @player = Player.new(player_params)
     new_rating if @player.save
-    redirect_to action: 'index', controller: 'welcome'
+    redirect_to action: 'index', controller: 'player'
   end
 
   def update
     @player = Player.find(params[:id])
     @player.update_attributes(player_params) if @player
-    redirect_to action: 'index', controller: 'welcome'
+    redirect_to action: 'index', controller: 'player'
   end
 
   def destroy
     @player = Player.find(params[:id])
     @player.destroy if @player
-    redirect_to action: 'index', controller: 'welcome'
+    redirect_to action: 'index', controller: 'player'
   end
 
   private

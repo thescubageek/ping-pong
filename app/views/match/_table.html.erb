@@ -21,7 +21,6 @@
         <td><%= link_to(match.datestr, match) %></td>
         <td class="teams">
           <ul <%= "class='winner'".html_safe if match.is_winner?(match.team_1) %>>
-            <% binding.pry %>
             <%= content_tag(:li) { player_link(match.team_1_player_1) } if match.team_1_player_1 %>
             <%= content_tag(:li) { player_link(match.team_1_player_2) } if match.team_1_player_2 %>
           </ul>
