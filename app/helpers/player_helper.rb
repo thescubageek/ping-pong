@@ -26,7 +26,13 @@ module PlayerHelper
 
   def player_trend_icon(player)
     rating_trend = player ? player.player_rating_trend : 0
-    (rating_trend > 0 ? up_trend_arrow : (rating_trend < 0 ? down_trend_arrow : "")).html_safe
+    get_trend_arrow(rating_trend)
+  end
+
+  def get_trend_arrow(rating_trend)
+    if rating_trend && rating_trend != 0
+      return (rating_trend > 0 ? up_trend_arrow : down_trend_arrow).html_safe
+    end
   end
 
   def up_trend_arrow
