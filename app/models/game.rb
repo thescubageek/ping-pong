@@ -32,6 +32,12 @@ class Game < ActiveRecord::Base
     match.team_2
   end
 
+  def game_number
+    return 1 if match.game_1 == self
+    return 2 if match.game_2 == self
+    return 3 if match.game_3 == self
+  end
+
   def has_player?(player)
     match.has_player?(player)
   end
