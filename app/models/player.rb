@@ -30,7 +30,7 @@ class Player < ActiveRecord::Base
   end
 
   def calculate_match_wins
-    Match.by_winning_player(self).size
+    matches.by_winning_player(self).size
   end
 
   def losses
@@ -38,15 +38,11 @@ class Player < ActiveRecord::Base
   end
 
   def calculate_match_losses
-    Match.by_losing_player(self).size
+    matches.by_losing_player(self).size
   end
 
   def draws
     0
-  end
-
-  def matches
-    Match.by_player(self)
   end
 
   def matches_played
@@ -66,7 +62,7 @@ class Player < ActiveRecord::Base
   end
 
   def matches_played_with(teammate)
-    Match.by_player_teammate(self, teammate)
+    matches.by_player_teammate(self, teammate)
   end
 
   def games
@@ -269,7 +265,7 @@ class Player < ActiveRecord::Base
   end
 
   def self.ranking_groups(no_zeros=false)
-    players = no_zeros ? Player.by_no_zeros : Player.includes(:player_ratings).all
+    players = no_zeros ? Player.by_no_zeros : Player.all
     prs = players.map { |p| p.trueskill }.sort.reverse
     prs.inject(Hash.new(0)) { |total, e| total[e] += 1 ; total}
   end

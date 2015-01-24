@@ -25,4 +25,13 @@ namespace :ping_pong do
       puts "Fail!"
     end
   end
+
+  desc 'patch match player_ids model'
+  task patch_matches: :environment do
+    if MatchPatcher.patch
+      puts "Success!"
+    else
+      puts "Fail!"
+    end
+  end
 end
