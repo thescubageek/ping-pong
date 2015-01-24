@@ -55,7 +55,6 @@ class MatchController < ApplicationController
   end
 
   def create_new_match
-    binding.pry
     players = find_team_players
     player_ids = players.map(&:id)
     @match = Match.new({
