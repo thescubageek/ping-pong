@@ -1,18 +1,20 @@
 class MatchController < ApplicationController
   def index
-    @matches = Match.all
+    @matches = Match.includes(:players).all
   end
 
   def show
-    @match = Match.find(params[:id])
+    @match = Match.includes(:players).find(params[:id])
   end
 
   def new
     @match = Match.new
+    @player_list = Player.all.reverse
   end
 
   def edit
     @match = Match.find(params[:id])
+    @player_list = Player.all.reverse
   end
 
   def create
@@ -53,15 +55,18 @@ class MatchController < ApplicationController
   end
 
   def create_new_match
-    find_team_players
+    binding.pry
+    players = find_team_players
+    player_ids = players.map(&:id)
     @match = Match.new({
       team_1_player_1_id: @team_1_player_1.try(:id),
       team_1_player_2_id: @team_1_player_2.try(:id),
       team_2_player_1_id: @team_2_player_1.try(:id),
       team_2_player_2_id: @team_2_player_2.try(:id)
     })
-    @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
     @match.date = Time.now()
+    @match.player_ids = player_ids
+    @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
     @match.save
     @game_1.update_attributes(match_id: @match.id) if @game_1
     @game_2.update_attributes(match_id: @match.id) if @game_2
@@ -99,6 +104,8 @@ class MatchController < ApplicationController
       team_2_player_1_id: @team_2_player_1.try(:id),
       team_2_player_2_id: @team_2_player_2.try(:id)
     })
+    @match.player_ids = @match.get_player_ids
+    @match.save
     RankingUpdater.update
   end
 
@@ -107,6 +114,7 @@ class MatchController < ApplicationController
     @team_1_player_2 = Player.find_by_id(match_params[:team_1_player_2])
     @team_2_player_1 = Player.find_by_id(match_params[:team_2_player_1])
     @team_2_player_2 = Player.find_by_id(match_params[:team_2_player_2])
+    (@team_1_player_2 && @team_2_player_2) ? [@team_1_player_1, @team_1_player_2, @team_2_player_1, @team_2_player_2] : [@team_1_player_1, @team_2_player_1]
   end
 
   def match_params

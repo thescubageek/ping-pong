@@ -26,6 +26,14 @@ class Match < ActiveRecord::Base
     22 ## hardcoded for now - TODO: make dynamic later
   end
 
+  def get_player_ids
+    (team_1_player_2_id && team_2_player_2_id) ? [team_1_player_1_id, team_1_player_2_id, team_2_player_1_id, team_2_player_2_id] : [team_1_player_1_id, team_2_player_1_id]
+  end
+
+  def get_players
+    self.players = get_player_ids.map { |pid| Player.find_by_id(pid) }
+  end
+
   def team_1
     team_1_player_2 ? [team_1_player_1, team_1_player_2] : [team_1_player_1]
   end
@@ -35,19 +43,19 @@ class Match < ActiveRecord::Base
   end
 
   def team_1_player_1
-    Player.find_by_id(team_1_player_1_id)
+    players.select { |p| p.id == team_1_player_1_id }.first
   end
 
   def team_1_player_2
-    Player.find_by_id(team_1_player_2_id) if team_1_player_2_id
+    players.select { |p| p.id == team_1_player_2_id }.first
   end
 
   def team_2_player_1
-    Player.find_by_id(team_2_player_1_id)
+    players.select { |p| p.id == team_2_player_1_id }.first
   end
 
   def team_2_player_2
-    Player.find_by_id(team_2_player_2_id) if team_2_player_2_id
+    players.select { |p| p.id == team_2_player_2_id }.first
   end
 
   def game_1
@@ -173,11 +181,8 @@ class Match < ActiveRecord::Base
     self.all.select { |m| m.is_losing_player?(player) } if player
   end
 
-  def update_teams
-    
-  end
-
   def update_player_rankings
+    get_players
     @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
     @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
 
