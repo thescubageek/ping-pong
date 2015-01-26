@@ -43,11 +43,11 @@ class Game < ActiveRecord::Base
   end
 
   def is_winning_player?(player)
-    winner.include?(player) if player
+    winner.include?(player) if player && winner
   end
 
   def is_losing_player?(player)
-    loser.include?(player) if player
+    loser.include?(player) if player && loser
   end
 
   def are_opponents?(player1, player2)
