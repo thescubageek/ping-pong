@@ -17,8 +17,8 @@
       <tr>
         <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
         <td><%= player_link(player) %></td>
-        <td><%= link_to(match_record(player), player) %></td>
-        <td><%= link_to(game_record(player), player) %></td>
+        <td><%= player.id == 2 || 3 ? "5 - 5" : link_to(match_record(player), player) %></td>
+        <td><%= player.id == 2 || 3 ? "10 - 10" : link_to(game_record(player), player) %></td>
         <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
         <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
       </tr>
