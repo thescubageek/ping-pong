@@ -7,7 +7,11 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @player = Player.find(params[:id])
+    player = Player.find(params[:id])
+    respond_to do |format|
+      format.html { @player = player }
+      format.json { render json: player }
+    end
   end
 
   def new
