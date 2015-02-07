@@ -2,7 +2,13 @@ class PlayersController < ApplicationController
   def index
     respond_to do |format|
       format.html { @players = Player.by_trueskill }
-      format.json { render json: Player.by_trueskill }
+      format.json do
+        if params[:no_zeros] == 'true'
+          render json: Player.no_zeros.by_trueskill
+        else
+          render json: Player.by_trueskill
+        end
+      end
     end
   end
 
