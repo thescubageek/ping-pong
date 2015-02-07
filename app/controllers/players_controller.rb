@@ -1,6 +1,9 @@
-class PlayerController < ApplicationController
+class PlayersController < ApplicationController
   def index
-    @players = Player.by_trueskill
+    respond_to do |format|
+      format.html { @players = Player.by_trueskill }
+      format.json { render json: Player.by_trueskill }
+    end
   end
 
   def show
@@ -46,3 +49,4 @@ class PlayerController < ApplicationController
     params.require(:player).permit(:first_name, :last_name, :email)
   end
 end
+

@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
   get 'welcome/index'
 
-  resources :welcome, only: [:index]
-
-  resources :player
-  resources :match
+  resources :players
+  resources :matches
 
   root 'welcome#index'
+
+  namespace :api do 
+    namespace :v1 do
+
+      resources :players, {controller: '/players'}
+      resources :matches, {controller: '/matches'}
+    end
+  end
 end
+

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def get_header(str="")
-    links = "<div class='links'>#{players_link}#{matches_link}</div>"
+    links = "<div class='links'>#{link_to "Players", players_path}#{link_to "Matches", matches_path}</div>"
     h1 = "<h1>#{home_link}#{"&nbsp;-&nbsp;#{str}" unless str.blank?}</h1>"
     "<header>#{h1}#{links}</header>".html_safe
   end

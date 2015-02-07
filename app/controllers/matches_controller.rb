@@ -1,6 +1,9 @@
-class MatchController < ApplicationController
+class MatchesController < ApplicationController
   def index
-    @matches = Match.includes(:players).all
+    respond_to do |format|
+      format.html { @matches = Match.includes(:players).all }
+      format.json { render json: Match.includes(:players).all }
+    end
   end
 
   def show

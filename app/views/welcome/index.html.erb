@@ -1,6 +1,6 @@
 <%= get_header %>
 <div class="col-md-12">
-  <h2 class="new-match"><%= link_to('Start New Match', {action: 'new', controller: 'match'}, {class: 'button btn-edit fi-star'}) %></h2>
+  <h2 class="new-match"><%= link_to('Start New Match', new_match_path, {class: 'button btn-edit fi-star'}) %></h2>
 </div>
 <h3>Rankings</h3>
 <%= render partial: 'player/table', locals: {no_zeros: true, no_title: true} %>
