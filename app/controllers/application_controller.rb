@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   def set_access_control_headers
     headers['Access-Control-Allow-Origin'] = "*"
     headers['Access-Control-Allow-Methods'] = %w{GET POST OPTIONS PUT}.join(",")
+    headers['Access-Control-Allow-Headers'] = %w{Origin, X-Requested-With, Content-Type, Accept}.join(",")
     headers['Access-Control-Request-Method'] = %w{GET POST OPTIONS PUT}.join(",")
   end
 end
