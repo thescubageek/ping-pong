@@ -28,6 +28,10 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
   end
 
+  def options
+    {}
+  end
+
   def create
     @player = Player.new(player_params)
     new_rating if @player.save
