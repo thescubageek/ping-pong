@@ -29,7 +29,7 @@ class PlayersController < ApplicationController
   end
 
   def options
-    {}
+    render json: {}
   end
 
   def create
