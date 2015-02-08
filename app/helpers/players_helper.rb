@@ -1,7 +1,4 @@
-module PlayerHelper
-  def players_link(options={})
-    link_to('Players', {action: 'index', controller: 'player'}, options)
-  end  
+module PlayersHelper
 
   def player_link(player)
     link_to(player, {class: 'player-link'}) { "#{avatar_thumbnail(player)}#{player.name}".html_safe } if player
@@ -63,3 +60,4 @@ module PlayerHelper
     %Q(<select id="#{player_pos}" name="match[#{player_pos}]">#{opts}</select>).html_safe
   end
 end
+

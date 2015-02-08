@@ -1,10 +1,23 @@
-class PlayerController < ApplicationController
+class PlayersController < ApplicationController
   def index
-    @players = Player.by_trueskill
+    respond_to do |format|
+      format.html { @players = Player.by_trueskill }
+      format.json do
+        if params[:no_zeros] == 'true'
+          render json: Player.no_zeros.by_trueskill
+        else
+          render json: Player.by_trueskill
+        end
+      end
+    end
   end
 
   def show
-    @player = Player.find(params[:id])
+    player = Player.find(params[:id])
+    respond_to do |format|
+      format.html { @player = player }
+      format.json { render json: player }
+    end
   end
 
   def new
@@ -46,3 +59,4 @@ class PlayerController < ApplicationController
     params.require(:player).permit(:first_name, :last_name, :email)
   end
 end
+
