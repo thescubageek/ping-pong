@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :players, {controller: '/players'}
+      match "players", to: 'players#create', via: [:options, :post]
       resources :matches, {controller: '/matches'}
     end
   end
