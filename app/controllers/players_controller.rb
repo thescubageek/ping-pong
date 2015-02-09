@@ -35,7 +35,16 @@ class PlayersController < ApplicationController
   def create
     @player = Player.new(player_params)
     new_rating if @player.save
-    redirect_to action: 'index', controller: 'players'
+
+    respond_to do |format|
+      format.html do
+        redirect_to action: 'index', controller: 'players'
+      end
+      format.json do
+        render json: player
+      end
+    end
+
   end
 
   def update
