@@ -41,7 +41,7 @@ class PlayersController < ApplicationController
         redirect_to action: 'index', controller: 'players'
       end
       format.json do
-        render json: player
+        render json: @player
       end
     end
 
