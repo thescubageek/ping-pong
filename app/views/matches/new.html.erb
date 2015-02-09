@@ -1,4 +1,4 @@
 <%= get_header('New Match') %>
-<%= form_for @match, url: {controller: 'match'} do |f| %>
+<%= form_for @match, url: {controller: 'matches'} do |f| %>
   <%= render partial: 'form', locals: {f: f} %>
 <% end %>
