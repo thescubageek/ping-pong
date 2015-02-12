@@ -49,6 +49,7 @@ group :test do
   gem "rspec-rails"
   gem "rspec-its"
   gem "shoulda-matchers"
+  gem 'capybara'
 end
 
 gem 'rails_12factor', group: :production
