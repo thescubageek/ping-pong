@@ -1,2 +1,2 @@
-<%= add_new_button('player') %>
+<%= link_to("Add New Player", new_player_path, {class: 'button btn-new fi-plus'}) %>
 <%= render partial: 'table', locals: {no_zeros: false} %>
