@@ -174,11 +174,11 @@ class Match < ActiveRecord::Base
   end
 
   def self.by_winning_player(player)
-    self.all.select { |m| m.is_winning_player?(player) } if player
+    self.by_player(player).select { |m| m.is_winning_player?(player) } if player
   end
 
   def self.by_losing_player(player)
-    self.all.select { |m| m.is_losing_player?(player) } if player
+    self.by_player(player).select { |m| m.is_losing_player?(player) } if player
   end
 
   def update_player_rankings

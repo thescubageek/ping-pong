@@ -79,22 +79,26 @@ class MatchesController < ApplicationController
   def update_games
     @match.game_1.update_attributes(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
     @match.game_2.update_attributes(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
-    @game_1 = @match.game_1
-    @game_2 = @match.game_2
+    @game_1 = @match.reload.game_1
+    @game_2 = @match.reload.game_2
+        binding.pry
     if !match_params[:game_3_score_1].blank? && !match_params[:game_3_score_2].blank?
       if @match.game_3
         @match.game_3.update_attributes(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
-        @game_3 = @match.game_3
+        @game_3 = @match.reload.game_3
       else
         @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2], match_id: @match.id, date: @match.date)
         @game_3.save
       end
     elsif @match.game_3
       @match.game_3.destroy
+      @game_3 = nil
     end
+    binding.pry
   end
 
   def update_match
+    binding.pry
     @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
     @game_1.update_attributes(match_id: @match.id) if @game_1
     @game_2.update_attributes(match_id: @match.id) if @game_2
@@ -108,7 +112,8 @@ class MatchesController < ApplicationController
     })
     @match.player_ids = @match.get_player_ids
     @match.save
-    RankingUpdater.update
+    binding.pry
+    RankingUpdater.update(@match.id)
   end
 
   def find_team_players

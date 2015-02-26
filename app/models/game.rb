@@ -71,11 +71,11 @@ class Game < ActiveRecord::Base
   end
 
   def self.by_winning_player(player)
-    self.all.select { |g| g.is_winning_player?(player) } if player
+    self.by_player(player).select { |g| g.is_winning_player?(player) } if player
   end
 
   def self.by_losing_player(player)
-    self.all.select { |g| g.is_losing_player?(player) } if player
+    self.by_player(player).select { |g| g.is_losing_player?(player) } if player
   end
 
   def self.by_player_teammate(player, teammate)
