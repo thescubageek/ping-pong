@@ -53,7 +53,7 @@ module PlayersHelper
     opts = player_list.inject("") do |buffer, p|
       ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
       selected = (@match.send(player_pos).try(:id) == p.id) ? "selected='selected'" : ""
-      buffer << "<option value='#{p.id}'#{selected}>#{ranking} #{p.name}</option>"
+      buffer << "<option value='#{p.id}'#{selected}>#{p.name} #{ranking}</option>"
       buffer
     end
     opts.prepend("<option value=''>[SELECT A PLAYER]</option>")
