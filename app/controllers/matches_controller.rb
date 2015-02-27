@@ -1,3 +1,4 @@
+require 'slack-notifier'
 class MatchesController < ApplicationController
   def index
     respond_to do |format|
@@ -26,6 +27,8 @@ class MatchesController < ApplicationController
       create_new_games
       create_new_match
     end
+    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5-pingpong', username: 'DeployTron5000'
+    
     redirect_to action: 'index', controller: 'welcome'
   end
 
