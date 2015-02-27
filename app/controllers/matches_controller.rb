@@ -77,8 +77,12 @@ class MatchesController < ApplicationController
     @match.update_player_rankings
     winner_name = "#{@match.winner[0].first_name}" + " #{@match.winner[0].last_name} "
     loser_name = "#{@match.loser[0].first_name}" + " #{@match.loser[0].last_name} "
-    match_message = winner_name + " has defeated " + loser_name + "#{@match.winner[0].game_wins} games to " + "#{@match.loser[0].game_wins}!"
-    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'DeployTron5000'
+    if @match.games.count == 3
+      match_message = winner_name + " has defeated " + loser_name + "2 games to 1!"
+    else
+      match_message = winner_name + " has defeated " + loser_name + "2 games to 0!"
+    end
+    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
     slack.ping(match_message)
   end
 
