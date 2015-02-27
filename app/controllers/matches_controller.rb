@@ -27,8 +27,6 @@ class MatchesController < ApplicationController
       create_new_games
       create_new_match
     end
-    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5-pingpong', username: 'DeployTron5000'
-    
     redirect_to action: 'index', controller: 'welcome'
   end
 
@@ -77,6 +75,11 @@ class MatchesController < ApplicationController
     @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.update_player_rankings
+    winner_name = "#{@match.winner[0].first_name}" + " #{@match.winner[0].last_name} "
+    loser_name = "#{@match.loser[0].first_name}" + " #{@match.loser[0].last_name} "
+    match_message = winner_name + " has defeated " + loser_name + "#{@match.winner[0].game_wins} games to " + "#{@match.loser[0].game_wins}!"
+    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'DeployTron5000'
+    slack.ping(match_message)
   end
 
   def update_games
