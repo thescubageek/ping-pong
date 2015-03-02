@@ -84,7 +84,7 @@ class MatchesController < ApplicationController
     end
     attachment = {
       fallback: "Match Complete",
-      preetxt: "Match Complete",
+      pretext: "Match Complete",
       color: "#0000d0",
       fields: [
         {
