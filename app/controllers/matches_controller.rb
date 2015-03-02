@@ -82,8 +82,21 @@ class MatchesController < ApplicationController
     else
       match_message = winner_name + " has defeated " + loser_name + "2 games to 0!"
     end
+    attachment = {
+      fallback: "Match Complete",
+      preetxt: "Match Complete",
+      color: "#0000d0",
+      fields: [
+        {
+          title: "Match Results",
+          value: match_message,
+          short: false
+        }
+      ]
+    }
+
     slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
-    slack.ping(match_message)
+    slack.ping(match_message, attachments: [attachment])
   end
 
   def update_games
