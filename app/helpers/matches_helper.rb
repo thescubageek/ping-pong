@@ -10,8 +10,8 @@ module MatchesHelper
     match_message = "#{winner_name} has defeated #{loser_name} #{match_result} (#{game_results.join(', ')})"
 
     attachment = {
-      fallback: "Match Complete",
-      pretext: "Match Complete",
+      fallback: "",
+      pretext: "",
       color: "#0000d0",
       fields: [
         {
