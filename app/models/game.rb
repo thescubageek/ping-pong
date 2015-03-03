@@ -8,6 +8,10 @@ class Game < ActiveRecord::Base
   default_scope { order('date DESC') }
   scope :by_date_asc, -> { order('date ASC') }
 
+  def score
+    "#{score_1} - #{score_2}"
+  end
+
   def draw
     score_1.to_i == score_2.to_i
   end
