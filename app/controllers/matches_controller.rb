@@ -83,8 +83,8 @@ class MatchesController < ApplicationController
       match_message = winner_name + " has defeated " + loser_name + "2 games to 0!"
     end
     attachment = {
-      fallback: "Match Complete",
-      pretext: "Match Complete",
+      fallback: "",
+      pretext: "",
       color: "#0000d0",
       fields: [
         {
