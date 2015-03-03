@@ -8,11 +8,23 @@ module MatchesHelper
     game_results = [match.game_1.score, match.game_2.score]
     game_results << match.game_3.score if match.game_3
     match_message = "#{winner_name} has defeated #{loser_name} #{match_result} (#{game_results.join(', ')})"
+
+    attachment = {
+      fallback: "Match Complete",
+      pretext: "Match Complete",
+      color: "#0000d0",
+      fields: [
+        {
+          title: "Match Results",
+          value: match_message,
+          short: false
+        }
+      ]
+    }
     
-    binding.pry
     if ENV["SLACK_TOKEN"]
       slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
-      slack.ping(match_message)
+      slack.ping("", attachments: [attachment])
     end
   end
 end

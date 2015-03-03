@@ -76,7 +76,32 @@ class MatchesController < ApplicationController
     @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.update_player_rankings
+<<<<<<< HEAD
     slack_message(@match)
+=======
+    winner_name = "#{@match.winner[0].first_name}" + " #{@match.winner[0].last_name} "
+    loser_name = "#{@match.loser[0].first_name}" + " #{@match.loser[0].last_name} "
+    if @match.games.count == 3
+      match_message = winner_name + " has defeated " + loser_name + "2 games to 1!"
+    else
+      match_message = winner_name + " has defeated " + loser_name + "2 games to 0!"
+    end
+    attachment = {
+      fallback: "Match Complete",
+      pretext: "Match Complete",
+      color: "#0000d0",
+      fields: [
+        {
+          title: "Match Results",
+          value: match_message,
+          short: false
+        }
+      ]
+    }
+
+    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
+    slack.ping("", attachments: [attachment])
+>>>>>>> 62fe275fd4c03575ad47a4234e10931d3acee76b
   end
 
   def update_games
