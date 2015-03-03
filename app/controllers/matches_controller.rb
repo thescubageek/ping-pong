@@ -96,7 +96,7 @@ class MatchesController < ApplicationController
     }
 
     slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
-    slack.ping(match_message, attachments: [attachment])
+    slack.ping("", attachments: [attachment])
   end
 
   def update_games
