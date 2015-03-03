@@ -1,5 +1,6 @@
-require 'slack-notifier'
 class MatchesController < ApplicationController
+  include MatchesHelper
+
   def index
     respond_to do |format|
       format.html { @matches = Match.includes(:players).all }
@@ -75,28 +76,7 @@ class MatchesController < ApplicationController
     @game_2.update_attributes(match_id: @match.id) if @game_2
     @game_3.update_attributes(match_id: @match.id) if @game_3
     @match.update_player_rankings
-    winner_name = "#{@match.winner[0].first_name}" + " #{@match.winner[0].last_name} "
-    loser_name = "#{@match.loser[0].first_name}" + " #{@match.loser[0].last_name} "
-    if @match.games.count == 3
-      match_message = winner_name + " has defeated " + loser_name + "2 games to 1!"
-    else
-      match_message = winner_name + " has defeated " + loser_name + "2 games to 0!"
-    end
-    attachment = {
-      fallback: "",
-      pretext: "",
-      color: "#0000d0",
-      fields: [
-        {
-          title: "Match Results",
-          value: match_message,
-          short: false
-        }
-      ]
-    }
-
-    slack = Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
-    slack.ping("", attachments: [attachment])
+    slack_message(@match)
   end
 
   def update_games
@@ -104,7 +84,6 @@ class MatchesController < ApplicationController
     @match.game_2.update_attributes(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
     @game_1 = @match.reload.game_1
     @game_2 = @match.reload.game_2
-        binding.pry
     if !match_params[:game_3_score_1].blank? && !match_params[:game_3_score_2].blank?
       if @match.game_3
         @match.game_3.update_attributes(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
@@ -117,11 +96,9 @@ class MatchesController < ApplicationController
       @match.game_3.destroy
       @game_3 = nil
     end
-    binding.pry
   end
 
   def update_match
-    binding.pry
     @match.games = @game_3 ? [@game_1, @game_2, @game_3] : [@game_1, @game_2]
     @game_1.update_attributes(match_id: @match.id) if @game_1
     @game_2.update_attributes(match_id: @match.id) if @game_2
@@ -135,7 +112,6 @@ class MatchesController < ApplicationController
     })
     @match.player_ids = @match.get_player_ids
     @match.save
-    binding.pry
     RankingUpdater.update(@match.id)
   end
 
