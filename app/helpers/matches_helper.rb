@@ -7,7 +7,7 @@ module MatchesHelper
     match_result = (match.games.count == 3) ? "2 games to 1" : "2 games to 0"
     game_results = [match.game_1.score, match.game_2.score]
     game_results << match.game_3.score if match.game_3
-    match_message = "#{winner_name} has defeated #{loser_name} #{match_result} (#{game_results.join(', ')})"
+    match_message = "*#{winner_name}* has defeated *#{loser_name}* #{match_result} (#{game_results.join(', ')})"
 
     attachment = {
       fallback: "",
