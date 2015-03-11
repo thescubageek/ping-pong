@@ -49,10 +49,10 @@ module MatchesHelper
     end
 
     def score_chart
-      score_chart = "#{game_1.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_1.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').last}\n" +
-      "#{game_2.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_2.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').last}\n"
+      score_chart = "#{game_1.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_1.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n" +
+      "#{game_2.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_2.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n"
       if game_3
-        scorechart.concat("#{(game_3.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first) + (game_3.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').last) if game_3}")
+        scorechart.concat("#{(game_3.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first) + (game_3.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last) if game_3}")
       end
       score_chart
     end
