@@ -45,7 +45,9 @@ module MatchesHelper
     private
 
     def slack_client
-      Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: '#g5_pingpong', username: 'PingBot'
+      channel = "#g5_pingpong" if Rails.env.production?
+      channel = "#pingbottest" if Rails.env.development?
+      Slack::Notifier.new "https://hooks.slack.com/services/#{ENV["SLACK_TOKEN"]}", channel: channel, username: 'PingBot'
     end
 
     def score_chart
@@ -53,7 +55,7 @@ module MatchesHelper
       "#{game_1.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_1.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n" +
       "#{game_2.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_2.score.split(' - ').first}   #{game_2.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n"
       if game_3
-        scorechart.concat("#{(game_3.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first) + (game_3.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last) if game_3}")
+        score_chart.concat("#{(game_3.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first) + (game_3.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last) if game_3}")
       end
       score_chart
     end
