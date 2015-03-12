@@ -6,14 +6,16 @@ module MatchesHelper
   end
 
   class SlackMessager
+    attr_accessor :match
+
     def initialize(match)
       @match = match
     end
 
     def slack_message
-      winner_name = @match.winner[0].name
-      loser_name = @match.loser[0].name
-      match_result = (@match.games.count == 3) ? "*2* to *1*" : "*2* to *0*"
+      winner_name = match.winner[0].name
+      loser_name = match.loser[0].name
+      match_result = (match.games.count == 3) ? "*2* to *1*" : "*2* to *0*"
       game_results = [game_1.score, game_2.score]
       game_results << game_3.score if game_3
       match_message = "*#{winner_name}* has defeated *#{loser_name}* #{match_result}"
@@ -52,24 +54,42 @@ module MatchesHelper
 
     def score_chart
       score_chart = 
-      "#{game_1.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first}   #{game_1.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n" +
-      "#{game_2.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_2.score.split(' - ').first}   #{game_2.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last}\n"
+      "#{match_winner_presenter(game_1)}\t#{match_loser_presenter(game_1)}\n" +
+      "#{match_winner_presenter(game_2)}\t#{match_loser_presenter(game_2)}\n"
       if game_3
-        score_chart.concat("#{(game_3.winner == @match.team_1 ? string_surround(game_1.score.split(' - ').first, "*") : game_1.score.split(' - ').first) + (game_3.winner == @match.team_2 ? string_surround(game_1.score.split(' - ').last, "*") : game_1.score.split(' - ').last) if game_3}")
+        score_chart.concat("#{match_winner_presenter(game_3)}\t#{match_loser_presenter(game_3)}") if game_3
       end
       score_chart
     end
 
+    def match_winner_presenter(game)
+      score_array = game.score.split(' - ').map(&:to_i)
+      if match.winner == game.winner
+        "*#{score_array.max}*"
+      else
+        score_array.min
+      end
+    end
+
+    def match_loser_presenter(game)
+      score_array = game.score.split(' - ').map(&:to_i)
+      if match.loser == game.loser
+        score_array.min
+      else
+        "*#{score_array.max}*"
+      end
+    end
+
     def game_1
-      @match.game_1
+      match.game_1
     end
 
     def game_2
-      @match.game_2
+      match.game_2
     end
 
     def game_3
-      @match.game_3
+      match.game_3
     end
 
     def string_surround(string, surround)
