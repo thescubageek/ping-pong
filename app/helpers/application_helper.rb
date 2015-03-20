@@ -4,9 +4,7 @@ module ApplicationHelper
     links = "<div class='links'>#{link_to "Players", players_path}#{link_to "Matches", matches_path}</div>"
     h1 = "<h1>#{home_link}#{"&nbsp;-&nbsp;#{str}" unless str.blank?}</h1>"
     header = "<header>#{h1}#{links}</header>"
-    if ENV["SITE_OFF"]
-      header << "<h2>Site currently down for maintenance, be back soon</h2>"
-    end
+    header << "<h2>Site currently down for maintenance, be back soon</h2>" if ENV["SITE_OFF"]
     header.html_safe
   end
 
