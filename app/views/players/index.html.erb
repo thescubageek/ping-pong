@@ -1,2 +1,3 @@
 <%= get_header %>
+<% return if ENV["SITE_OFF"] %>
 <%= render partial: 'index' %>

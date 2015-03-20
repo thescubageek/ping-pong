@@ -3,7 +3,11 @@ module ApplicationHelper
   def get_header(str="")
     links = "<div class='links'>#{link_to "Players", players_path}#{link_to "Matches", matches_path}</div>"
     h1 = "<h1>#{home_link}#{"&nbsp;-&nbsp;#{str}" unless str.blank?}</h1>"
-    "<header>#{h1}#{links}</header>".html_safe
+    header = "<header>#{h1}#{links}</header>"
+    if ENV["SITE_OFF"]
+      header << "<h2>Site currently down for maintenance, be back soon</h2>"
+    end
+    header.html_safe
   end
 
   def add_new_button(type)

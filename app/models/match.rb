@@ -117,27 +117,27 @@ class Match < ActiveRecord::Base
   end
 
   def is_winning_player?(player)
-    winner.include?(player)
+    winner.include?(player) if winner
   end
 
   def is_losing_player?(player)
-    loser.include?(player)
+    loser.include?(player) if loser
   end
 
   def winner_player_1
-    winner.player_1
+    winner.player_1 if winner
   end
 
   def winner_player_2
-    winner.player_2
+    winner.player_2 if winner
   end
 
   def loser_player_1
-    loser.player_1
+    loser.player_1 if loser
   end
 
   def loser_player_2
-    loser.player_2
+    loser.player_2 if loser
   end
 
   def has_player?(player)
