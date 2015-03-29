@@ -1,2 +1,5 @@
 <%= link_to("Add New Player", new_player_path, {class: 'button btn-new fi-plus'}) %>
-<%= render partial: 'table', locals: {no_zeros: false} %>
+<h2>Active Players</h2>
+<%= render partial: 'table', locals: {no_zeros: true, no_title: true} %>
+<h2>Inactive Players</h2>
+<%= render partial: 'table', locals: {only_zeros: true, no_title: true} %>

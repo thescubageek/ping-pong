@@ -1,4 +1,5 @@
-<% no_zeros = false unless local_assigns[:no_zeros] %>
+<% no_zeros = false unless local_assigns[:no_zeros] == true %>
+<% only_zeros = false unless local_assigns[:only_zeros] == true %>
 <%= content_tag(:h2, 'Players') unless local_assigns[:no_title] %>
 <table>
   <thead>
@@ -13,10 +14,12 @@
     </tr>
   </thead>
   <tbody>
-    <% pl = !no_zeros ? @players : Player.by_no_zeros %>
+    <% pl = Player.by_no_zeros if no_zeros %>
+    <% pl ||= Player.by_only_zeros if only_zeros %>
+    <% pl ||= @players %>
     <% pl.each_with_index do |player, idx| %>
       <tr>
-        <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
+        <td class='ranking'><%= link_to(only_zeros ? '--' : "##{player.ranking(no_zeros)}", player) %></td>
         <td><%= player_link(player) %></td>
         <td><%= player_challenge_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>

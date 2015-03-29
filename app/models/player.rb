@@ -8,6 +8,7 @@ class Player < ActiveRecord::Base
 
   default_scope { order('first_name DESC, last_name DESC') }
   scope :no_zeros, -> { where('match_wins != 0 OR match_losses != 0') }
+  scope :only_zeros, -> { where('match_wins = 0 AND match_losses = 0') }
   scope :by_email, ->(email) { where('email = ?', email) }
 
   def self.by_trueskill
@@ -16,6 +17,10 @@ class Player < ActiveRecord::Base
 
   def self.by_no_zeros
     self.no_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+  end
+
+  def self.by_only_zeros
+    self.only_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def calculate_trueskill
