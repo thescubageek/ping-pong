@@ -56,13 +56,19 @@ module PlayersHelper
     player_list ||= Player.all.reverse
     opts = player_list.inject("") do |buffer, p|
       ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
-      pos_id = @match.send(player_pos).try(:id)
-      selected = ((pos_id && pos_id == p.id) || (target && p.id == target.id)) ? "selected='selected'" : ""
+      selected = "selected='selected'" if is_player_selected?(p, player_pos, target)
       buffer << "<option value='#{p.id}'#{selected}>#{p.name} #{ranking}</option>"
       buffer
     end
     opts.prepend("<option value=''>[SELECT A PLAYER]</option>")
     %Q(<select id="#{player_pos}" name="match[#{player_pos}]">#{opts}</select>).html_safe
+  end
+
+  def is_player_selected?(player, player_pos, target)
+    pos_id = @match.send(player_pos).try(:id)
+    return pos_id == player.id if player && pos_id
+    return target.id == player.id if player && target
+    false
   end
 end
 
