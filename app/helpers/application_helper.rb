@@ -21,6 +21,6 @@ module ApplicationHelper
   end
 
   def logout_link
-    "<a href='#{ENV['G5_AUTH_ENDPOINT']}/users/sign_out' class='logout'>[logout]</a>".html_safe
+    link_to('[Logout]', {action: 'index', controller: 'logout'}, {class: 'logout'})
   end
 end

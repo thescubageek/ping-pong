@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :players
   resources :matches
+  resources :logout, only: [:index]
 
   root 'welcome#index'
 
