@@ -15,6 +15,7 @@ class MatchesController < ApplicationController
   def new
     @match = Match.new
     @player_list = Player.all.reverse
+    slack_challenge_message(@match, params)
   end
 
   def edit

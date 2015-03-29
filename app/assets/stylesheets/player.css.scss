@@ -25,6 +25,11 @@
     text-decoration: none;
     @extend %hover;
   }
+  &:focus {
+    background-color: $c-green;
+    color: $base-background;
+    @extend %focus;
+  }
 }
 
 .player-link {
