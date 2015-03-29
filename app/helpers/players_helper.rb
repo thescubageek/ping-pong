@@ -5,7 +5,7 @@ module PlayersHelper
   end
 
   def player_challenge_link(player)
-    link_to("Challenge!", player, {class: 'player-challenge'}) if current_player && current_player != player
+    link_to("Challenge!", {action: 'new', controller: 'matches', params: {p1: current_player.id, p2: player.id, challenge: true}}, {class: 'player-challenge'}) if current_player && current_player != player
   end
 
   def avatar_big(player)
@@ -69,6 +69,18 @@ module PlayersHelper
     return pos_id == player.id if player && pos_id
     return target.id == player.id if player && target
     false
+  end
+
+  def current_player_title
+    return unless current_player
+
+    avatar = avatar_big(current_player)
+    ranking = current_player.ranking(true)
+    title = link_to("#{avatar} ##{ranking} #{current_player.name}".html_safe, current_player)
+    matches = match_record(current_player)
+    games = game_record(current_player)
+
+    "#{title} (#{matches}, #{games}) #{logout_link}".html_safe
   end
 end
 
