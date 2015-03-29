@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
 
   after_action :set_access_control_headers
 
+  helper_method :current_player
+
+  def current_player
+    @current_player ||= Player.by_email(current_user.email).try(:first) if current_user
+  end
 
   def set_access_control_headers
     headers['Access-Control-Allow-Origin'] = "*"

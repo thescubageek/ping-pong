@@ -8,6 +8,7 @@ class Player < ActiveRecord::Base
 
   default_scope { order('first_name DESC, last_name DESC') }
   scope :no_zeros, -> { where('match_wins != 0 OR match_losses != 0') }
+  scope :by_email, ->(email) { where('email = ?', email) }
 
   def self.by_trueskill
     self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
