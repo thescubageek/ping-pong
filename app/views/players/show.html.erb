@@ -5,7 +5,7 @@
   <h3>Skill Points: <%= number_with_precision(@player.trueskill) %></h3>
   <%#= render partial: 'rivalries' %>
 </div>
-<h3>Match History</h3>
+<h3>Match History (<%= @player.matches.size %> matches)</h3>
 <%= render partial: 'matches' %>
 <h3>Skill Points History</h3>
 <%= render partial: 'ratings' %>

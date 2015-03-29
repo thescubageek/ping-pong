@@ -59,7 +59,6 @@ module MatchesHelper
 
     def slack_challenge_message(p1, p2)
       challenge_message = "*##{p1.ranking(true)} #{p1.name}* has CHALLENGED *##{p2.ranking(true)} #{p2.name}*! See you in the Ping Pong Room!"
-      binding.pry
       attachment = {
         fallback: "",
         pretext: "",
