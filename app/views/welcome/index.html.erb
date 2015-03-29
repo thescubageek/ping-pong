@@ -2,8 +2,11 @@
 <div class="col-md-12">
   <h2 class="new-match"><%= link_to('Start New Match', new_match_path, {class: 'button btn-edit fi-star'}) %></h2>
 </div>
-<%= "<h2>Welcome #{current_player.name}</h2>".html_safe if current_player %>
+<% if current_player %>
+  <div class="current-player">
+    <h2><%= "#{avatar_big(current_player)} ##{current_player.ranking(true)} #{current_player.name} (#{match_record(current_player)}, #{game_record(current_player)}) #{logout_link}".html_safe %></h2>
+  </div>
+<% end %>
 <h3>Rankings</h3>
 <%= render partial: 'players/table', locals: {no_zeros: true, no_title: true} %>
-<h3>Recent Matches</h3>
-<%= render partial: 'matches/table', :locals => {no_title: true} %>
+

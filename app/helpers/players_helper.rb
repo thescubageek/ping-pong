@@ -4,6 +4,10 @@ module PlayersHelper
     link_to(player, {class: 'player-link'}) { "#{avatar_thumbnail(player)}#{player.name}".html_safe } if player
   end
 
+  def player_challenge_link(player)
+    link_to("Challenge!", player, {class: 'player-challenge'}) if current_player && current_player != player
+  end
+
   def avatar_big(player)
     image_tag(avatar_url(player), class: "img_big")
   end
@@ -48,11 +52,12 @@ module PlayersHelper
     "#{player.game_wins} - #{player.game_losses}".html_safe
   end
 
-  def player_select(player_pos, player_list=nil)
+  def player_select(player_pos, player_list=nil, target=nil)
     player_list ||= Player.all.reverse
     opts = player_list.inject("") do |buffer, p|
       ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
-      selected = (@match.send(player_pos).try(:id) == p.id) ? "selected='selected'" : ""
+      pos_id = @match.send(player_pos).try(:id)
+      selected = ((pos_id && pos_id == p.id) || (target && p.id == target.id)) ? "selected='selected'" : ""
       buffer << "<option value='#{p.id}'#{selected}>#{p.name} #{ranking}</option>"
       buffer
     end

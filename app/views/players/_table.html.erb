@@ -5,6 +5,7 @@
     <tr>
       <th></th>
       <th>Player</th>
+      <th></th>
       <!--<th>Matches</th>
       <th>Games</th>-->
       <th>Skill Points</th>
@@ -17,6 +18,7 @@
       <tr>
         <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
         <td><%= player_link(player) %></td>
+        <td><%= player_challenge_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>
         <td><%= link_to(game_record(player), player) %></td>-->
         <td><%= link_to(number_with_precision(player.trueskill), player) %></td>

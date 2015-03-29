@@ -19,4 +19,8 @@ module ApplicationHelper
   def cancel_button(type)
     link_to('Cancel', {action: 'index', controller: type}, {class: 'btn-cancel'})
   end
+
+  def logout_link
+    "<a href='#{ENV['G5_AUTH_ENDPOINT']}/users/sign_out' class='logout'>[logout]</a>".html_safe
+  end
 end
