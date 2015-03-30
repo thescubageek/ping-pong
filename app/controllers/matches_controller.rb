@@ -49,14 +49,15 @@ class MatchesController < ApplicationController
   end
 
   def create_new_games
+    game_date = Time.now()
     if !match_params[:game_1_score_1].blank? && !match_params[:game_1_score_2].blank?
-      @game_1 = Game.new(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2])
+      @game_1 = Game.new(score_1: match_params[:game_1_score_1], score_2: match_params[:game_1_score_2], date: game_date)
     end
     if !match_params[:game_2_score_1].blank? && !match_params[:game_2_score_2].blank?
-      @game_2 = Game.new(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2])
+      @game_2 = Game.new(score_1: match_params[:game_2_score_1], score_2: match_params[:game_2_score_2], date: game_date)
     end
     if !match_params[:game_3_score_1].blank? && !match_params[:game_3_score_2].blank?
-      @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2])
+      @game_3 = Game.new(score_1: match_params[:game_3_score_1], score_2: match_params[:game_3_score_2], date: game_date)
     end
   end
 

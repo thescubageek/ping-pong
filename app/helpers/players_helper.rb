@@ -25,8 +25,8 @@ module PlayersHelper
     asset_url "guest.png"
   end
 
-  def player_trend_icon(player)
-    rating_trend = player ? player.player_rating_trend : 0
+  def trend_icon(player, rating_type)
+    rating_trend = player ? player.try("#{rating_type}_rating_trend") : 0
     get_trend_arrow(rating_trend)
   end
 
@@ -42,6 +42,14 @@ module PlayersHelper
 
   def down_trend_arrow
     "<span class='btn-arrow-down-red'></span>"
+  end
+
+  def rating_with_trend(player, rating_type)
+    r_value = player.try("#{rating_type}_rating_value")
+    value = number_with_precision(r_value.is_a?(Float) ? r_value : r_value.mean)
+    arrow = trend_icon(player, rating_type)
+    trend = number_with_precision(player.try("#{rating_type}_rating_trend_diff"))
+    link_to("#{value} <span class='trend'>#{arrow}#{trend}</span>".html_safe, player)
   end
 
   def match_record(player)

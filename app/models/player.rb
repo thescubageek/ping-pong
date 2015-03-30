@@ -1,6 +1,7 @@
 class Player < ActiveRecord::Base
   has_and_belongs_to_many :matches
-  has_many :player_ratings, dependent: :destroy
+  has_many :game_ratings, dependent: :destroy
+  has_many :match_ratings, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates_uniqueness_of :first_name, :scope => :last_name, :case_sensitive => false
@@ -12,19 +13,19 @@ class Player < ActiveRecord::Base
   scope :by_email, ->(email) { where('email = ?', email) }
 
   def self.by_trueskill
-    self.all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.includes(:match_ratings).includes(:game_ratings).all.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def self.by_no_zeros
-    self.no_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.includes(:match_ratings).includes(:game_ratings).no_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def self.by_only_zeros
-    self.only_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
+    self.includes(:match_ratings).includes(:game_ratings).only_zeros.sort { |a, b| a.trueskill <=> b.trueskill }.reverse
   end
 
   def calculate_trueskill
-    player_rating.mean
+    player_rating_value
   end
 
   def name
@@ -276,15 +277,10 @@ class Player < ActiveRecord::Base
     prs.inject(Hash.new(0)) { |total, e| total[e] += 1 ; total}
   end
 
-  def player_rating
-    return player_ratings.first unless player_ratings.empty?
-    pr = PlayerRating.new({player_id: self.id})
-    pr.save
-    pr.reload
-  end
+  ## player rating 
 
   def player_rating_value
-    player_rating.value
+    match_rating_value.mean + game_rating_value.mean
   end
 
   def player_rating_trend
@@ -292,40 +288,86 @@ class Player < ActiveRecord::Base
   end
 
   def player_rating_trend_diff
+    0 ## TODO
+  end
+
+  ## game rating
+  def game_rating
+    return game_ratings.first unless game_ratings.empty?
+    rating = GameRating.new({player_id: self.id})
+    rating.save
+    rating.reload
+  end
+
+  def game_rating_value
+    game_rating.value
+  end
+
+  def game_rating_trend
+    return game_rating_trend_diff > 0 ? 1 : (game_rating_trend_diff < 0 ? -1 : 0)
+  end
+
+  def game_rating_trend_diff
     recent = matches.first
     previous = matches.second
     if recent && previous
       recent_game = recent.games.third ? recent.games.third : recent.games.second
       prev_game = previous.games.third ? previous.games.third : previous.games.second
-      pr1 = PlayerRating.by_game_and_player(recent_game, self).first
-      pr2 = PlayerRating.by_game_and_player(prev_game, self).first
+      pr1 = GameRating.by_game_and_player(recent_game, self).first
+      pr2 = GameRating.by_game_and_player(prev_game, self).first
     elsif recent && !previous
       recent_game = recent.games.third ? recent.games.third : recent.games.second
-      pr1 = PlayerRating.by_game_and_player(recent_game, self).first
-      pr2 = player_ratings.last
+      pr1 = GameRating.by_game_and_player(recent_game, self).first
+      pr2 = game_ratings.last
     end
 
     return (pr1 && pr2) ? pr1.value.mean - pr2.value.mean : 0
   end
 
-  def update_player_rating(game, mean, deviation, activity)
+  def update_game_rating(game, mean, deviation, activity)
     if game.is_winning_player?(self)
       self.update_attributes({game_wins: game_wins+1})
     else
       self.update_attributes({game_losses: game_losses+1})
     end
-    pr = PlayerRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity, date: game.date})
-    pr.save
+    rating = GameRating.new({player_id: self.id, game_id: game.id, mean: mean, deviation: deviation, activity: activity, date: game.date})
+    rating.save
   end
 
-  def update_player_match_rating(match)
-    if match.is_winning_player?(self)
-      self.update_attributes({match_wins: match_wins+1, trueskill: calculate_trueskill})
-    else
-      self.update_attributes({match_losses: match_losses+1, trueskill: calculate_trueskill})
-    end
-    #update_player_rivalries
+  ## match rating
+  def match_rating
+    return match_ratings.first unless match_ratings.empty?
+    rating = MatchRating.new({player_id: self.id})
+    rating.save
+    rating.reload
   end
+
+  def match_rating_value
+    match_rating.value
+  end
+
+  def match_rating_trend
+    return match_rating_trend_diff > 0 ? 1 : (match_rating_trend_diff < 0 ? -1 : 0)
+  end
+
+  def match_rating_trend_diff
+     recent = match_ratings.first
+     prev = match_ratings.second
+     prev ? recent.value.mean - prev.value.mean : 0
+  end
+
+  def update_match_rating(match, mean, deviation, activity)
+    if match.is_winning_player?(self)
+      self.update_attributes({match_wins: match_wins+1})
+    else
+      self.update_attributes({match_losses: match_losses+1})
+    end
+    rating = MatchRating.new({player_id: self.id, match_id: match.id, mean: mean, deviation: deviation, activity: activity, date: game.date})
+    rating.save
+    self.update_attribue(:trueskill, calculate_trueskill)
+  end
+
+  ## rivalries
 
   def update_player_rivalries
     self.update_attributes({

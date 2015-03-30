@@ -9,8 +9,9 @@
       <th></th>
       <!--<th>Matches</th>
       <th>Games</th>-->
-      <th>Skill Points</th>
-      <th>Skill Trend</th>
+      <th>Game Points</th>
+      <th>Match Points</th>
+      <th>Total Points</th>
     </tr>
   </thead>
   <tbody>
@@ -24,8 +25,9 @@
         <td><%= player_challenge_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>
         <td><%= link_to(game_record(player), player) %></td>-->
-        <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
-        <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
+        <td><%= rating_with_trend(player, 'game') %></td>
+        <td><%= rating_with_trend(player, 'match') %></td>
+        <td><%= rating_with_trend(player, 'player') %></td>
       </tr>
     <% end %>
   </tbody>

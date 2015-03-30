@@ -95,17 +95,39 @@ class Match < ActiveRecord::Base
   end
 
   def winner
-    results = game_3 ? [game_1.winner, game_2.winner, game_3.winner] : [game_1.winner, game_2.winner]
-    max_results(results)
+    max_results(winner_results)
   end
 
   def loser
-    results = game_3 ? [game_1.loser, game_2.loser, game_3.loser] : [game_1.loser, game_2.loser]
-    max_results(results)
+    max_results(loser_results)
+  end
+
+  def winner_results
+    game_3 ? [game_1.winner, game_2.winner, game_3.winner] : [game_1.winner, game_2.winner]
+  end
+
+  def loser_results
+    game_3 ? [game_1.loser, game_2.loser, game_3.loser] : [game_1.loser, game_2.loser]
+  end
+
+  def results_array(results)
+    results.reduce(Hash.new(0)) { |h, v| h.store(v, h[v] + 1); h }
   end
 
   def max_results(results)
-    results.reduce(Hash.new(0)) { |h, v| h.store(v, h[v] + 1); h }.max_by { |k,v| v }[0]
+    results_array(results).max_by { |k,v| v }[0]
+  end
+
+  def get_score
+    score_1 = score_2 = 0
+    winner_results.each do |ret|
+      if ret == team_1
+        score_1 += 1
+      elsif ret == team_2
+        score_2 += 1
+      end
+    end
+    [score_1, score_2]
   end
 
   def is_winner?(team)
@@ -183,33 +205,48 @@ class Match < ActiveRecord::Base
 
   def update_player_rankings
     get_players
-    @p1 = team_1_player_2 ? [team_1_player_1.player_rating_value, team_1_player_2.player_rating_value] : [team_1_player_1.player_rating_value]
-    @p2 = team_2_player_2 ? [team_2_player_1.player_rating_value, team_2_player_2.player_rating_value] : [team_2_player_1.player_rating_value]
-
+    
+    set_player_rating_groups('game')
     update_player_game_rankings(game_1) if game_1
     update_player_game_rankings(game_2) if game_2
     update_player_game_rankings(game_3) if game_3
 
-    team_1_player_1.update_player_match_rating(self)
-    team_1_player_2.update_player_match_rating(self) if team_1_player_2
-    team_2_player_1.update_player_match_rating(self)
-    team_2_player_2.update_player_match_rating(self) if team_2_player_2
+    set_player_rating_groups('match')
+    update_player_match_rankings
+  end
+
+  def update_player_match_rankings
+    score_1, score_2 = get_score
+    game_net = ScoreBasedBayesianRating.new(@p1 => score_1, @p2 => score_2)
+    game_net.update_skills
+    update_rating_network(game_net, self, 'match')
   end
 
   def update_player_game_rankings(game)
     game_net = ScoreBasedBayesianRating.new(@p1 => game.score_1, @p2 => game.score_2)
     game_net.update_skills
+    update_rating_network(game_net, game, 'game')
+  end
+
+  def update_rating_network(game_net, object, rating_type)
+    action = "update_#{rating_type}_rating".to_sym
 
     rating = game_net.teams.first.first
-    team_1_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1_player_1.try(:action, object, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.first.second
-    team_1_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_1_player_2.try(:action, object, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.first
-    team_2_player_1.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2_player_1.try(:action, object, rating.mean, rating.deviation, rating.activity) if rating
 
     rating = game_net.teams.second.second
-    team_2_player_2.update_player_rating(game, rating.mean, rating.deviation, rating.activity) if rating
+    team_2_player_2.try(:action, object, rating.mean, rating.deviation, rating.activity) if rating
+  end
+
+  def set_player_rating_groups(rating_type)
+    rating_val = "#{rating_type}_rating_value".to_sym
+    @p1 = team_1_player_2 ? [team_1_player_1.try(rating_val), team_1_player_2.try(rating_val)] : [team_1_player_1.try(rating_val)]
+    @p2 = team_2_player_2 ? [team_2_player_1.try(rating_val), team_2_player_2.try(rating_val)] : [team_2_player_1.try(rating_val)]
   end
 end
