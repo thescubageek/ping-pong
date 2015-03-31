@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330170336) do
+ActiveRecord::Schema.define(version: 20150331003404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 20150330170336) do
   create_table "game_ratings", force: true do |t|
     t.integer  "player_id",                                 null: false
     t.integer  "game_id",   default: 0,                     null: false
-    t.float    "mean",      default: 50.0,                  null: false
+    t.float    "mean",      default: 25.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-30 00:30:05', null: false
+    t.datetime "date",      default: '2015-03-31 15:53:47', null: false
   end
 
   create_table "games", force: true do |t|
@@ -61,10 +61,10 @@ ActiveRecord::Schema.define(version: 20150330170336) do
   create_table "match_ratings", force: true do |t|
     t.integer  "player_id",                                 null: false
     t.integer  "match_id",  default: 0,                     null: false
-    t.float    "mean",      default: 50.0,                  null: false
+    t.float    "mean",      default: 25.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-30 00:30:05', null: false
+    t.datetime "date",      default: '2015-03-31 15:53:47', null: false
   end
 
   create_table "matches", force: true do |t|
@@ -83,20 +83,17 @@ ActiveRecord::Schema.define(version: 20150330170336) do
   end
 
   create_table "players", force: true do |t|
-    t.string  "first_name",                       null: false
-    t.string  "last_name",                        null: false
-    t.string  "email",             default: "",   null: false
-    t.integer "match_wins",        default: 0
-    t.integer "match_losses",      default: 0
-    t.integer "game_wins",         default: 0
-    t.integer "game_losses",       default: 0
-    t.float   "trueskill",         default: 25.0
-    t.integer "best_buddy_id",     default: 0
-    t.integer "dynamic_duo_id",    default: 0
-    t.integer "ball_and_chain_id", default: 0
-    t.integer "rival_id",          default: 0
-    t.integer "punching_bag_id",   default: 0
-    t.integer "nemesis_id",        default: 0
+    t.string  "first_name",                     null: false
+    t.string  "last_name",                      null: false
+    t.string  "email",           default: "",   null: false
+    t.integer "match_wins",      default: 0
+    t.integer "match_losses",    default: 0
+    t.integer "game_wins",       default: 0
+    t.integer "game_losses",     default: 0
+    t.float   "trueskill",       default: 25.0
+    t.integer "rival_id",        default: 0
+    t.integer "punching_bag_id", default: 0
+    t.integer "nemesis_id",      default: 0
   end
 
 end

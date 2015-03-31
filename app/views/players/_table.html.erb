@@ -15,8 +15,8 @@
     </tr>
   </thead>
   <tbody>
-    <% pl = Player.by_no_zeros if no_zeros %>
-    <% pl ||= Player.by_only_zeros if only_zeros %>
+    <% pl = Player.no_zeros if no_zeros %>
+    <% pl ||= Player.only_zeros if only_zeros %>
     <% pl ||= @players %>
     <% pl.each_with_index do |player, idx| %>
       <tr>

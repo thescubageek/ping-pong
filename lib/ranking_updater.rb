@@ -1,20 +1,17 @@
 class RankingUpdater
   EARLIEST_DATE = DateTime.new(2015,1,14)
 
-  def self.update(match_id=nil)
-    match = match_id ? Match.find(match_id) : Match.last
+  def self.update(start_match_id=nil)
+    match = start_match_id ? Match.find(start_match_id) : nil
     match_date = match ? match.date : EARLIEST_DATE
 
     begin
-      binding.pry
       self.logger_info('Destroying all Match Ratings')
       MatchRating.where('date >= ?', match_date).destroy_all
       
-      binding.pry
       self.logger_info('Destroying all Game Ratings')
       GameRating.where('date >= ?', match_date).destroy_all
       
-      binding.pry
       self.logger_info('Creating new Ratings and Stats for Players')
       Player.all.each do |p|
         GameRating.new({player_id: p.id, date: EARLIEST_DATE}).save
@@ -22,11 +19,9 @@ class RankingUpdater
         p.update_attributes({match_wins: 0, match_losses: 0, game_wins: 0, game_losses: 0, trueskill: p.calculate_trueskill})
       end
       
-      binding.pry
       self.logger_info('Updating Player Rankings')
-      Match.where('date >= ?', match_date).by_date_asc.each { |m| m.update_player_rankings }
+      Match.by_date_asc.where('date >= ?', match_date).each { |m| m.update_player_rankings }
       
-      binding.pry
       self.logger_info('Updating Player Records')
       RecordUpdater.update
       return true

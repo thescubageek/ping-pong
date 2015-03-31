@@ -61,7 +61,7 @@ module PlayersHelper
   end
 
   def player_select(player_pos, player_list=nil, target=nil)
-    player_list ||= Player.all.reverse
+    player_list ||= Player.all
     opts = player_list.inject("") do |buffer, p|
       ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
       selected = "selected='selected'" if is_player_selected?(p, player_pos, target)
@@ -83,7 +83,7 @@ module PlayersHelper
     return unless current_player
 
     avatar = avatar_big(current_player)
-    ranking = current_player.ranking(true)
+    ranking = current_player.is_zero? ? '--' : current_player.ranking(true)
     title = link_to("#{avatar} ##{ranking} #{current_player.name}".html_safe, current_player)
     matches = match_record(current_player)
     games = game_record(current_player)

@@ -34,6 +34,12 @@
 
 .player-link {
   font-weight: bold;
+  .teams & {
+    font-weight: normal;
+  }
+  .teams .winner & {
+    font-weight: bold;
+  }
 }
 
 .logout {

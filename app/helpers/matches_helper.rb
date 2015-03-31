@@ -21,12 +21,12 @@ module MatchesHelper
     end
 
     def slack_message
-      the_winner = match.winner[0]
-      the_loser = match.loser[0]
+      the_winner = match.winner
+      the_loser = match.loser
       winner_name = the_winner.name
       winner_rank = the_winner.ranking(true)
       loser_name = the_loser.name
-      loser_rank = this_loser.ranking(true)
+      loser_rank = the_loser.ranking(true)
       
       match_result = (match.games.count == 3) ? "*2* to *1*" : "*2* to *0*"
       game_results = [game_1.score, game_2.score]
@@ -97,20 +97,18 @@ module MatchesHelper
     end
 
     def match_winner_presenter(game)
-      score_array = game.score.split(' - ').map(&:to_i)
       if match.winner == game.winner
-        "*#{score_array.max}*"
+        "*#{game.score.max}*"
       else
-        score_array.min
+        game.score.min
       end
     end
 
     def match_loser_presenter(game)
-      score_array = game.score.split(' - ').map(&:to_i)
       if match.loser == game.loser
-        score_array.min
+        game.score.min
       else
-        "*#{score_array.max}*"
+        "*#{game.score.max}*"
       end
     end
 

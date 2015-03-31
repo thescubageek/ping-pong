@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% prev_pr = nil %>
-    <% @player.player_ratings.each do |pr| %>
+    <% @player.game_ratings.reverse.each do |pr| %>
       <% game = pr.game %>
       <% match = game.match if game %>
       <% trend = pr.mean - prev_pr.mean if prev_pr %>
@@ -22,9 +22,7 @@
         <td><%= match.datestr if match %></td>
         <td class="teams">
           <ul>
-          <% match.opponents(@player).each do |opp| %>
-            <%= content_tag(:li) { player_link(opp) } %>
-          <% end if match %>
+          <%= content_tag(:li) { player_link(game.opponent(@player)) } if game %>
           </ul>
         </td>
         <td><%= (game.is_winner?(@player) ? '<b>WIN</b>'.html_safe : 'LOSS') if game %></td>

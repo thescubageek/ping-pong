@@ -7,5 +7,7 @@
 </div>
 <h3>Match History (<%= @player.matches.size %> matches)</h3>
 <%= render partial: 'matches' %>
-<!-- <h3>Skill Points History</h3> -->
-<%#= render partial: 'ratings' %>
+<h3>Match Points History</h3>
+<%= render partial: 'match_ratings' %>
+<h3>Game Points History</h3>
+<%= render partial: 'game_ratings' %>
