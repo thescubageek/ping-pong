@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% pl = !no_zeros ? @players : Player.by_no_zeros %>
-    <% pl.each_with_index do |player, idx| %>
+    <% pl.shuffle.each_with_index do |player, idx| %>
       <tr>
         <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
         <td><%= player_link(player) %></td>
