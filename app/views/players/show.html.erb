@@ -1,13 +1,21 @@
 <%= get_header(@player.name) %>
 <%= edit_button('player', @player) %>
+
+<a name="info"></a>
 <h2><%= avatar_big(@player)%> #<%= @player.ranking(true) %>. <%= @player.name %> (<%= match_record(@player) %>, <%= game_record(@player) %>)</h2>
 <div class="row">
-  <h3>Skill Points: <%= number_with_precision(@player.trueskill) %></h3>
-  <%#= render partial: 'rivalries' %>
+  <h3>Total Points: <%= number_with_precision(@player.trueskill) %> (GP: <%= number_with_precision(@player.game_rating_value.mean) %>, MP: <%= number_with_precision(@player.match_rating_value.mean) %>, XP: <%= number_with_precision(@player.xp_rating_value) %>)</h3>
+  <%= render partial: 'rivalries' %>
 </div>
+
+<a name="match-history"></a>
 <h3>Match History (<%= @player.matches.size %> matches)</h3>
 <%= render partial: 'matches' %>
+
+<a name="match-ratings"></a>
 <h3>Match Points History</h3>
 <%= render partial: 'match_ratings' %>
+
+<a name="game-ratings"></a>
 <h3>Game Points History</h3>
 <%= render partial: 'game_ratings' %>

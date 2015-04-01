@@ -1,12 +1,15 @@
 <%= add_new_button('match') %>
+<a name="today"></a>
 <h2>Today's Matches</h2>
 <%= render partial: 'table', locals: {start_date: Date.today, no_title: true} %>
 
+<a name="this-week"></a>
 <h2>This Week's Matches</h2>
 <% start_date = Date.commercial(Date.today.last_week.year, Date.today.last_week.cweek, 1) %>
 <% end_date = Date.today %>
 <%= render partial: 'table', locals: {start_date: start_date, end_date: end_date, no_title: true} %>
 
+<a name="last-week"></a>
 <h2>Last Week's Matches</h2>
 <% start_date = Date.commercial(Date.today.last_week.year, Date.today.last_week.cweek, 1) %>
 <% end_date = Date.commercial(Date.today.last_week.year, Date.today.last_week.cweek, 7) %>

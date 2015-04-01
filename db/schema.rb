@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150331003404) do
+ActiveRecord::Schema.define(version: 20150331160140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 20150331003404) do
   create_table "game_ratings", force: true do |t|
     t.integer  "player_id",                                 null: false
     t.integer  "game_id",   default: 0,                     null: false
-    t.float    "mean",      default: 25.0,                  null: false
+    t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-31 15:53:47', null: false
+    t.datetime "date",      default: '2015-03-31 18:27:58', null: false
   end
 
   create_table "games", force: true do |t|
@@ -61,10 +61,10 @@ ActiveRecord::Schema.define(version: 20150331003404) do
   create_table "match_ratings", force: true do |t|
     t.integer  "player_id",                                 null: false
     t.integer  "match_id",  default: 0,                     null: false
-    t.float    "mean",      default: 25.0,                  null: false
+    t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-31 15:53:47', null: false
+    t.datetime "date",      default: '2015-03-31 18:27:58', null: false
   end
 
   create_table "matches", force: true do |t|
@@ -94,6 +94,14 @@ ActiveRecord::Schema.define(version: 20150331003404) do
     t.integer "rival_id",        default: 0
     t.integer "punching_bag_id", default: 0
     t.integer "nemesis_id",      default: 0
+  end
+
+  create_table "xp_ratings", force: true do |t|
+    t.integer  "player_id",                                 null: false
+    t.integer  "match_id",  default: 0,                     null: false
+    t.float    "value",     default: 0.1,                   null: false
+    t.string   "name",      default: "Match XP",            null: false
+    t.datetime "date",      default: '2015-03-31 18:28:08', null: false
   end
 
 end

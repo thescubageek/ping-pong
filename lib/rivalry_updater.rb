@@ -1,7 +1,7 @@
 class RivalryUpdater
   def self.update
     begin
-      Player.all.each do |p|
+      Player.no_zeros.each do |p|
         p.update_player_rivalries
       end
       return true

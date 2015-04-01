@@ -11,6 +11,9 @@ class RankingUpdater
       
       self.logger_info('Destroying all Game Ratings')
       GameRating.where('date >= ?', match_date).destroy_all
+
+      self.logger_info('Destroying all XP Ratings')
+      XpRating.where('date >= ?', match_date).destroy_all
       
       self.logger_info('Creating new Ratings and Stats for Players')
       Player.all.each do |p|

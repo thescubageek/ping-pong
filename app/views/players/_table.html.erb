@@ -11,11 +11,12 @@
       <th>Games</th>-->
       <th>Game Points</th>
       <th>Match Points</th>
+      <th>Bonus XP</th>
       <th>Total Points</th>
     </tr>
   </thead>
   <tbody>
-    <% pl = Player.no_zeros if no_zeros %>
+    <% pl = Player.includes(:match_ratings).includes(:game_ratings).includes(:xp_ratings).no_zeros if no_zeros %>
     <% pl ||= Player.only_zeros if only_zeros %>
     <% pl ||= @players %>
     <% pl.each_with_index do |player, idx| %>
@@ -27,6 +28,7 @@
         <td><%= link_to(game_record(player), player) %></td>-->
         <td><%= rating_with_trend(player, 'game') %></td>
         <td><%= rating_with_trend(player, 'match') %></td>
+        <td><%= number_with_precision(player.xp_rating) %></td>
         <td><%= rating_with_trend(player, 'player') %></td>
       </tr>
     <% end %>

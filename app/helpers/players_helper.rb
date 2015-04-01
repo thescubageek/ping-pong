@@ -49,7 +49,7 @@ module PlayersHelper
     value = number_with_precision(r_value.is_a?(Float) ? r_value : r_value.mean)
     arrow = trend_icon(player, rating_type)
     trend = number_with_precision(player.try("#{rating_type}_rating_trend_diff"))
-    link_to("#{value} <span class='trend'>#{arrow}#{trend}</span>".html_safe, player)
+    link_to("#{value} <span class='trend'>#{arrow}#{trend}</span>".html_safe, player, {anchor: "#{rating_type}-ratings"})
   end
 
   def match_record(player)
