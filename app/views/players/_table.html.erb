@@ -13,13 +13,15 @@
   </thead>
   <tbody>
     <% pl = !no_zeros ? @players : Player.by_no_zeros %>
-    <% pl.shuffle.each_with_index do |player, idx| %>
+    <% pl = pl.shuffle %>
+    <% pl.each_with_index do |player, idx| %>
       <tr>
-        <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
+        <td class='ranking'>#<%= link_to(player.ranking(no_zeros, pl), player) %></td>
         <td><%= player_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>
         <td><%= link_to(game_record(player), player) %></td>-->
-        <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
+        <!--<td><%= link_to(number_with_precision(player.trueskill), player) %></td>-->
+        <td><%= link_to(number_with_precision(rand(10..40)), player) %></td>
         <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
       </tr>
     <% end %>

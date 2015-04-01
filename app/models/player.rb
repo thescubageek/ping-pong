@@ -247,8 +247,8 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def ranking(no_zeros=false)
-    prs = Player.ranking_groups(no_zeros)
+  def ranking(no_zeros=false, player_list=nil)
+    prs = Player.ranking_groups(no_zeros, player_list)
     pos = 1
     prs.each_with_index do |(k, v), i|
       if trueskill == k
@@ -264,8 +264,8 @@ class Player < ActiveRecord::Base
     games_played == 0 && matches_played == 0
   end
 
-  def self.ranking_groups(no_zeros=false)
-    players = no_zeros ? Player.by_no_zeros : Player.all
+  def self.ranking_groups(no_zeros=false, player_list=nil)
+    players = player_list ? player_list : (no_zeros ? Player.by_no_zeros : Player.all)
     prs = players.map { |p| p.trueskill }.sort.reverse
     prs.inject(Hash.new(0)) { |total, e| total[e] += 1 ; total}
   end
