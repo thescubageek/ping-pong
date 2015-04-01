@@ -16,7 +16,8 @@
     <% pl = pl.shuffle %>
     <% pl.each_with_index do |player, idx| %>
       <tr>
-        <td class='ranking'>#<%= link_to(player.ranking(no_zeros, pl), player) %></td>
+        <!--<td class='ranking'>#<%= link_to(player.ranking(no_zeros, pl), player) %></td>-->
+        <td class='ranking'>#??</td>
         <td><%= player_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>
         <td><%= link_to(game_record(player), player) %></td>-->
