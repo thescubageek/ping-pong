@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-31 18:27:58', null: false
+    t.datetime "date",      default: '2015-04-09 20:13:48', null: false
   end
 
   create_table "games", force: true do |t|
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-03-31 18:27:58', null: false
+    t.datetime "date",      default: '2015-04-09 20:13:48', null: false
   end
 
   create_table "matches", force: true do |t|
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.integer  "match_id",  default: 0,                     null: false
     t.float    "value",     default: 0.1,                   null: false
     t.string   "name",      default: "Match XP",            null: false
-    t.datetime "date",      default: '2015-03-31 18:28:08', null: false
+    t.datetime "date",      default: '2015-04-09 20:20:22', null: false
   end
 
 end

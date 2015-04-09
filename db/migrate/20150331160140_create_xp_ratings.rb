@@ -9,6 +9,6 @@ class CreateXpRatings < ActiveRecord::Migration
       t.datetime :date, null: false, default: Time.now()
     end
 
-    RankingUpdater.update
+    #RankingUpdater.update
   end
 end
