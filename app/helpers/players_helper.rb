@@ -61,7 +61,7 @@ module PlayersHelper
   end
 
   def player_select(player_pos, player_list=nil, target=nil)
-    player_list ||= Player.all
+    player_list ||= Player.by_name
     opts = player_list.inject("") do |buffer, p|
       ranking = p.is_zero? ? '--' : "##{p.ranking(true)}"
       selected = "selected='selected'" if is_player_selected?(p, player_pos, target)
