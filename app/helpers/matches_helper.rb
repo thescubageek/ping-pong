@@ -51,6 +51,8 @@ module MatchesHelper
         ],
         mrkdwn_in: ['fields']
       }
+
+      binding.pry
       
       if ENV["SLACK_TOKEN"]
         slack_client.ping("", attachments: [attachment])

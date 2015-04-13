@@ -14,7 +14,7 @@ class MatchesController < ApplicationController
 
   def new
     @match = Match.new
-    @player_list = Player.by_name
+    @player_list = Player.by_name.includes(:match_ratings).includes(:game_ratings)
     slack_challenge_message(@match, params)
   end
 
