@@ -3,8 +3,8 @@ class MatchesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { @matches = Match.includes(:players).all }
-      format.json { render json: Match.includes(:players).all }
+      format.html { @matches = Match.all }
+      format.json { render json: Match.all }
     end
   end
 

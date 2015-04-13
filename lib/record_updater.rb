@@ -1,7 +1,8 @@
 class RecordUpdater
-  def self.update
+  def self.update(players=nil)
     begin
-      Player.all.each do |p|
+      players ||= Player.all
+      players.each do |p|
         mwins = p.calculate_match_wins
         mlosses = p.calculate_match_losses
         gwins = p.calculate_game_wins

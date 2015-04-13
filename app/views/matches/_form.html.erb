@@ -24,5 +24,7 @@
   </div>
 </div>
 
+<%= f.hidden_field(:edit_player_id, value: current_player.try(:id)) %>
+
 <%= f.submit 'Submit', class: 'button btn-edit fi-check' %>
 <%= cancel_button('matches') %>

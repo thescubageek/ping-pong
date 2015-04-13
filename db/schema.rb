@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150331160140) do
+ActiveRecord::Schema.define(version: 20150413174651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-04-09 20:13:48', null: false
+    t.datetime "date",      default: '2015-04-13 18:52:41', null: false
   end
 
   create_table "games", force: true do |t|
@@ -64,17 +64,18 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.float    "mean",      default: 50.0,                  null: false
     t.float    "deviation", default: 2.0,                   null: false
     t.float    "activity",  default: 1.0,                   null: false
-    t.datetime "date",      default: '2015-04-09 20:13:48', null: false
+    t.datetime "date",      default: '2015-04-13 18:52:41', null: false
   end
 
   create_table "matches", force: true do |t|
-    t.datetime "date",        default: '2015-01-21 05:53:44', null: false
-    t.integer  "player_1_id", default: 0,                     null: false
-    t.integer  "player_2_id", default: 0,                     null: false
-    t.integer  "winner_id",   default: 0,                     null: false
-    t.integer  "loser_id",    default: 0,                     null: false
-    t.integer  "score_1",     default: 0,                     null: false
-    t.integer  "score_2",     default: 0,                     null: false
+    t.datetime "date",             default: '2015-01-21 05:53:44', null: false
+    t.integer  "player_1_id",      default: 0,                     null: false
+    t.integer  "player_2_id",      default: 0,                     null: false
+    t.integer  "winner_id",        default: 0,                     null: false
+    t.integer  "loser_id",         default: 0,                     null: false
+    t.integer  "score_1",          default: 0,                     null: false
+    t.integer  "score_2",          default: 0,                     null: false
+    t.integer  "edited_player_id", default: 0
   end
 
   create_table "matches_players", id: false, force: true do |t|
@@ -83,9 +84,9 @@ ActiveRecord::Schema.define(version: 20150331160140) do
   end
 
   create_table "players", force: true do |t|
-    t.string  "first_name",                     null: false
-    t.string  "last_name",                      null: false
-    t.string  "email",           default: "",   null: false
+    t.string  "first_name",                      null: false
+    t.string  "last_name",                       null: false
+    t.string  "email",           default: "",    null: false
     t.integer "match_wins",      default: 0
     t.integer "match_losses",    default: 0
     t.integer "game_wins",       default: 0
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.integer "rival_id",        default: 0
     t.integer "punching_bag_id", default: 0
     t.integer "nemesis_id",      default: 0
+    t.boolean "super_admin",     default: false
   end
 
   create_table "xp_ratings", force: true do |t|
@@ -101,7 +103,7 @@ ActiveRecord::Schema.define(version: 20150331160140) do
     t.integer  "match_id",  default: 0,                     null: false
     t.float    "value",     default: 0.1,                   null: false
     t.string   "name",      default: "Match XP",            null: false
-    t.datetime "date",      default: '2015-04-09 20:20:22', null: false
+    t.datetime "date",      default: '2015-04-13 18:52:51', null: false
   end
 
 end

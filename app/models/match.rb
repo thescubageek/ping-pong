@@ -185,7 +185,7 @@ class Match < ActiveRecord::Base
   end
 
   def update_player_match_rankings
-    set_player_rating_groups('match')  
+    set_player_rating_groups('match')
     s1, s2 = get_score
     new_score_1 = (s1 - s2) * MATCH_MULTIPLIER
     new_score_2 = (s2 - s1) * MATCH_MULTIPLIER

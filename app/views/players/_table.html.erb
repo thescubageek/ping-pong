@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <% pl = Player.includes(:match_ratings).includes(:game_ratings).includes(:xp_ratings).no_zeros if no_zeros %>
+    <% pl = Player.includes(:match_ratings).includes(:game_ratings).no_zeros if no_zeros %>
     <% pl ||= Player.only_zeros if only_zeros %>
     <% pl ||= @players %>
     <% pl.each_with_index do |player, idx| %>

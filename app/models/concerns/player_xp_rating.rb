@@ -1,7 +1,7 @@
 module PlayerXpRating
   extend ActiveSupport::Concern
 
-  MATCH_XP = 0.05
+  MATCH_XP = 0.1
   
   ## XP RATING
   def xp_rating
@@ -28,7 +28,7 @@ module PlayerXpRating
 
   def has_already_played_opponent_today?(match)
     opponent = match.opponent(self)
-    Match.by_player_today(self).select { |m| m.opponent == opponent && m != match }.size > 0
+    Match.by_player_today(self).select { |m| m.opponent(self) == opponent && m != match }.size > 0
   end
 
 end

@@ -20,13 +20,14 @@ class RankingUpdater
         GameRating.new({player_id: p.id, date: EARLIEST_DATE}).save
         MatchRating.new({player_id: p.id, date: EARLIEST_DATE}).save
         p.update_attributes({match_wins: 0, match_losses: 0, game_wins: 0, game_losses: 0, trueskill: p.calculate_trueskill})
-      end
+      end if match_date == EARLIEST_DATE
       
       self.logger_info('Updating Player Rankings')
       Match.by_date_asc.where('date >= ?', match_date).each { |m| m.update_player_rankings }
       
       self.logger_info('Updating Player Records')
       RecordUpdater.update
+      RivalryUpdater.update
       return true
     rescue Exception => e
       puts e.message
