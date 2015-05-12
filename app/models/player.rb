@@ -138,7 +138,7 @@ class Player < ActiveRecord::Base
     return '--' if no_zeros && is_zero?
     prs = Player.ranking_groups(no_zeros)
     pos = 1
-    skill = calculate_trueskill.round(10)
+    skill = trueskill.round(10)
     prs.each_with_index do |(k, v), i|
       return pos if skill == k
       pos += v

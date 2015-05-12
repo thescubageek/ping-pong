@@ -23,10 +23,15 @@ module PlayerXpRating
   end
 
   def award_match_xp(match)
-    award_xp(match, MATCH_XP, "Match XP") unless has_already_played_opponent_today?(match)
+    award_xp(match, MATCH_XP, "Match XP") unless has_already_played_opponent_this_week?(match)
   end
 
   def has_already_played_opponent_today?(match)
+    opponent = match.opponent(self)
+    Match.by_player_today(self).select { |m| m.opponent(self) == opponent && m != match }.size > 0
+  end
+
+  def has_already_played_opponent_this_week?(match)
     opponent = match.opponent(self)
     Match.by_player_today(self).select { |m| m.opponent(self) == opponent && m != match }.size > 0
   end

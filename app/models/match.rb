@@ -21,7 +21,7 @@ class Match < ActiveRecord::Base
 
   scope :by_player_and_date, ->(player, date) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, date.beginning_of_day, date.end_of_day)}
   scope :by_player_today, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_day, DateTime.now.end_of_day)}
-
+  scope :by_player_this_week, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_week, DateTime.now.end_of_week)}
 
   before_save :set_scores
 
