@@ -33,7 +33,7 @@ module PlayerXpRating
 
   def has_already_played_opponent_this_week?(match)
     opponent = match.opponent(self)
-    Match.by_player_today(self).select { |m| m.opponent(self) == opponent && m != match }.size > 0
+    Match.by_player_this_week(self).select { |m| m.opponent(self) == opponent && m != match }.size > 0
   end
 
 end
