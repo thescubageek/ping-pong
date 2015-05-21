@@ -19,10 +19,10 @@ class Match < ActiveRecord::Base
   scope :by_winner, ->(p) { where('winner_id = ?', p.id).order('date DESC') }
   scope :by_loser, ->(p) { where('loser_id = ?', p.id).order('date DESC') }
 
-  scope :by_player_and_date, ->(player, date) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, date.beginning_of_day, date.end_of_day)}
-  scope :by_player_today, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_day, DateTime.now.end_of_day)}
-  scope :by_player_this_week, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_week, DateTime.now.end_of_week)}
-  scope :by_player_and_date_week, ->(player, date) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, date.beginning_of_week, date.end_of_week)}
+  scope :by_player_and_date, ->(player, date) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, date.beginning_of_day, date)}
+  scope :by_player_today, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_day, DateTime.now)}
+  scope :by_player_this_week, ->(player) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, DateTime.now.beginning_of_week, DateTime.now)}
+  scope :by_player_and_date_week, ->(player, date) { where("(player_1_id = ? OR player_2_id = ?) AND (date >= ? AND date <= ?)", player.id, player.id, date.beginning_of_week, date)}
 
   before_save :set_scores
 
