@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  mount G5Authenticatable::Engine => '/g5_auth'
   get 'welcome/index'
 
   resources :players
   resources :matches
+  resources :logout, only: [:index]
 
   root 'welcome#index'
 

@@ -1,26 +1,35 @@
-<% no_zeros = false unless local_assigns[:no_zeros] %>
+<% no_zeros = false unless local_assigns[:no_zeros] == true %>
+<% only_zeros = false unless local_assigns[:only_zeros] == true %>
 <%= content_tag(:h2, 'Players') unless local_assigns[:no_title] %>
 <table>
   <thead>
     <tr>
       <th></th>
       <th>Player</th>
+      <th></th>
       <!--<th>Matches</th>
       <th>Games</th>-->
-      <th>Skill Points</th>
-      <th>Skill Trend</th>
+      <th>Game Points</th>
+      <th>Match Points</th>
+      <th>Bonus XP</th>
+      <th>Total Points</th>
     </tr>
   </thead>
   <tbody>
-    <% pl = !no_zeros ? @players : Player.by_no_zeros %>
+    <% pl = Player.includes(:match_ratings).includes(:game_ratings).no_zeros if no_zeros %>
+    <% pl ||= Player.only_zeros if only_zeros %>
+    <% pl ||= @players %>
     <% pl.each_with_index do |player, idx| %>
       <tr>
-        <td class='ranking'>#<%= link_to(player.ranking(no_zeros), player) %></td>
+        <td class='ranking'><%= link_to(only_zeros ? '--' : "##{player.ranking(no_zeros)}", player) %></td>
         <td><%= player_link(player) %></td>
+        <td><%= player_challenge_link(player) %></td>
         <!--<td><%= link_to(match_record(player), player) %></td>
         <td><%= link_to(game_record(player), player) %></td>-->
-        <td><%= link_to(number_with_precision(player.trueskill), player) %></td>
-        <td><%= player_trend_icon(player) %> <%= number_with_precision(player.player_rating_trend_diff) %></td>
+        <td><%= rating_with_trend(player, 'game') %></td>
+        <td><%= rating_with_trend(player, 'match') %></td>
+        <td><%= number_with_precision(player.xp_rating) %></td>
+        <td><%= rating_with_trend(player, 'player') %></td>
       </tr>
     <% end %>
   </tbody>

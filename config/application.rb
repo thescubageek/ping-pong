@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module Trueskill
   class Application < Rails::Application
+    EARLIEST_DATE = DateTime.new(2015,1,14)
+    
     require 'saulabs/trueskill'
 
     config.time_zone = 'Pacific Time (US & Canada)'

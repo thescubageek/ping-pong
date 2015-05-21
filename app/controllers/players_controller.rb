@@ -1,12 +1,14 @@
 class PlayersController < ApplicationController
   def index
     respond_to do |format|
-      format.html { @players = Player.by_trueskill }
+      format.html { @players = Player.all.includes(:game_ratings).includes(:match_ratings) }
       format.json do
         if params[:no_zeros] == 'true'
-          render json: Player.no_zeros.by_trueskill
+          render json: Player.no_zeros
+        elsif params[:only_zeros] == 'true'
+          render json: Player.only_zeros
         else
-          render json: Player.by_trueskill
+          render json: Player.all
         end
       end
     end
@@ -34,7 +36,7 @@ class PlayersController < ApplicationController
 
   def create
     @player = Player.new(player_params)
-    new_rating if @player.save
+    new_ratings if @player.save
 
     respond_to do |format|
       format.html do
@@ -61,10 +63,12 @@ class PlayersController < ApplicationController
 
   private
 
-  def new_rating
+  def new_ratings
     if @player
-      @rating = PlayerRating.new({player_id: @player.id, date: DateTime.new(2015,1,14)})
-      @rating.save
+      @game_rating = GameRating.new({player_id: @player.id, date: Match::EARLIEST_DATE})
+      @game_rating.save
+      @match_rating = MatchRating.new({player_id: @player.id, date: Match::EARLIEST_DATE})
+      @match_rating.save
     end
   end
 

@@ -13,3 +13,40 @@
   height: 48px;
   margin-right: 10px;
 }
+
+.player-challenge {
+  background-color: $c-blue-dark;
+  color: $base-background;
+  padding: 4px 10px;
+  text-transform: uppercase;
+  @include border-radius(2px);
+  &:hover {
+    background-color: $c-red;
+    text-decoration: none;
+    @extend %hover;
+  }
+  &:focus {
+    background-color: $c-green;
+    color: $base-background;
+    @extend %focus;
+  }
+}
+
+.player-link {
+  font-weight: bold;
+  .teams & {
+    font-weight: normal;
+  }
+  .teams .winner & {
+    font-weight: bold;
+  }
+}
+
+.logout {
+  margin-left: 10px;
+  font-size: 16px !important;
+}
+
+.trend {
+  font-size: 80%;
+}

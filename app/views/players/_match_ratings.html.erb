@@ -1,0 +1,36 @@
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Date</th>
+      <th>Opponent</th>
+      <th>Result</th>
+      <th>Score</th>
+      <th>Rating</th>
+      <th>Sigma</th>
+      <th>Trend</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% prev_pr = nil %>
+    <% @player.match_ratings.reverse.each do |pr| %>
+      <% match = pr.match %>
+      <% trend = pr.mean - prev_pr.mean if prev_pr %>
+      <tr>
+        <td class='ranking'>#<%= pr.match_id %></td>
+        <td><%= match.datestr if match %></td>
+        <td class="teams">
+          <ul>
+          <%= content_tag(:li) { player_link(match.opponent(@player)) } if match %>
+          </ul>
+        </td>
+        <td><%= (match.is_winner?(@player) ? '<b>WIN</b>'.html_safe : 'LOSS') if match %></td>
+        <td><%= match.score_1 if match %> - <%= match.score_2 if match  %></td>
+        <td><%= number_with_precision(pr.mean) %></td>
+        <td><%= number_with_precision(pr.deviation) %></td>
+        <td><%= get_trend_arrow(trend) %><%= number_with_precision(trend) if trend %></td>
+      </tr>
+      <% prev_pr = pr %>
+    <% end %>
+  </tbody>
+</table>

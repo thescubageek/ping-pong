@@ -1,22 +1,5 @@
 <div class="clearfix">
   <div class="col-md-4">
-    <h4>Best Buddy</h4>
-    <% other = @player.calculate_best_buddy %>
-    <%= other ? player_link(other) : "Nobody likes you" %>
-  </div>
-  <div class="col-md-4">
-    <h4>Dynamic Duo</h4>
-    <% other = @player.calculate_dynamic_duo %>
-    <%= other ? player_link(other) : "You ain't Batman" %>
-  </div>
-  <div class="col-md-4">
-    <h4>Ball and Chain</h4>
-    <% other = @player.calculate_ball_and_chain %>
-    <%= other ? player_link(other) : "Still a free man" %>
-  </div>
-</div>
-<div class="clearfix">
-  <div class="col-md-4">
     <h4>Rival</h4>
     <% other = @player.calculate_rival %>
     <%= other ? player_link(other) : "You have no equal" %>

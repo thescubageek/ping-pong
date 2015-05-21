@@ -2,7 +2,10 @@
 <div class="col-md-12">
   <h2 class="new-match"><%= link_to('Start New Match', new_match_path, {class: 'button btn-edit fi-star'}) %></h2>
 </div>
-<h3>Rankings</h3>
+<% if current_player %>
+  <div class="current-player">
+    <h2><%= current_player_title %></h2>
+  </div>
+<% end %>
 <%= render partial: 'players/table', locals: {no_zeros: true, no_title: true} %>
-<h3>Recent Matches</h3>
-<%= render partial: 'matches/table', :locals => {no_title: true} %>
+

@@ -5,6 +5,14 @@ module MatchesHelper
     SlackMessager.new(match).slack_message
   end
 
+  def slack_challenge_message(match, params)
+    if params[:challenge]
+      p1 = Player.find(params[:p1])
+      p2 = Player.find(params[:p2])
+      SlackMessager.new(match).slack_challenge_message(p1, p2) if p1 && p2
+    end
+  end
+
   class SlackMessager
     attr_accessor :match
 
@@ -13,12 +21,17 @@ module MatchesHelper
     end
 
     def slack_message
-      winner_name = match.winner[0].name
-      loser_name = match.loser[0].name
+      the_winner = match.winner
+      the_loser = match.loser
+      winner_name = the_winner.name
+      winner_rank = the_winner.ranking(true)
+      loser_name = the_loser.name
+      loser_rank = the_loser.ranking(true)
+      
       match_result = (match.games.count == 3) ? "*2* to *1*" : "*2* to *0*"
       game_results = [game_1.score, game_2.score]
       game_results << game_3.score if game_3
-      match_message = "*#{winner_name}* has defeated *#{loser_name}* #{match_result}"
+      match_message = "*##{winner_rank} #{winner_name}* has defeated *##{loser_rank} #{loser_name}* #{match_result}"
 
       attachment = {
         fallback: "",
@@ -34,6 +47,27 @@ module MatchesHelper
             title: '',
             value: score_chart,
             short: true
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }
+
+      if ENV["SLACK_TOKEN"]
+        slack_client.ping("", attachments: [attachment])
+      end
+    end
+
+    def slack_challenge_message(p1, p2)
+      challenge_message = "*##{p1.ranking(true)} #{p1.name}* has CHALLENGED *##{p2.ranking(true)} #{p2.name}*! See you in the Ping Pong Room!"
+      attachment = {
+        fallback: "",
+        pretext: "",
+        color: "#0000d0",
+        fields: [
+          {
+            title: "Match Challenge",
+            value: challenge_message,
+            short: false
           }
         ],
         mrkdwn_in: ['fields']
@@ -63,20 +97,18 @@ module MatchesHelper
     end
 
     def match_winner_presenter(game)
-      score_array = game.score.split(' - ').map(&:to_i)
       if match.winner == game.winner
-        "*#{score_array.max}*"
+        "*#{game.score.max}*"
       else
-        score_array.min
+        game.score.min
       end
     end
 
     def match_loser_presenter(game)
-      score_array = game.score.split(' - ').map(&:to_i)
       if match.loser == game.loser
-        score_array.min
+        game.score.min
       else
-        "*#{score_array.max}*"
+        "*#{game.score.max}*"
       end
     end
 

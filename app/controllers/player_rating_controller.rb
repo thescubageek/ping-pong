@@ -1,2 +1,0 @@
-class PlayerRatingController < ApplicationController
-end
